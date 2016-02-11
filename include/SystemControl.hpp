@@ -3,7 +3,7 @@
 
 #include "CameraStreamHandler.hpp"
 #include "TipTilt.hpp"
-#include "wxStreamPlayer.hpp"
+#include "StreamPlayer.hpp"
 #include "opencv2/opencv.hpp"
 
 #include <atomic>

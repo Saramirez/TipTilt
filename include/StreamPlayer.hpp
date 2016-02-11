@@ -14,10 +14,10 @@ class StreamPlayer{
     private:
 		wxPanel * panel_p;
 		wxImage img;
-		wxBitmap bmp;
     public:
         StreamPlayer(wxPanel *);
 		void DisplayFrame(Mat);
+		wxBitmap bmp;
 };
 
 #endif

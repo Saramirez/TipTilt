@@ -14,7 +14,7 @@ void TTGui::OnClickStart( wxCommandEvent& event )
 // TODO: Implement OnClickStart
 }
 
-void TipTiltGUIMainFrame::OnFramePaint(wxPaintEvent& event)
+void TTGui::OnFramePaint(wxPaintEvent& event)
 {
 	wxPaintDC dc(StreamPlayerPanel);
 
@@ -25,10 +25,14 @@ void TipTiltGUIMainFrame::OnFramePaint(wxPaintEvent& event)
 
 	//cout << "player bmp w, h: " << bmp.GetWidth() << ", " << bmp.GetHeight() << endl;
 
+	wxBitmap bmp = player_p->bmp;
+
+	if (!bmp.IsOk())
+		return;
 
 	dc.GetClippingBox(&x, &y, &w, &h);
 	//cout << "x, y, w, h: " << x << ", " << y << ", " << w << ", " << h << endl;
-	dc.DrawBitmap(player_p->bmp, x, y);
+	dc.DrawBitmap(bmp, x, y);
 
 	//cout << "Bitmap Drawn" << endl;
 

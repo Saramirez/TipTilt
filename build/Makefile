@@ -150,6 +150,60 @@ src/CameraStreamHandler.cpp.s:
 	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.s
 .PHONY : src/CameraStreamHandler.cpp.s
 
+src/MainFrame.o: src/MainFrame.cpp.o
+
+.PHONY : src/MainFrame.o
+
+# target to build an object file
+src/MainFrame.cpp.o:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o
+.PHONY : src/MainFrame.cpp.o
+
+src/MainFrame.i: src/MainFrame.cpp.i
+
+.PHONY : src/MainFrame.i
+
+# target to preprocess a source file
+src/MainFrame.cpp.i:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.i
+.PHONY : src/MainFrame.cpp.i
+
+src/MainFrame.s: src/MainFrame.cpp.s
+
+.PHONY : src/MainFrame.s
+
+# target to generate assembly for a file
+src/MainFrame.cpp.s:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.s
+.PHONY : src/MainFrame.cpp.s
+
+src/StreamPlayer.o: src/StreamPlayer.cpp.o
+
+.PHONY : src/StreamPlayer.o
+
+# target to build an object file
+src/StreamPlayer.cpp.o:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o
+.PHONY : src/StreamPlayer.cpp.o
+
+src/StreamPlayer.i: src/StreamPlayer.cpp.i
+
+.PHONY : src/StreamPlayer.i
+
+# target to preprocess a source file
+src/StreamPlayer.cpp.i:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.i
+.PHONY : src/StreamPlayer.cpp.i
+
+src/StreamPlayer.s: src/StreamPlayer.cpp.s
+
+.PHONY : src/StreamPlayer.s
+
+# target to generate assembly for a file
+src/StreamPlayer.cpp.s:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.s
+.PHONY : src/StreamPlayer.cpp.s
+
 src/SystemControl.o: src/SystemControl.cpp.o
 
 .PHONY : src/SystemControl.o
@@ -176,6 +230,33 @@ src/SystemControl.s: src/SystemControl.cpp.s
 src/SystemControl.cpp.s:
 	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/SystemControl.cpp.s
 .PHONY : src/SystemControl.cpp.s
+
+src/TTGui.o: src/TTGui.cpp.o
+
+.PHONY : src/TTGui.o
+
+# target to build an object file
+src/TTGui.cpp.o:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o
+.PHONY : src/TTGui.cpp.o
+
+src/TTGui.i: src/TTGui.cpp.i
+
+.PHONY : src/TTGui.i
+
+# target to preprocess a source file
+src/TTGui.cpp.i:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.i
+.PHONY : src/TTGui.cpp.i
+
+src/TTGui.s: src/TTGui.cpp.s
+
+.PHONY : src/TTGui.s
+
+# target to generate assembly for a file
+src/TTGui.cpp.s:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.s
+.PHONY : src/TTGui.cpp.s
 
 src/TipTilt.o: src/TipTilt.cpp.o
 
@@ -204,33 +285,6 @@ src/TipTilt.cpp.s:
 	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.s
 .PHONY : src/TipTilt.cpp.s
 
-src/gui.o: src/gui.cpp.o
-
-.PHONY : src/gui.o
-
-# target to build an object file
-src/gui.cpp.o:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/gui.cpp.o
-.PHONY : src/gui.cpp.o
-
-src/gui.i: src/gui.cpp.i
-
-.PHONY : src/gui.i
-
-# target to preprocess a source file
-src/gui.cpp.i:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/gui.cpp.i
-.PHONY : src/gui.cpp.i
-
-src/gui.s: src/gui.cpp.s
-
-.PHONY : src/gui.s
-
-# target to generate assembly for a file
-src/gui.cpp.s:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/gui.cpp.s
-.PHONY : src/gui.cpp.s
-
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -258,33 +312,6 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-src/wxStreamPlayer.o: src/wxStreamPlayer.cpp.o
-
-.PHONY : src/wxStreamPlayer.o
-
-# target to build an object file
-src/wxStreamPlayer.cpp.o:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o
-.PHONY : src/wxStreamPlayer.cpp.o
-
-src/wxStreamPlayer.i: src/wxStreamPlayer.cpp.i
-
-.PHONY : src/wxStreamPlayer.i
-
-# target to preprocess a source file
-src/wxStreamPlayer.cpp.i:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.i
-.PHONY : src/wxStreamPlayer.cpp.i
-
-src/wxStreamPlayer.s: src/wxStreamPlayer.cpp.s
-
-.PHONY : src/wxStreamPlayer.s
-
-# target to generate assembly for a file
-src/wxStreamPlayer.cpp.s:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.s
-.PHONY : src/wxStreamPlayer.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -297,21 +324,24 @@ help:
 	@echo "... src/CameraStreamHandler.o"
 	@echo "... src/CameraStreamHandler.i"
 	@echo "... src/CameraStreamHandler.s"
+	@echo "... src/MainFrame.o"
+	@echo "... src/MainFrame.i"
+	@echo "... src/MainFrame.s"
+	@echo "... src/StreamPlayer.o"
+	@echo "... src/StreamPlayer.i"
+	@echo "... src/StreamPlayer.s"
 	@echo "... src/SystemControl.o"
 	@echo "... src/SystemControl.i"
 	@echo "... src/SystemControl.s"
+	@echo "... src/TTGui.o"
+	@echo "... src/TTGui.i"
+	@echo "... src/TTGui.s"
 	@echo "... src/TipTilt.o"
 	@echo "... src/TipTilt.i"
 	@echo "... src/TipTilt.s"
-	@echo "... src/gui.o"
-	@echo "... src/gui.i"
-	@echo "... src/gui.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/wxStreamPlayer.o"
-	@echo "... src/wxStreamPlayer.i"
-	@echo "... src/wxStreamPlayer.s"
 .PHONY : help
 
 

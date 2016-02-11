@@ -16,13 +16,45 @@ math.h
 mutex
 -
 
+/home/odroid/TipTilt Control/include/MainFrame.h
+wx/artprov.h
+-
+wx/xrc/xmlres.h
+-
+wx/string.h
+-
+wx/button.h
+-
+wx/gdicmn.h
+-
+wx/font.h
+-
+wx/colour.h
+-
+wx/settings.h
+-
+wx/panel.h
+-
+wx/sizer.h
+-
+wx/frame.h
+-
+
+/home/odroid/TipTilt Control/include/StreamPlayer.hpp
+wx/wxprec.h
+-
+wx/wx.h
+-
+opencv2/opencv.hpp
+/home/odroid/TipTilt Control/include/opencv2/opencv.hpp
+
 /home/odroid/TipTilt Control/include/SystemControl.hpp
-../include/CameraStreamHandler.hpp
+CameraStreamHandler.hpp
 /home/odroid/TipTilt Control/include/CameraStreamHandler.hpp
-../include/TipTilt.hpp
+TipTilt.hpp
 /home/odroid/TipTilt Control/include/TipTilt.hpp
-../include/wxStreamPlayer.hpp
-/home/odroid/TipTilt Control/include/wxStreamPlayer.hpp
+StreamPlayer.hpp
+/home/odroid/TipTilt Control/include/StreamPlayer.hpp
 opencv2/opencv.hpp
 /home/odroid/TipTilt Control/include/opencv2/opencv.hpp
 atomic
@@ -33,6 +65,14 @@ wx/wxprec.h
 -
 wx/wx.h
 -
+
+/home/odroid/TipTilt Control/include/TTGui.hpp
+MainFrame.h
+/home/odroid/TipTilt Control/include/MainFrame.h
+StreamPlayer.hpp
+/home/odroid/TipTilt Control/include/StreamPlayer.hpp
+SystemControl.hpp
+/home/odroid/TipTilt Control/include/SystemControl.hpp
 
 /home/odroid/TipTilt Control/include/TipTilt.hpp
 fcntl.h
@@ -52,16 +92,6 @@ mutex
 chrono
 -
 
-/home/odroid/TipTilt Control/include/gui.hpp
-wx/wxprec.h
--
-wx/wx.h
--
-../include/wxStreamPlayer.hpp
-/home/odroid/TipTilt Control/include/wxStreamPlayer.hpp
-../include/SystemControl.hpp
-/home/odroid/TipTilt Control/include/SystemControl.hpp
-
 /home/odroid/TipTilt Control/include/main.hpp
 wx/wxprec.h
 -
@@ -72,45 +102,41 @@ opencv2/stitching.hpp
 X11/Xlib.h
 -
 
-/home/odroid/TipTilt Control/include/wxStreamPlayer.hpp
-wx/wxprec.h
--
-wx/wx.h
--
-opencv2/opencv.hpp
-/home/odroid/TipTilt Control/include/opencv2/opencv.hpp
-
 /home/odroid/TipTilt Control/src/CameraStreamHandler.cpp
 ../include/CameraStreamHandler.hpp
 /home/odroid/TipTilt Control/include/CameraStreamHandler.hpp
 chrono
 -
 
+/home/odroid/TipTilt Control/src/MainFrame.cpp
+../include/MainFrame.h
+/home/odroid/TipTilt Control/include/MainFrame.h
+
+/home/odroid/TipTilt Control/src/StreamPlayer.cpp
+../include/StreamPlayer.hpp
+/home/odroid/TipTilt Control/include/StreamPlayer.hpp
+iostream
+-
+
 /home/odroid/TipTilt Control/src/SystemControl.cpp
 ../include/SystemControl.hpp
 /home/odroid/TipTilt Control/include/SystemControl.hpp
+
+/home/odroid/TipTilt Control/src/TTGui.cpp
+../include/TTGui.hpp
+/home/odroid/TipTilt Control/include/TTGui.hpp
 
 /home/odroid/TipTilt Control/src/TipTilt.cpp
 ../include/TipTilt.hpp
 /home/odroid/TipTilt Control/include/TipTilt.hpp
 
-/home/odroid/TipTilt Control/src/gui.cpp
-../include/gui.hpp
-/home/odroid/TipTilt Control/include/gui.hpp
-
 /home/odroid/TipTilt Control/src/main.cpp
 ../include/main.hpp
 /home/odroid/TipTilt Control/include/main.hpp
-../include/gui.hpp
-/home/odroid/TipTilt Control/include/gui.hpp
+../include/TTGui.hpp
+/home/odroid/TipTilt Control/include/TTGui.hpp
 ../include/SystemControl.hpp
 /home/odroid/TipTilt Control/include/SystemControl.hpp
-
-/home/odroid/TipTilt Control/src/wxStreamPlayer.cpp
-../include/wxStreamPlayer.hpp
-/home/odroid/TipTilt Control/include/wxStreamPlayer.hpp
-iostream
--
 
 /usr/local/include/opencv/cxcore.h
 opencv2/core/core_c.h
@@ -1456,6 +1482,16 @@ iterator
 wx/afterstd.h
 /usr/local/include/wx-3.0/wx/wx/afterstd.h
 
+/usr/local/include/wx-3.0/wx/artprov.h
+wx/string.h
+/usr/local/include/wx-3.0/wx/wx/string.h
+wx/bitmap.h
+/usr/local/include/wx-3.0/wx/wx/bitmap.h
+wx/icon.h
+/usr/local/include/wx-3.0/wx/wx/icon.h
+wx/iconbndl.h
+/usr/local/include/wx-3.0/wx/wx/iconbndl.h
+
 /usr/local/include/wx-3.0/wx/atomic.h
 wx/defs.h
 /usr/local/include/wx-3.0/wx/wx/defs.h
@@ -2246,6 +2282,18 @@ wx/longlong.h
 wx/file.h
 /usr/local/include/wx-3.0/wx/wx/file.h
 
+/usr/local/include/wx-3.0/wx/filesys.h
+wx/defs.h
+/usr/local/include/wx-3.0/wx/wx/defs.h
+wx/stream.h
+/usr/local/include/wx-3.0/wx/wx/stream.h
+wx/datetime.h
+/usr/local/include/wx-3.0/wx/wx/datetime.h
+wx/filename.h
+/usr/local/include/wx-3.0/wx/wx/filename.h
+wx/hashmap.h
+/usr/local/include/wx-3.0/wx/wx/hashmap.h
+
 /usr/local/include/wx-3.0/wx/flags.h
 
 /usr/local/include/wx-3.0/wx/font.h
@@ -2361,6 +2409,10 @@ wx/filename.h
 /usr/local/include/wx-3.0/wx/generic/icon.h
 wx/bitmap.h
 /usr/local/include/wx-3.0/wx/generic/wx/bitmap.h
+
+/usr/local/include/wx-3.0/wx/generic/imaglist.h
+wx/list.h
+/usr/local/include/wx-3.0/wx/generic/wx/list.h
 
 /usr/local/include/wx-3.0/wx/generic/listctrl.h
 wx/containr.h
@@ -2657,6 +2709,16 @@ wx/image.h
 /usr/local/include/wx-3.0/wx/wx/image.h
 wx/versioninfo.h
 /usr/local/include/wx-3.0/wx/wx/versioninfo.h
+
+/usr/local/include/wx-3.0/wx/imaglist.h
+wx/defs.h
+/usr/local/include/wx-3.0/wx/wx/defs.h
+wx/generic/imaglist.h
+/usr/local/include/wx-3.0/wx/wx/generic/imaglist.h
+wx/msw/imaglist.h
+/usr/local/include/wx-3.0/wx/wx/msw/imaglist.h
+wx/osx/imaglist.h
+/usr/local/include/wx-3.0/wx/wx/osx/imaglist.h
 
 /usr/local/include/wx-3.0/wx/imagpcx.h
 wx/image.h
@@ -4061,6 +4123,52 @@ wx/os2/private.h
 /usr/local/include/wx-3.0/wx/wx/os2/private.h
 wx/wx.h
 /usr/local/include/wx-3.0/wx/wx/wx.h
+
+/usr/local/include/wx-3.0/wx/xrc/xmlres.h
+wx/defs.h
+/usr/local/include/wx-3.0/wx/xrc/wx/defs.h
+wx/string.h
+/usr/local/include/wx-3.0/wx/xrc/wx/string.h
+wx/dynarray.h
+/usr/local/include/wx-3.0/wx/xrc/wx/dynarray.h
+wx/arrstr.h
+/usr/local/include/wx-3.0/wx/xrc/wx/arrstr.h
+wx/datetime.h
+/usr/local/include/wx-3.0/wx/xrc/wx/datetime.h
+wx/list.h
+/usr/local/include/wx-3.0/wx/xrc/wx/list.h
+wx/gdicmn.h
+/usr/local/include/wx-3.0/wx/xrc/wx/gdicmn.h
+wx/filesys.h
+/usr/local/include/wx-3.0/wx/xrc/wx/filesys.h
+wx/bitmap.h
+/usr/local/include/wx-3.0/wx/xrc/wx/bitmap.h
+wx/icon.h
+/usr/local/include/wx-3.0/wx/xrc/wx/icon.h
+wx/artprov.h
+/usr/local/include/wx-3.0/wx/xrc/wx/artprov.h
+wx/colour.h
+/usr/local/include/wx-3.0/wx/xrc/wx/colour.h
+wx/vector.h
+/usr/local/include/wx-3.0/wx/xrc/wx/vector.h
+wx/xrc/xmlreshandler.h
+/usr/local/include/wx-3.0/wx/xrc/wx/xrc/xmlreshandler.h
+
+/usr/local/include/wx-3.0/wx/xrc/xmlreshandler.h
+wx/defs.h
+/usr/local/include/wx-3.0/wx/xrc/wx/defs.h
+wx/string.h
+/usr/local/include/wx-3.0/wx/xrc/wx/string.h
+wx/artprov.h
+/usr/local/include/wx-3.0/wx/xrc/wx/artprov.h
+wx/colour.h
+/usr/local/include/wx-3.0/wx/xrc/wx/colour.h
+wx/filesys.h
+/usr/local/include/wx-3.0/wx/xrc/wx/filesys.h
+wx/imaglist.h
+/usr/local/include/wx-3.0/wx/xrc/wx/imaglist.h
+wx/window.h
+/usr/local/include/wx-3.0/wx/xrc/wx/window.h
 
 /usr/local/include/wx-3.0/wx/xti.h
 wx/defs.h
