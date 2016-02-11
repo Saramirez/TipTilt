@@ -506,7 +506,6 @@ CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/chkc
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/choice.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/clntdata.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/colour.h
-CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/combobox.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/compiler.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/containr.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/control.h
@@ -548,7 +547,6 @@ CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/chkconf.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/choice.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/colour.h
-CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/combobox.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/control.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/cursor.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/font.h
@@ -562,7 +560,6 @@ CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/stattext.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/textctrl.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/textentry.h
-CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/tglbtn.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/toplevel.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/gtk/window.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/hashmap.h
@@ -626,7 +623,6 @@ CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/stri
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/strvararg.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/textctrl.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/textentry.h
-CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/tglbtn.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/thread.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/tls.h
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: /usr/local/include/wx-3.0/wx/toplevel.h
@@ -1275,7 +1271,6 @@ CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/gtk/stat
 CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/gtk/stattext.h
 CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/gtk/textctrl.h
 CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/gtk/textentry.h
-CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/gtk/tglbtn.h
 CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/gtk/toolbar.h
 CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/gtk/toplevel.h
 CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/gtk/window.h
@@ -1361,7 +1356,6 @@ CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/tbarbase
 CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/textctrl.h
 CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/textdlg.h
 CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/textentry.h
-CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/tglbtn.h
 CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/thread.h
 CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/time.h
 CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o: /usr/local/include/wx-3.0/wx/timer.h
@@ -1656,7 +1650,6 @@ CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/gtk/statl
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/gtk/stattext.h
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/gtk/textctrl.h
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/gtk/textentry.h
-CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/gtk/tglbtn.h
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/gtk/toolbar.h
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/gtk/toplevel.h
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/gtk/window.h
@@ -1742,7 +1735,6 @@ CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/tbarbase.
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/textctrl.h
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/textdlg.h
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/textentry.h
-CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/tglbtn.h
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/thread.h
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/time.h
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: /usr/local/include/wx-3.0/wx/timer.h

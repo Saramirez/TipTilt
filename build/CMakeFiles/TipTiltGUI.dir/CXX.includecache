@@ -49,9 +49,9 @@ wx/colour.h
 -
 wx/settings.h
 -
-wx/tglbtn.h
+wx/button.h
 -
-wx/combobox.h
+wx/choice.h
 -
 wx/sizer.h
 -
@@ -64,8 +64,6 @@ wx/stattext.h
 wx/textctrl.h
 -
 wx/checkbox.h
--
-wx/button.h
 -
 wx/statusbr.h
 -
@@ -2612,10 +2610,6 @@ wx/defs.h
 
 /usr/local/include/wx-3.0/wx/gtk/textentry.h
 
-/usr/local/include/wx-3.0/wx/gtk/tglbtn.h
-wx/bitmap.h
-/usr/local/include/wx-3.0/wx/gtk/wx/bitmap.h
-
 /usr/local/include/wx-3.0/wx/gtk/toolbar.h
 
 /usr/local/include/wx-3.0/wx/gtk/toplevel.h
@@ -3687,28 +3681,6 @@ wx/motif/textentry.h
 /usr/local/include/wx-3.0/wx/wx/motif/textentry.h
 wx/os2/textentry.h
 /usr/local/include/wx-3.0/wx/wx/os2/textentry.h
-
-/usr/local/include/wx-3.0/wx/tglbtn.h
-wx/defs.h
-/usr/local/include/wx-3.0/wx/wx/defs.h
-wx/event.h
-/usr/local/include/wx-3.0/wx/wx/event.h
-wx/anybutton.h
-/usr/local/include/wx-3.0/wx/wx/anybutton.h
-wx/univ/tglbtn.h
-/usr/local/include/wx-3.0/wx/wx/univ/tglbtn.h
-wx/msw/tglbtn.h
-/usr/local/include/wx-3.0/wx/wx/msw/tglbtn.h
-wx/gtk/tglbtn.h
-/usr/local/include/wx-3.0/wx/wx/gtk/tglbtn.h
-wx/gtk1/tglbtn.h
-/usr/local/include/wx-3.0/wx/wx/gtk1/tglbtn.h
-wx/motif/tglbtn.h
-/usr/local/include/wx-3.0/wx/wx/motif/tglbtn.h
-wx/osx/tglbtn.h
-/usr/local/include/wx-3.0/wx/wx/osx/tglbtn.h
-wx/os2/tglbtn.h
-/usr/local/include/wx-3.0/wx/wx/os2/tglbtn.h
 
 /usr/local/include/wx-3.0/wx/thread.h
 wx/defs.h

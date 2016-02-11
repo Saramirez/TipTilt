@@ -2,10 +2,10 @@
 
 TTGui::TTGui( wxWindow* parent )
 :
-MainFrame( parent )
+MainFrame( parent ),
+dControl_p(new DisplayControl(StreamPlayerPanel, TTPositionPanel,
+		&mtxProtectingBmpAndCamPanel, &mtxProtectingTTPositionsAndPanel))
 {
-	dControl_p = new DisplayControl(StreamPlayerPanel, TTPositionPanel,
-		&mtxProtectingBmpAndCamPanel, &mtxProtectingTTPositionsAndPanel);
 }
 
 void TTGui::OnSelectCameraSettings(wxCommandEvent& event)
@@ -143,6 +143,11 @@ void TTGui::OnClickCenterTT(wxCommandEvent& event)
 
 void TTGui::OnClickExit( wxCommandEvent& event )
 {
+	if (sControl_p->IsCapturing())
+		sControl_p->StopCapture();
+	if (sControl_p->IsCorrecting())
+		sControl_p->StopCorrection();
+	
 	Close(true);
 // TODO: Implement OnClickExit
 }

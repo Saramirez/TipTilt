@@ -40,7 +40,7 @@ class SystemControl {
 		void RunCapture();
 		void RunCorrection();
 	public:
-		DisplayControl * dControl_p;
+		shared_ptr<DisplayControl> dControl_p;
 		SystemControl(const char*, const char*);
 		int StartCapture();
 		int StartCorrection();

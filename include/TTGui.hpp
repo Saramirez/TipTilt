@@ -36,7 +36,7 @@ class TTGui : public MainFrame
 		void OnTTPosPaint(wxPaintEvent& event);
 		void OnClickExit(wxCommandEvent& event);
 	public:
-		DisplayControl * dControl_p;
+		shared_ptr<DisplayControl> dControl_p;
 		SystemControl * sControl_p;
 		/** Constructor */
 		TTGui( wxWindow* parent );
