@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
+project( Test )
+find_package( OpenCV REQUIRED )
+set (INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
+include_directories( ${OpenCV_INCLUDE_DIRS} ${INCLUDE_DIR})
+set(SOURCES src/main.cpp src/GetCentroid.cpp src/TipTilt.cpp ${INCLUDE_DIR}/frameProcess.hpp ${INCLUDE_DIR}/TipTilt.hpp)
+add_executable( Test ${SOURCES} )
+target_compile_features( Test PRIVATE cxx_thread_local)
+target_link_libraries( Test ${OpenCV_LIBS} -lpthread)
+
