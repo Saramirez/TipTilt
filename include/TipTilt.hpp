@@ -22,7 +22,7 @@ class TipTilt {
 		int getSteps(int);
 		void center();
 		void updatePosition();
-		void setErrors(int, int);
+		void setErrors(int&, int&);
 		TipTilt(); 	
 };
 

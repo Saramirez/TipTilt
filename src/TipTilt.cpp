@@ -48,9 +48,10 @@ int TipTilt::getSteps(int south){
 }
 
 
-void TipTilt::setErrors(int x, int y){
+void TipTilt::setErrors(int &x, int &y){
 	eError = x;	
 	sError = y;
+	//cout << "Errors: " << x << ", " << y << endl; 
 }
 
 void TipTilt::updatePosition(){
