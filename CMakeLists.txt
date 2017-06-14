@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 project( Test )
+set(CMAKE_BUILD_TYPE Debug)
 find_package( OpenCV REQUIRED )
 set (INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 include_directories( ${OpenCV_INCLUDE_DIRS} ${INCLUDE_DIR})

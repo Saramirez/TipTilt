@@ -1,9 +1,0 @@
-cmake_minimum_required(VERSION 2.8)
-project( Test )
-find_package( OpenCV REQUIRED )
-set (INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
-include_directories( ${INCLUDE_DIR})
-set(SOURCES src/SerialTest.cpp src/TipTilt.cpp ${INCLUDE_DIR}/TipTilt.hpp  )
-add_executable( Test ${SOURCES} )
-target_link_libraries( Test ${OpenCV_LIBS} )
-

@@ -12,6 +12,7 @@ using namespace std;
 
 class TipTilt {
 		int sSteps, eSteps, sError, eError;
+		double xAlFactor, yAlFactor;
 		int fd;
 		void configSerial();
 		char * writeBuf;
@@ -20,9 +21,10 @@ class TipTilt {
 		int openComm(const char*);
 		void closeComm();
 		int getSteps(int);
-		void center();
 		void updatePosition();
-		void setErrors(int&, int&);
+		void setErrors(int, int);
+		void setAlignmentFactors(double, double);
+		void goTo(char);
 		TipTilt(); 	
 };
 

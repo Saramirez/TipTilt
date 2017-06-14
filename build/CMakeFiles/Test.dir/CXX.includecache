@@ -51,12 +51,16 @@ thread
 -
 mutex
 -
+atomic
+-
 iostream
 -
 ../include/TipTilt.hpp
 /home/odroid/TipTilt Control/include/TipTilt.hpp
 ../include/frameProcess.hpp
 /home/odroid/TipTilt Control/include/frameProcess.hpp
+math.h
+-
 
 /usr/local/include/opencv/cxcore.h
 opencv2/core/core_c.h
