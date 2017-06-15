@@ -130,7 +130,7 @@ int main( int argc, char** argv )
 {	
     TT.openComm("/dev/ttyUSB0"); 
 
-    Align();
+    //Align();
 
     thread capture(CaptureAndProcess); 
 

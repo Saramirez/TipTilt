@@ -52,8 +52,8 @@ void TipTilt::setErrors(int x, int y){
 	int aux2 = xAlFactor * (double)x;
 	int aux3 = xAlFactor * x;
 	double aux4 = xAlFactor * x;*/
-	eError = (xAlFactor * (double)x);	
-	sError = (yAlFactor * (double)y);
+	eError = x;	
+	sError = y;
 	//cout << "Errors: " << eError << ", " << sError << endl; 
 
 }
