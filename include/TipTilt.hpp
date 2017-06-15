@@ -12,7 +12,6 @@ using namespace std;
 
 class TipTilt {
 		int sSteps, eSteps, sError, eError;
-		double xAlFactor, yAlFactor;
 		int fd;
 		void configSerial();
 		char * writeBuf;
@@ -23,7 +22,6 @@ class TipTilt {
 		int getSteps(int);
 		void updatePosition();
 		void setErrors(int, int);
-		void setAlignmentFactors(double, double);
 		void goTo(char);
 		TipTilt(); 	
 };

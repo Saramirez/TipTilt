@@ -2,21 +2,21 @@
 
 TipTilt::TipTilt() { 
 	writeBuf = (char *) malloc(8);
-	xAlFactor = 1.0308;
-	yAlFactor = 1.028;
 }
 
 
 void TipTilt::configSerial(){	
 	cfsetispeed(&SerialConfig,B9600);
 	cfsetospeed(&SerialConfig,B9600);
+/*
+	SerialConfig.c_iflag |= IGNBRK 
 
 	SerialConfig.c_cflag &= ~PARENB;
 	SerialConfig.c_cflag &= ~CSTOPB;
 	SerialConfig.c_cflag &= ~CSIZE; 
 	SerialConfig.c_cflag |=  CS8;   
 	SerialConfig.c_cflag &= ~CRTSCTS;
-	SerialConfig.c_cflag |= CREAD | CLOCAL;
+	SerialConfig.c_cflag |= CREAD | CLOCAL;*/
 
 	cfmakeraw(&SerialConfig);	
 }
@@ -48,19 +48,8 @@ int TipTilt::getSteps(int south){
 
 
 void TipTilt::setErrors(int x, int y){
-	/*double aux1 = xAlFactor * (double)x;
-	int aux2 = xAlFactor * (double)x;
-	int aux3 = xAlFactor * x;
-	double aux4 = xAlFactor * x;*/
-	eError = (xAlFactor * (double)x);	
-	sError = (yAlFactor * (double)y);
-	//cout << "Errors: " << eError << ", " << sError << endl; 
-
-}
-
-void TipTilt::setAlignmentFactors(double x, double y){
-	xAlFactor = x;
-	yAlFactor = y;
+	eError = x;	
+	sError = y;
 }
 
 void TipTilt::goTo(char dir){
