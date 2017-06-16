@@ -28,29 +28,29 @@ The CXX compiler identification is GNU, found in "/home/odroid/TipTilt Control/b
 Determining if the C compiler works passed with the following output:
 Change Dir: /home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_85c0a/fast"
-/usr/bin/make -f CMakeFiles/cmTC_85c0a.dir/build.make CMakeFiles/cmTC_85c0a.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_8ad42/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8ad42.dir/build.make CMakeFiles/cmTC_8ad42.dir/build
 make[1]: Entering directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_85c0a.dir/testCCompiler.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_85c0a.dir/testCCompiler.c.o   -c "/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp/testCCompiler.c"
-Linking C executable cmTC_85c0a
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_85c0a.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_85c0a.dir/testCCompiler.c.o  -o cmTC_85c0a -rdynamic 
+Building C object CMakeFiles/cmTC_8ad42.dir/testCCompiler.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_8ad42.dir/testCCompiler.c.o   -c "/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp/testCCompiler.c"
+Linking C executable cmTC_8ad42
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8ad42.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_8ad42.dir/testCCompiler.c.o  -o cmTC_8ad42 -rdynamic 
 make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
 
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: /home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_d8c16/fast"
-/usr/bin/make -f CMakeFiles/cmTC_d8c16.dir/build.make CMakeFiles/cmTC_d8c16.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_c87fa/fast"
+/usr/bin/make -f CMakeFiles/cmTC_c87fa.dir/build.make CMakeFiles/cmTC_c87fa.dir/build
 make[1]: Entering directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
-make[1]: Warning: File '/usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c' has modification time 3611855 s in the future
-Building C object CMakeFiles/cmTC_d8c16.dir/CMakeCCompilerABI.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_d8c16.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c
-Linking C executable cmTC_d8c16
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d8c16.dir/link.txt --verbose=1
-/usr/bin/cc      -v CMakeFiles/cmTC_d8c16.dir/CMakeCCompilerABI.c.o  -o cmTC_d8c16 -rdynamic  
+make[1]: Warning: File '/usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c' has modification time 3613611 s in the future
+Building C object CMakeFiles/cmTC_c87fa.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_c87fa.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_c87fa
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c87fa.dir/link.txt --verbose=1
+/usr/bin/cc      -v CMakeFiles/cmTC_c87fa.dir/CMakeCCompilerABI.c.o  -o cmTC_c87fa -rdynamic  
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/arm-linux-gnueabihf/5/lto-wrapper
@@ -60,8 +60,8 @@ Thread model: posix
 gcc version 5.4.0 20160609 (Ubuntu/Linaro 5.4.0-6ubuntu1~16.04.4) 
 COMPILER_PATH=/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/
 LIBRARY_PATH=/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/5/../../../../lib/:/lib/arm-linux-gnueabihf/:/lib/../lib/:/usr/lib/arm-linux-gnueabihf/:/usr/lib/../lib/:/usr/lib/gcc/arm-linux-gnueabihf/5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_d8c16' '-rdynamic' '-march=armv7-a' '-mfloat-abi=hard' '-mfpu=vfpv3-d16' '-mthumb' '-mtls-dialect=gnu'
- /usr/lib/gcc/arm-linux-gnueabihf/5/collect2 -plugin /usr/lib/gcc/arm-linux-gnueabihf/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccyjxnU7.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -export-dynamic -dynamic-linker /lib/ld-linux-armhf.so.3 -X --hash-style=gnu --as-needed -m armelf_linux_eabi -z relro -o cmTC_d8c16 /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crt1.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crti.o /usr/lib/gcc/arm-linux-gnueabihf/5/crtbegin.o -L/usr/lib/gcc/arm-linux-gnueabihf/5 -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../../lib -L/lib/arm-linux-gnueabihf -L/lib/../lib -L/usr/lib/arm-linux-gnueabihf -L/usr/lib/../lib -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../.. CMakeFiles/cmTC_d8c16.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/arm-linux-gnueabihf/5/crtend.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c87fa' '-rdynamic' '-march=armv7-a' '-mfloat-abi=hard' '-mfpu=vfpv3-d16' '-mthumb' '-mtls-dialect=gnu'
+ /usr/lib/gcc/arm-linux-gnueabihf/5/collect2 -plugin /usr/lib/gcc/arm-linux-gnueabihf/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccpMSj5x.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -export-dynamic -dynamic-linker /lib/ld-linux-armhf.so.3 -X --hash-style=gnu --as-needed -m armelf_linux_eabi -z relro -o cmTC_c87fa /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crt1.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crti.o /usr/lib/gcc/arm-linux-gnueabihf/5/crtbegin.o -L/usr/lib/gcc/arm-linux-gnueabihf/5 -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../../lib -L/lib/arm-linux-gnueabihf -L/lib/../lib -L/usr/lib/arm-linux-gnueabihf -L/usr/lib/../lib -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../.. CMakeFiles/cmTC_c87fa.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/arm-linux-gnueabihf/5/crtend.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crtn.o
 make[1]: warning:  Clock skew detected.  Your build may be incomplete.
 make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
 
@@ -70,15 +70,15 @@ Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_d8c16/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_d8c16.dir/build.make CMakeFiles/cmTC_d8c16.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_c87fa/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_c87fa.dir/build.make CMakeFiles/cmTC_c87fa.dir/build]
   ignore line: [make[1]: Entering directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp']
-  ignore line: [make[1]: Warning: File '/usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c' has modification time 3611855 s in the future]
-  ignore line: [Building C object CMakeFiles/cmTC_d8c16.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_d8c16.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c]
-  ignore line: [Linking C executable cmTC_d8c16]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d8c16.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/cc      -v CMakeFiles/cmTC_d8c16.dir/CMakeCCompilerABI.c.o  -o cmTC_d8c16 -rdynamic  ]
+  ignore line: [make[1]: Warning: File '/usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c' has modification time 3613611 s in the future]
+  ignore line: [Building C object CMakeFiles/cmTC_c87fa.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_c87fa.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_c87fa]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c87fa.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc      -v CMakeFiles/cmTC_c87fa.dir/CMakeCCompilerABI.c.o  -o cmTC_c87fa -rdynamic  ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/arm-linux-gnueabihf/5/lto-wrapper]
@@ -88,13 +88,13 @@ Parsed C implicit link information from above output:
   ignore line: [gcc version 5.4.0 20160609 (Ubuntu/Linaro 5.4.0-6ubuntu1~16.04.4) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/5/../../../../lib/:/lib/arm-linux-gnueabihf/:/lib/../lib/:/usr/lib/arm-linux-gnueabihf/:/usr/lib/../lib/:/usr/lib/gcc/arm-linux-gnueabihf/5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_d8c16' '-rdynamic' '-march=armv7-a' '-mfloat-abi=hard' '-mfpu=vfpv3-d16' '-mthumb' '-mtls-dialect=gnu']
-  link line: [ /usr/lib/gcc/arm-linux-gnueabihf/5/collect2 -plugin /usr/lib/gcc/arm-linux-gnueabihf/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccyjxnU7.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -export-dynamic -dynamic-linker /lib/ld-linux-armhf.so.3 -X --hash-style=gnu --as-needed -m armelf_linux_eabi -z relro -o cmTC_d8c16 /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crt1.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crti.o /usr/lib/gcc/arm-linux-gnueabihf/5/crtbegin.o -L/usr/lib/gcc/arm-linux-gnueabihf/5 -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../../lib -L/lib/arm-linux-gnueabihf -L/lib/../lib -L/usr/lib/arm-linux-gnueabihf -L/usr/lib/../lib -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../.. CMakeFiles/cmTC_d8c16.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/arm-linux-gnueabihf/5/crtend.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c87fa' '-rdynamic' '-march=armv7-a' '-mfloat-abi=hard' '-mfpu=vfpv3-d16' '-mthumb' '-mtls-dialect=gnu']
+  link line: [ /usr/lib/gcc/arm-linux-gnueabihf/5/collect2 -plugin /usr/lib/gcc/arm-linux-gnueabihf/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccpMSj5x.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -export-dynamic -dynamic-linker /lib/ld-linux-armhf.so.3 -X --hash-style=gnu --as-needed -m armelf_linux_eabi -z relro -o cmTC_c87fa /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crt1.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crti.o /usr/lib/gcc/arm-linux-gnueabihf/5/crtbegin.o -L/usr/lib/gcc/arm-linux-gnueabihf/5 -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../../lib -L/lib/arm-linux-gnueabihf -L/lib/../lib -L/usr/lib/arm-linux-gnueabihf -L/usr/lib/../lib -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../.. CMakeFiles/cmTC_c87fa.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/arm-linux-gnueabihf/5/crtend.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crtn.o]
     arg [/usr/lib/gcc/arm-linux-gnueabihf/5/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/arm-linux-gnueabihf/5/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/5/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccyjxnU7.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccpMSj5x.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -113,7 +113,7 @@ Parsed C implicit link information from above output:
     arg [armelf_linux_eabi] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_d8c16] ==> ignore
+    arg [cmTC_c87fa] ==> ignore
     arg [/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crt1.o] ==> ignore
     arg [/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crti.o] ==> ignore
     arg [/usr/lib/gcc/arm-linux-gnueabihf/5/crtbegin.o] ==> ignore
@@ -125,7 +125,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/arm-linux-gnueabihf] ==> dir [/usr/lib/arm-linux-gnueabihf]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/arm-linux-gnueabihf/5/../../..] ==> dir [/usr/lib/gcc/arm-linux-gnueabihf/5/../../..]
-    arg [CMakeFiles/cmTC_d8c16.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_c87fa.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--as-needed] ==> ignore
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -159,14 +159,14 @@ Parsed C implicit link information from above output:
 Detecting C [-std=c11] compiler features compiled with the following output:
 Change Dir: /home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_9ab33/fast"
-/usr/bin/make -f CMakeFiles/cmTC_9ab33.dir/build.make CMakeFiles/cmTC_9ab33.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_5fd7e/fast"
+/usr/bin/make -f CMakeFiles/cmTC_5fd7e.dir/build.make CMakeFiles/cmTC_5fd7e.dir/build
 make[1]: Entering directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_9ab33.dir/feature_tests.c.o
-/usr/bin/cc    -std=c11 -o CMakeFiles/cmTC_9ab33.dir/feature_tests.c.o   -c "/home/odroid/TipTilt Control/build/CMakeFiles/feature_tests.c"
-Linking C executable cmTC_9ab33
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9ab33.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_9ab33.dir/feature_tests.c.o  -o cmTC_9ab33 -rdynamic 
+Building C object CMakeFiles/cmTC_5fd7e.dir/feature_tests.c.o
+/usr/bin/cc    -std=c11 -o CMakeFiles/cmTC_5fd7e.dir/feature_tests.c.o   -c "/home/odroid/TipTilt Control/build/CMakeFiles/feature_tests.c"
+Linking C executable cmTC_5fd7e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5fd7e.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_5fd7e.dir/feature_tests.c.o  -o cmTC_5fd7e -rdynamic 
 make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
 
 
@@ -179,14 +179,14 @@ make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeT
 Detecting C [-std=c99] compiler features compiled with the following output:
 Change Dir: /home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_cc54d/fast"
-/usr/bin/make -f CMakeFiles/cmTC_cc54d.dir/build.make CMakeFiles/cmTC_cc54d.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_7436b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7436b.dir/build.make CMakeFiles/cmTC_7436b.dir/build
 make[1]: Entering directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_cc54d.dir/feature_tests.c.o
-/usr/bin/cc    -std=c99 -o CMakeFiles/cmTC_cc54d.dir/feature_tests.c.o   -c "/home/odroid/TipTilt Control/build/CMakeFiles/feature_tests.c"
-Linking C executable cmTC_cc54d
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cc54d.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_cc54d.dir/feature_tests.c.o  -o cmTC_cc54d -rdynamic 
+Building C object CMakeFiles/cmTC_7436b.dir/feature_tests.c.o
+/usr/bin/cc    -std=c99 -o CMakeFiles/cmTC_7436b.dir/feature_tests.c.o   -c "/home/odroid/TipTilt Control/build/CMakeFiles/feature_tests.c"
+Linking C executable cmTC_7436b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7436b.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_7436b.dir/feature_tests.c.o  -o cmTC_7436b -rdynamic 
 make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
 
 
@@ -199,14 +199,14 @@ make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeT
 Detecting C [-std=c90] compiler features compiled with the following output:
 Change Dir: /home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_bdd58/fast"
-/usr/bin/make -f CMakeFiles/cmTC_bdd58.dir/build.make CMakeFiles/cmTC_bdd58.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_7bc71/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7bc71.dir/build.make CMakeFiles/cmTC_7bc71.dir/build
 make[1]: Entering directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_bdd58.dir/feature_tests.c.o
-/usr/bin/cc    -std=c90 -o CMakeFiles/cmTC_bdd58.dir/feature_tests.c.o   -c "/home/odroid/TipTilt Control/build/CMakeFiles/feature_tests.c"
-Linking C executable cmTC_bdd58
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bdd58.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_bdd58.dir/feature_tests.c.o  -o cmTC_bdd58 -rdynamic 
+Building C object CMakeFiles/cmTC_7bc71.dir/feature_tests.c.o
+/usr/bin/cc    -std=c90 -o CMakeFiles/cmTC_7bc71.dir/feature_tests.c.o   -c "/home/odroid/TipTilt Control/build/CMakeFiles/feature_tests.c"
+Linking C executable cmTC_7bc71
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7bc71.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_7bc71.dir/feature_tests.c.o  -o cmTC_7bc71 -rdynamic 
 make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
 
 
@@ -217,29 +217,29 @@ make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeT
 Determining if the CXX compiler works passed with the following output:
 Change Dir: /home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_d7aff/fast"
-/usr/bin/make -f CMakeFiles/cmTC_d7aff.dir/build.make CMakeFiles/cmTC_d7aff.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_2f71c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_2f71c.dir/build.make CMakeFiles/cmTC_2f71c.dir/build
 make[1]: Entering directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_d7aff.dir/testCXXCompiler.cxx.o
-/usr/bin/c++      -o CMakeFiles/cmTC_d7aff.dir/testCXXCompiler.cxx.o -c "/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx"
-Linking CXX executable cmTC_d7aff
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d7aff.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_d7aff.dir/testCXXCompiler.cxx.o  -o cmTC_d7aff -rdynamic 
+Building CXX object CMakeFiles/cmTC_2f71c.dir/testCXXCompiler.cxx.o
+/usr/bin/c++      -o CMakeFiles/cmTC_2f71c.dir/testCXXCompiler.cxx.o -c "/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx"
+Linking CXX executable cmTC_2f71c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2f71c.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_2f71c.dir/testCXXCompiler.cxx.o  -o cmTC_2f71c -rdynamic 
 make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: /home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_67451/fast"
-/usr/bin/make -f CMakeFiles/cmTC_67451.dir/build.make CMakeFiles/cmTC_67451.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_52fbb/fast"
+/usr/bin/make -f CMakeFiles/cmTC_52fbb.dir/build.make CMakeFiles/cmTC_52fbb.dir/build
 make[1]: Entering directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
-make[1]: Warning: File '/usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp' has modification time 3611852 s in the future
-Building CXX object CMakeFiles/cmTC_67451.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/c++      -o CMakeFiles/cmTC_67451.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_67451
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_67451.dir/link.txt --verbose=1
-/usr/bin/c++       -v CMakeFiles/cmTC_67451.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_67451 -rdynamic  
+make[1]: Warning: File '/usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp' has modification time 3613609 s in the future
+Building CXX object CMakeFiles/cmTC_52fbb.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++      -o CMakeFiles/cmTC_52fbb.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_52fbb
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_52fbb.dir/link.txt --verbose=1
+/usr/bin/c++       -v CMakeFiles/cmTC_52fbb.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_52fbb -rdynamic  
 Using built-in specs.
 COLLECT_GCC=/usr/bin/c++
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/arm-linux-gnueabihf/5/lto-wrapper
@@ -249,8 +249,8 @@ Thread model: posix
 gcc version 5.4.0 20160609 (Ubuntu/Linaro 5.4.0-6ubuntu1~16.04.4) 
 COMPILER_PATH=/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/
 LIBRARY_PATH=/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/5/../../../../lib/:/lib/arm-linux-gnueabihf/:/lib/../lib/:/usr/lib/arm-linux-gnueabihf/:/usr/lib/../lib/:/usr/lib/gcc/arm-linux-gnueabihf/5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_67451' '-rdynamic' '-shared-libgcc' '-march=armv7-a' '-mfloat-abi=hard' '-mfpu=vfpv3-d16' '-mthumb' '-mtls-dialect=gnu'
- /usr/lib/gcc/arm-linux-gnueabihf/5/collect2 -plugin /usr/lib/gcc/arm-linux-gnueabihf/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccaAKHbC.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -export-dynamic -dynamic-linker /lib/ld-linux-armhf.so.3 -X --hash-style=gnu --as-needed -m armelf_linux_eabi -z relro -o cmTC_67451 /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crt1.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crti.o /usr/lib/gcc/arm-linux-gnueabihf/5/crtbegin.o -L/usr/lib/gcc/arm-linux-gnueabihf/5 -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../../lib -L/lib/arm-linux-gnueabihf -L/lib/../lib -L/usr/lib/arm-linux-gnueabihf -L/usr/lib/../lib -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../.. CMakeFiles/cmTC_67451.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/arm-linux-gnueabihf/5/crtend.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_52fbb' '-rdynamic' '-shared-libgcc' '-march=armv7-a' '-mfloat-abi=hard' '-mfpu=vfpv3-d16' '-mthumb' '-mtls-dialect=gnu'
+ /usr/lib/gcc/arm-linux-gnueabihf/5/collect2 -plugin /usr/lib/gcc/arm-linux-gnueabihf/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccEw0scs.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -export-dynamic -dynamic-linker /lib/ld-linux-armhf.so.3 -X --hash-style=gnu --as-needed -m armelf_linux_eabi -z relro -o cmTC_52fbb /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crt1.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crti.o /usr/lib/gcc/arm-linux-gnueabihf/5/crtbegin.o -L/usr/lib/gcc/arm-linux-gnueabihf/5 -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../../lib -L/lib/arm-linux-gnueabihf -L/lib/../lib -L/usr/lib/arm-linux-gnueabihf -L/usr/lib/../lib -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../.. CMakeFiles/cmTC_52fbb.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/arm-linux-gnueabihf/5/crtend.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crtn.o
 make[1]: warning:  Clock skew detected.  Your build may be incomplete.
 make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
 
@@ -259,15 +259,15 @@ Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_67451/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_67451.dir/build.make CMakeFiles/cmTC_67451.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_52fbb/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_52fbb.dir/build.make CMakeFiles/cmTC_52fbb.dir/build]
   ignore line: [make[1]: Entering directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp']
-  ignore line: [make[1]: Warning: File '/usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp' has modification time 3611852 s in the future]
-  ignore line: [Building CXX object CMakeFiles/cmTC_67451.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/c++      -o CMakeFiles/cmTC_67451.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTC_67451]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_67451.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/c++       -v CMakeFiles/cmTC_67451.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_67451 -rdynamic  ]
+  ignore line: [make[1]: Warning: File '/usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp' has modification time 3613609 s in the future]
+  ignore line: [Building CXX object CMakeFiles/cmTC_52fbb.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++      -o CMakeFiles/cmTC_52fbb.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_52fbb]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_52fbb.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++       -v CMakeFiles/cmTC_52fbb.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_52fbb -rdynamic  ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/c++]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/arm-linux-gnueabihf/5/lto-wrapper]
@@ -277,13 +277,13 @@ Parsed CXX implicit link information from above output:
   ignore line: [gcc version 5.4.0 20160609 (Ubuntu/Linaro 5.4.0-6ubuntu1~16.04.4) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/arm-linux-gnueabihf/5/:/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/5/../../../../lib/:/lib/arm-linux-gnueabihf/:/lib/../lib/:/usr/lib/arm-linux-gnueabihf/:/usr/lib/../lib/:/usr/lib/gcc/arm-linux-gnueabihf/5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_67451' '-rdynamic' '-shared-libgcc' '-march=armv7-a' '-mfloat-abi=hard' '-mfpu=vfpv3-d16' '-mthumb' '-mtls-dialect=gnu']
-  link line: [ /usr/lib/gcc/arm-linux-gnueabihf/5/collect2 -plugin /usr/lib/gcc/arm-linux-gnueabihf/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccaAKHbC.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -export-dynamic -dynamic-linker /lib/ld-linux-armhf.so.3 -X --hash-style=gnu --as-needed -m armelf_linux_eabi -z relro -o cmTC_67451 /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crt1.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crti.o /usr/lib/gcc/arm-linux-gnueabihf/5/crtbegin.o -L/usr/lib/gcc/arm-linux-gnueabihf/5 -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../../lib -L/lib/arm-linux-gnueabihf -L/lib/../lib -L/usr/lib/arm-linux-gnueabihf -L/usr/lib/../lib -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../.. CMakeFiles/cmTC_67451.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/arm-linux-gnueabihf/5/crtend.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_52fbb' '-rdynamic' '-shared-libgcc' '-march=armv7-a' '-mfloat-abi=hard' '-mfpu=vfpv3-d16' '-mthumb' '-mtls-dialect=gnu']
+  link line: [ /usr/lib/gcc/arm-linux-gnueabihf/5/collect2 -plugin /usr/lib/gcc/arm-linux-gnueabihf/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccEw0scs.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -export-dynamic -dynamic-linker /lib/ld-linux-armhf.so.3 -X --hash-style=gnu --as-needed -m armelf_linux_eabi -z relro -o cmTC_52fbb /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crt1.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crti.o /usr/lib/gcc/arm-linux-gnueabihf/5/crtbegin.o -L/usr/lib/gcc/arm-linux-gnueabihf/5 -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../../../lib -L/lib/arm-linux-gnueabihf -L/lib/../lib -L/usr/lib/arm-linux-gnueabihf -L/usr/lib/../lib -L/usr/lib/gcc/arm-linux-gnueabihf/5/../../.. CMakeFiles/cmTC_52fbb.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/arm-linux-gnueabihf/5/crtend.o /usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crtn.o]
     arg [/usr/lib/gcc/arm-linux-gnueabihf/5/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/arm-linux-gnueabihf/5/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/5/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccaAKHbC.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccEw0scs.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -302,7 +302,7 @@ Parsed CXX implicit link information from above output:
     arg [armelf_linux_eabi] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_67451] ==> ignore
+    arg [cmTC_52fbb] ==> ignore
     arg [/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crt1.o] ==> ignore
     arg [/usr/lib/gcc/arm-linux-gnueabihf/5/../../../arm-linux-gnueabihf/crti.o] ==> ignore
     arg [/usr/lib/gcc/arm-linux-gnueabihf/5/crtbegin.o] ==> ignore
@@ -314,7 +314,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/usr/lib/arm-linux-gnueabihf] ==> dir [/usr/lib/arm-linux-gnueabihf]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/arm-linux-gnueabihf/5/../../..] ==> dir [/usr/lib/gcc/arm-linux-gnueabihf/5/../../..]
-    arg [CMakeFiles/cmTC_67451.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_52fbb.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -346,14 +346,14 @@ Parsed CXX implicit link information from above output:
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
 Change Dir: /home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ee07f/fast"
-/usr/bin/make -f CMakeFiles/cmTC_ee07f.dir/build.make CMakeFiles/cmTC_ee07f.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_1dd90/fast"
+/usr/bin/make -f CMakeFiles/cmTC_1dd90.dir/build.make CMakeFiles/cmTC_1dd90.dir/build
 make[1]: Entering directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_ee07f.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++14 -o CMakeFiles/cmTC_ee07f.dir/feature_tests.cxx.o -c "/home/odroid/TipTilt Control/build/CMakeFiles/feature_tests.cxx"
-Linking CXX executable cmTC_ee07f
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ee07f.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_ee07f.dir/feature_tests.cxx.o  -o cmTC_ee07f -rdynamic 
+Building CXX object CMakeFiles/cmTC_1dd90.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++14 -o CMakeFiles/cmTC_1dd90.dir/feature_tests.cxx.o -c "/home/odroid/TipTilt Control/build/CMakeFiles/feature_tests.cxx"
+Linking CXX executable cmTC_1dd90
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1dd90.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_1dd90.dir/feature_tests.cxx.o  -o cmTC_1dd90 -rdynamic 
 make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
 
 
@@ -419,14 +419,14 @@ make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeT
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
 Change Dir: /home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_0fa38/fast"
-/usr/bin/make -f CMakeFiles/cmTC_0fa38.dir/build.make CMakeFiles/cmTC_0fa38.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_36de3/fast"
+/usr/bin/make -f CMakeFiles/cmTC_36de3.dir/build.make CMakeFiles/cmTC_36de3.dir/build
 make[1]: Entering directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_0fa38.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++11 -o CMakeFiles/cmTC_0fa38.dir/feature_tests.cxx.o -c "/home/odroid/TipTilt Control/build/CMakeFiles/feature_tests.cxx"
-Linking CXX executable cmTC_0fa38
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0fa38.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_0fa38.dir/feature_tests.cxx.o  -o cmTC_0fa38 -rdynamic 
+Building CXX object CMakeFiles/cmTC_36de3.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++11 -o CMakeFiles/cmTC_36de3.dir/feature_tests.cxx.o -c "/home/odroid/TipTilt Control/build/CMakeFiles/feature_tests.cxx"
+Linking CXX executable cmTC_36de3
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_36de3.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_36de3.dir/feature_tests.cxx.o  -o cmTC_36de3 -rdynamic 
 make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
 
 
@@ -492,14 +492,14 @@ make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeT
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
 Change Dir: /home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_85622/fast"
-/usr/bin/make -f CMakeFiles/cmTC_85622.dir/build.make CMakeFiles/cmTC_85622.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_efb4a/fast"
+/usr/bin/make -f CMakeFiles/cmTC_efb4a.dir/build.make CMakeFiles/cmTC_efb4a.dir/build
 make[1]: Entering directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_85622.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++98 -o CMakeFiles/cmTC_85622.dir/feature_tests.cxx.o -c "/home/odroid/TipTilt Control/build/CMakeFiles/feature_tests.cxx"
-Linking CXX executable cmTC_85622
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_85622.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_85622.dir/feature_tests.cxx.o  -o cmTC_85622 -rdynamic 
+Building CXX object CMakeFiles/cmTC_efb4a.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++98 -o CMakeFiles/cmTC_efb4a.dir/feature_tests.cxx.o -c "/home/odroid/TipTilt Control/build/CMakeFiles/feature_tests.cxx"
+Linking CXX executable cmTC_efb4a
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_efb4a.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_efb4a.dir/feature_tests.cxx.o  -o cmTC_efb4a -rdynamic 
 make[1]: Leaving directory '/home/odroid/TipTilt Control/build/CMakeFiles/CMakeTmp'
 
 
