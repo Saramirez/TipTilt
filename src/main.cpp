@@ -15,17 +15,42 @@ using namespace std;
 
 VideoCapture cam;
 TipTilt TT;
-double corrAngle = -0.225404;
-double cosCorrAngle = 0.9747;
-double sinCorrAngle = -0.2235;
+double corrAngle = 0.023;
+double cosCorrAngle = 1;
+double sinCorrAngle = 0.023;
 int targetX = 320;
 int targetY = 220;
+bool targetSet = false;
+double xPixToSteps = 0.42;
+double yPixToSteps = 0.41;
+const string winName = "Star";
 
 mutex TTm;
 
+void GetTargetFromMouse(int event, int x, int y, int, void*){
+	if (event != EVENT_LBUTTONDOWN)
+		return;
+	targetX = x;
+	targetY = y;
+	targetSet = true;
+	cout << "Targets: " << targetX << "," << targetY << endl;
+
+	setMouseCallback(winName, NULL, NULL);
+}
+
+void CalculateErrors(Point centroid, int * xErr, int * yErr){
+	int dx = xPixToSteps * (targetX - centroid.x);
+    int dy = yPixToSteps * (targetY - centroid.y);
+
+    *xErr = dx * cosCorrAngle + dy * sinCorrAngle;
+    *yErr = -dx * sinCorrAngle + dy * cosCorrAngle;
+
+    //cout << "Errors: dx, dy = " << dx << "," << dy << endl;
+    //cout << "Errors: dx', dy' = " << _dx << "," << _dy << endl;
+}
 
 int CaptureAndProcess(){
-	namedWindow("Star",CV_WINDOW_AUTOSIZE); 
+	namedWindow(winName,CV_WINDOW_AUTOSIZE); 
 
 	Mat frame;
 
@@ -37,30 +62,27 @@ int CaptureAndProcess(){
 	}
 	int counter = 0;
 
+	int xErr = 0;
+	int yErr = 0;
+
+	setMouseCallback(winName, GetTargetFromMouse, NULL);
     while (1){
 		cam >> frame;
-		Point centroid = GetCentroid(frame);
+		if(targetSet){
+			Point centroid = GetCentroid(frame);
 
-        //cout << "Centroid: " << centroid.x << "," << centroid.y << endl;	
+	        //cout << "Centroid: " << centroid.x << "," << centroid.y << endl;	
 
-        int dx = targetX - centroid.x;
-        int dy = targetY - centroid.y;
+	        //TTm.lock();
+	        CalculateErrors(centroid, &xErr, &xErr);
+	        TT.setErrors(&xErr, &xErr);
+	        //TTm.unlock();
 
-        int _dx = dx * cosCorrAngle + dy * sinCorrAngle;
-        int _dy = -dx * sinCorrAngle + dy * cosCorrAngle;
+			circle(frame, centroid, 5, Scalar(128,0,0));
+			circle(frame, Point(targetX,targetY), 3, Scalar(128,128,0));
+		}
 
-        cout << "Errors: dx, dy = " << dx << "," << dy << endl;
-        cout << "Errors: dx', dy' = " << _dx << "," << _dy << endl;
-
-        //TTm.lock();
-        //TT.setErrors(_dx, _dy);
-        TT.setErrors(dx, dy);
-        //TTm.unlock();
-
-		circle(frame, centroid, 5, Scalar(128,0,0));
-		circle(frame, Point(targetX,targetY), 3, Scalar(128,128,0));
-
-		imshow("Star", frame);
+		imshow(winName, frame);
 		counter++;
 		if (waitKey(30) == 27){ 
 			cout << "esc key is pressed by user" << endl;
@@ -72,7 +94,7 @@ int CaptureAndProcess(){
     return 0;
 }
 
-void Align(){
+void Calibrate(){
 	namedWindow("Alignment",CV_WINDOW_AUTOSIZE);
 
 	Mat K,N,S,E,W;
@@ -85,14 +107,14 @@ void Align(){
 
 	TT.goTo('N');
 	cam >> N;
-    TT.goTo('S');
+	int NSSteps = TT.goTo('S');
 	cam >> S;
 
     TT.goTo('K');
 
     TT.goTo('E');
 	cam >> E;
-    TT.goTo('W');
+    int EWSteps = TT.goTo('W');
 	cam >> W;
 
 	cam.release();
@@ -106,6 +128,18 @@ void Align(){
 	cout << "Centroids: " << cK.x << "," << cK.y << ";" << cN.x << "," << cN.y << ";" 
 							<< cS.x << "," << cS.y << ";" << cE.x << "," << cE.y << ";" 
 							<< cW.x << "," << cW.y << endl;
+
+	cout << "Steps: " << NSSteps << "," << EWSteps << endl;
+
+	double NSDist = sqrt(pow(cN.x - cS.x, 2) + pow(cN.y - cS.y, 2));
+	double EWDist = sqrt(pow(cE.x - cW.x, 2) + pow(cE.y - cW.y, 2));
+
+	cout << "Dists: " << NSDist << "," << EWDist << endl;
+
+	xPixToSteps = NSDist / ((double)NSSteps);
+	yPixToSteps = EWDist / ((double)EWSteps);
+
+	cout << "Factors: " << xPixToSteps << "," << yPixToSteps << endl;
 
 	double tan1 = ((double)(cW.y - cE.y))/((double)(cE.x - cW.x));
 	double tan2 = ((double)(cN.x - cS.x))/((double)(cN.y - cS.y));
@@ -152,7 +186,7 @@ int main( int argc, char** argv )
 {	
     TT.openComm("/dev/ttyUSB0"); 
 
-    //Align();
+    //Calibrate();
     //cout << "Is camera opened? " << cam.isOpened() << endl;
     thread capture(CaptureAndProcess); 
 

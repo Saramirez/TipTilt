@@ -47,19 +47,19 @@ int TipTilt::getSteps(int south){
 }
 
 
-void TipTilt::setErrors(int x, int y){
-	eError = x;	
-	sError = y;
+void TipTilt::setErrors(int * x, int * y){
+	eError = *x;	
+	sError = *y;
 }
 
-void TipTilt::goTo(char dir){
+int TipTilt::goTo(char dir){
 	char out = 'n';
 
 	if(dir == 'K'){
 		write(fd, "K", 1);
 		read(fd, &out, 1);
 		//cout << "Centered, returned: " << out << endl;
-		return;
+		return 0;
 	}
 	if(dir == 'N')
         writeBuf = (char *)"GN00001";
@@ -71,15 +71,19 @@ void TipTilt::goTo(char dir){
         writeBuf = (char *)"GW00001";
 
     int count = 0;
+    int count2 = 0;
 
     while( out != 'L' || count < 10){
         write(fd, writeBuf, 7);
 		read(fd, &out, 1);
         if(out == 'L')
             count = count + 1;
-        else
+        else{
             count = 100;
+            count2 ++;
+        }
     }
+    return count2;
 }
 
 void TipTilt::updatePosition(){
