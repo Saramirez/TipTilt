@@ -87,30 +87,42 @@ int TipTilt::goTo(char dir){
 }
 
 void TipTilt::updatePosition(){
-	if(eError > 0){
+	char out = 'n';
+
+	if(eError != 0){
+		if(eError > 0){
 		writeBuf = (char *)"GT00001";
 		write(fd, writeBuf, 7);
 		eError--;
 		eSteps++;
+		}
+		else if(eError < 0){
+			writeBuf = (char *)"GW00001";
+			write(fd, writeBuf, 7);		
+			eError++;
+			eSteps--;
+		}
+		
+		//read(fd, &out, 1);
+		//cout << "Out: " << out << endl;
 	}
-	else if(eError < 0){
-		writeBuf = (char *)"GW00001";
-		write(fd, writeBuf, 7);		
-		eError++;
-		eSteps--;
+	if(sError != 0){
+		if(sError > 0){
+			writeBuf = (char *)"GN00001";
+			write(fd, writeBuf, 7);
+			sError--;
+			sSteps++;
+		}
+		else if(sError < 0){
+			writeBuf = (char *)"GS00001";
+			write(fd, writeBuf, 7);		
+			sError++;
+			sSteps--;
+		}
+
+		//read(fd, &out, 1);
+		//cout << "Out: " << out << endl;
 	}
-	if(sError > 0){
-		writeBuf = (char *)"GN00001";
-		write(fd, writeBuf, 7);
-		sError--;
-		sSteps++;
-	}
-	else if(sError < 0){
-		writeBuf = (char *)"GS00001";
-		write(fd, writeBuf, 7);		
-		sError++;
-		sSteps--;
-	}		
 }
 
 

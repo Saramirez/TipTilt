@@ -18,14 +18,54 @@ TipTilt TT;
 double corrAngle = 0.023;
 double cosCorrAngle = 1;
 double sinCorrAngle = 0.023;
-int targetX = 320;
-int targetY = 220;
+int targetX = 375;
+int targetY = 240;
 bool targetSet = false;
 double xPixToSteps = 0.42;
 double yPixToSteps = 0.41;
 const string winName = "Star";
 
 mutex TTm;
+
+int GetKeyFromKeyboard(){
+	int key = waitKey(50);
+	//cout << "Key: " << key << endl;
+	switch(key){
+		case 255:
+			return 0;
+		case 27: // esc
+			return -1;
+		break;
+		case 119: // w
+			targetY-=5;
+			if(targetY < 0)
+				targetY = 0;
+		break;
+		case 115: // s
+			targetY+=5;
+			if(targetY > 480)
+				targetY = 480;
+		break;
+		case 100: // d
+			targetX+=5;
+			if(targetX > 640)
+				targetX = 640;
+		break;
+		case 97: // a
+			targetX-=5;
+			if(targetX < 0)
+				targetX = 0;
+		break;
+		case 10: // Intro
+			if(!targetSet){
+				targetSet = true;
+				cout << "Target set" << endl;
+			}
+		break;
+	}
+	//cout << "Target: " << targetX << "," << targetY << endl;
+	return 0;
+}
 
 void GetTargetFromMouse(int event, int x, int y, int, void*){
 	if (event != EVENT_LBUTTONDOWN)
@@ -41,12 +81,13 @@ void GetTargetFromMouse(int event, int x, int y, int, void*){
 void CalculateErrors(Point centroid, int * xErr, int * yErr){
 	int dx = xPixToSteps * (targetX - centroid.x);
     int dy = yPixToSteps * (targetY - centroid.y);
-
+	
+	//cout << "Errors: dx, dy = " << dx << "," << dy << endl;
+	
     *xErr = dx * cosCorrAngle + dy * sinCorrAngle;
     *yErr = -dx * sinCorrAngle + dy * cosCorrAngle;
 
-    //cout << "Errors: dx, dy = " << dx << "," << dy << endl;
-    //cout << "Errors: dx', dy' = " << _dx << "," << _dy << endl;
+    //cout << "Errors: xErr, yErr = " << *xErr << "," << *yErr << endl;
 }
 
 int CaptureAndProcess(){
@@ -65,7 +106,8 @@ int CaptureAndProcess(){
 	int xErr = 0;
 	int yErr = 0;
 
-	setMouseCallback(winName, GetTargetFromMouse, NULL);
+	//setMouseCallback(winName, GetTargetFromMouse, NULL);
+
     while (1){
 		cam >> frame;
 		if(targetSet){
@@ -74,21 +116,25 @@ int CaptureAndProcess(){
 	        //cout << "Centroid: " << centroid.x << "," << centroid.y << endl;	
 
 	        //TTm.lock();
-	        CalculateErrors(centroid, &xErr, &xErr);
-	        TT.setErrors(&xErr, &xErr);
+	        CalculateErrors(centroid, &xErr, &yErr);
+	        TT.setErrors(&xErr, &yErr);
 	        //TTm.unlock();
 
 			circle(frame, centroid, 5, Scalar(128,0,0));
-			circle(frame, Point(targetX,targetY), 3, Scalar(128,128,0));
 		}
+
+		cvtColor(frame, frame, CV_GRAY2BGR);
+		circle(frame, Point(targetX,targetY), 3, Scalar(128,128,0));
 
 		imshow(winName, frame);
 		counter++;
-		if (waitKey(30) == 27){ 
+
+		if (GetKeyFromKeyboard() == -1){ 
 			cout << "esc key is pressed by user" << endl;
 			break; 
 		}
 	}
+
 	cout << "CaptureAndProcess returned" << endl;
     cout << "Updated Errors " << counter << " times." << endl;
     return 0;
