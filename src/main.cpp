@@ -15,12 +15,14 @@ int main( int argc, char** argv )
 
     //Calibrate(cam, TT);
 
-    //Cuando CaptureAndProcess termine, llamara a TT.stop()
+    //Cuando CaptureAndProcess termina, llama a TT.stop()
     thread capture(CaptureAndProcess, ref(cam), ref(TT)); 
     
     TT.start();
     
     capture.join();
+
+    TT.closeComm();
 
 	return(0);
 }
