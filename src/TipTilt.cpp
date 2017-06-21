@@ -1,8 +1,9 @@
 #include "../include/TipTilt.hpp"
 
-TipTilt::TipTilt(const char* device) { 
-	writeBuf = (char *) malloc(8);
-	openComm(device);
+TipTilt::TipTilt(const char* _device) { 
+	//writeBuf = (char *) malloc(8);
+	device = _device;
+	openComm();
 }
 
 void TipTilt::configSerial(){	
@@ -21,7 +22,7 @@ void TipTilt::configSerial(){
 	cfmakeraw(&SerialConfig);	
 }
 
-int TipTilt::openComm(const char* device){	
+int TipTilt::openComm(){	
 	fd = open(device, O_RDWR | O_NOCTTY);
 	if(fd < 0){
 		cout << "Error opening ttyUSB0" << endl;

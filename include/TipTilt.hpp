@@ -18,9 +18,10 @@ class TipTilt {
 		int fd;
 		void configSerial();
 		char * writeBuf;
+		const char* device;
 		struct termios SerialConfig;
 	public:
-		int openComm(const char*);
+		int openComm();
 		void closeComm();
 		int getSteps(int);
 		void updatePosition();
