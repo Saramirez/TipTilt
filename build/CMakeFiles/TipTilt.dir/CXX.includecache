@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/odroid/TipTilt Control/include/CameraAndImageHandling.hpp
+/home/odroid/TipTilt Control/include/CameraStreamHandling.hpp
 opencv2/opencv.hpp
 /home/odroid/TipTilt Control/include/opencv2/opencv.hpp
 iostream
@@ -30,9 +30,9 @@ iostream
 stdlib.h
 -
 
-/home/odroid/TipTilt Control/src/CameraAndImageHandling.cpp
-../include/CameraAndImageHandling.hpp
-/home/odroid/TipTilt Control/include/CameraAndImageHandling.hpp
+/home/odroid/TipTilt Control/src/CameraStreamHandling.cpp
+../include/CameraStreamHandling.hpp
+/home/odroid/TipTilt Control/include/CameraStreamHandling.hpp
 
 /home/odroid/TipTilt Control/src/TipTilt.cpp
 ../include/TipTilt.hpp
@@ -49,8 +49,8 @@ atomic
 -
 ../include/TipTilt.hpp
 /home/odroid/TipTilt Control/include/TipTilt.hpp
-../include/CameraAndImageHandling.hpp
-/home/odroid/TipTilt Control/include/CameraAndImageHandling.hpp
+../include/CameraStreamHandling.hpp
+/home/odroid/TipTilt Control/include/CameraStreamHandling.hpp
 
 /usr/local/include/opencv/cxcore.h
 opencv2/core/core_c.h

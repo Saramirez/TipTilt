@@ -5,7 +5,7 @@
 #include <mutex>
 #include <atomic>
 #include "../include/TipTilt.hpp"
-#include "../include/CameraAndImageHandling.hpp"
+#include "../include/CameraStreamHandling.hpp"
 
 using namespace cv;
 using namespace std;

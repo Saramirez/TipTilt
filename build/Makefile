@@ -123,32 +123,32 @@ TipTilt/fast:
 	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/build
 .PHONY : TipTilt/fast
 
-src/CameraAndImageHandling.o: src/CameraAndImageHandling.cpp.o
+src/CameraStreamHandling.o: src/CameraStreamHandling.cpp.o
 
-.PHONY : src/CameraAndImageHandling.o
+.PHONY : src/CameraStreamHandling.o
 
 # target to build an object file
-src/CameraAndImageHandling.cpp.o:
-	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/CameraAndImageHandling.cpp.o
-.PHONY : src/CameraAndImageHandling.cpp.o
+src/CameraStreamHandling.cpp.o:
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/CameraStreamHandling.cpp.o
+.PHONY : src/CameraStreamHandling.cpp.o
 
-src/CameraAndImageHandling.i: src/CameraAndImageHandling.cpp.i
+src/CameraStreamHandling.i: src/CameraStreamHandling.cpp.i
 
-.PHONY : src/CameraAndImageHandling.i
+.PHONY : src/CameraStreamHandling.i
 
 # target to preprocess a source file
-src/CameraAndImageHandling.cpp.i:
-	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/CameraAndImageHandling.cpp.i
-.PHONY : src/CameraAndImageHandling.cpp.i
+src/CameraStreamHandling.cpp.i:
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/CameraStreamHandling.cpp.i
+.PHONY : src/CameraStreamHandling.cpp.i
 
-src/CameraAndImageHandling.s: src/CameraAndImageHandling.cpp.s
+src/CameraStreamHandling.s: src/CameraStreamHandling.cpp.s
 
-.PHONY : src/CameraAndImageHandling.s
+.PHONY : src/CameraStreamHandling.s
 
 # target to generate assembly for a file
-src/CameraAndImageHandling.cpp.s:
-	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/CameraAndImageHandling.cpp.s
-.PHONY : src/CameraAndImageHandling.cpp.s
+src/CameraStreamHandling.cpp.s:
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/CameraStreamHandling.cpp.s
+.PHONY : src/CameraStreamHandling.cpp.s
 
 src/TipTilt.o: src/TipTilt.cpp.o
 
@@ -213,9 +213,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... TipTilt"
-	@echo "... src/CameraAndImageHandling.o"
-	@echo "... src/CameraAndImageHandling.i"
-	@echo "... src/CameraAndImageHandling.s"
+	@echo "... src/CameraStreamHandling.o"
+	@echo "... src/CameraStreamHandling.i"
+	@echo "... src/CameraStreamHandling.s"
 	@echo "... src/TipTilt.o"
 	@echo "... src/TipTilt.i"
 	@echo "... src/TipTilt.s"

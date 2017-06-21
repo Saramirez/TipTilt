@@ -1,4 +1,4 @@
-#include "../include/CameraAndImageHandling.hpp"
+#include "../include/CameraStreamHandling.hpp"
 
 Point target(375, 240);
 double xPixToSteps = 0.42;
