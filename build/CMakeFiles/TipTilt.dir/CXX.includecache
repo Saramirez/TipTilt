@@ -6,6 +6,16 @@
 
 #IncludeRegexTransform: 
 
+/home/odroid/TipTilt Control/include/CameraAndImageHandling.hpp
+opencv2/opencv.hpp
+/home/odroid/TipTilt Control/include/opencv2/opencv.hpp
+iostream
+-
+../include/TipTilt.hpp
+/home/odroid/TipTilt Control/include/TipTilt.hpp
+math.h
+-
+
 /home/odroid/TipTilt Control/include/TipTilt.hpp
 stdio.h
 -
@@ -20,32 +30,16 @@ iostream
 stdlib.h
 -
 
-/home/odroid/TipTilt Control/include/frameProcess.hpp
-opencv2/opencv.hpp
-/home/odroid/TipTilt Control/include/opencv2/opencv.hpp
-iostream
--
-stdio.h
--
-stdlib.h
--
-
-/home/odroid/TipTilt Control/src/GetCentroid.cpp
-../include/frameProcess.hpp
-/home/odroid/TipTilt Control/include/frameProcess.hpp
+/home/odroid/TipTilt Control/src/CameraAndImageHandling.cpp
+../include/CameraAndImageHandling.hpp
+/home/odroid/TipTilt Control/include/CameraAndImageHandling.hpp
 
 /home/odroid/TipTilt Control/src/TipTilt.cpp
 ../include/TipTilt.hpp
 /home/odroid/TipTilt Control/include/TipTilt.hpp
 
 /home/odroid/TipTilt Control/src/main.cpp
-opencv2/opencv.hpp
-/home/odroid/TipTilt Control/src/opencv2/opencv.hpp
 iostream
--
-stdio.h
--
-stdlib.h
 -
 thread
 -
@@ -53,14 +47,10 @@ mutex
 -
 atomic
 -
-iostream
--
 ../include/TipTilt.hpp
 /home/odroid/TipTilt Control/include/TipTilt.hpp
-../include/frameProcess.hpp
-/home/odroid/TipTilt Control/include/frameProcess.hpp
-math.h
--
+../include/CameraAndImageHandling.hpp
+/home/odroid/TipTilt Control/include/CameraAndImageHandling.hpp
 
 /usr/local/include/opencv/cxcore.h
 opencv2/core/core_c.h

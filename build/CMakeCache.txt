@@ -114,7 +114,7 @@ CMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy
 CMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=Test
+CMAKE_PROJECT_NAME:STATIC=TipTilt
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -169,10 +169,10 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 OpenCV_DIR:PATH=/usr/local/share/OpenCV
 
 //Value Computed by CMake
-Test_BINARY_DIR:STATIC=/home/odroid/TipTilt Control/build
+TipTilt_BINARY_DIR:STATIC=/home/odroid/TipTilt Control/build
 
 //Value Computed by CMake
-Test_SOURCE_DIR:STATIC=/home/odroid/TipTilt Control
+TipTilt_SOURCE_DIR:STATIC=/home/odroid/TipTilt Control
 
 
 ########################

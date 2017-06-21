@@ -111,44 +111,44 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Test
+# Target rules for targets named TipTilt
 
 # Build rule for target.
-Test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Test
-.PHONY : Test
+TipTilt: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 TipTilt
+.PHONY : TipTilt
 
 # fast build rule for target.
-Test/fast:
-	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/build
-.PHONY : Test/fast
+TipTilt/fast:
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/build
+.PHONY : TipTilt/fast
 
-src/GetCentroid.o: src/GetCentroid.cpp.o
+src/CameraAndImageHandling.o: src/CameraAndImageHandling.cpp.o
 
-.PHONY : src/GetCentroid.o
+.PHONY : src/CameraAndImageHandling.o
 
 # target to build an object file
-src/GetCentroid.cpp.o:
-	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/src/GetCentroid.cpp.o
-.PHONY : src/GetCentroid.cpp.o
+src/CameraAndImageHandling.cpp.o:
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/CameraAndImageHandling.cpp.o
+.PHONY : src/CameraAndImageHandling.cpp.o
 
-src/GetCentroid.i: src/GetCentroid.cpp.i
+src/CameraAndImageHandling.i: src/CameraAndImageHandling.cpp.i
 
-.PHONY : src/GetCentroid.i
+.PHONY : src/CameraAndImageHandling.i
 
 # target to preprocess a source file
-src/GetCentroid.cpp.i:
-	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/src/GetCentroid.cpp.i
-.PHONY : src/GetCentroid.cpp.i
+src/CameraAndImageHandling.cpp.i:
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/CameraAndImageHandling.cpp.i
+.PHONY : src/CameraAndImageHandling.cpp.i
 
-src/GetCentroid.s: src/GetCentroid.cpp.s
+src/CameraAndImageHandling.s: src/CameraAndImageHandling.cpp.s
 
-.PHONY : src/GetCentroid.s
+.PHONY : src/CameraAndImageHandling.s
 
 # target to generate assembly for a file
-src/GetCentroid.cpp.s:
-	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/src/GetCentroid.cpp.s
-.PHONY : src/GetCentroid.cpp.s
+src/CameraAndImageHandling.cpp.s:
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/CameraAndImageHandling.cpp.s
+.PHONY : src/CameraAndImageHandling.cpp.s
 
 src/TipTilt.o: src/TipTilt.cpp.o
 
@@ -156,7 +156,7 @@ src/TipTilt.o: src/TipTilt.cpp.o
 
 # target to build an object file
 src/TipTilt.cpp.o:
-	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/src/TipTilt.cpp.o
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o
 .PHONY : src/TipTilt.cpp.o
 
 src/TipTilt.i: src/TipTilt.cpp.i
@@ -165,7 +165,7 @@ src/TipTilt.i: src/TipTilt.cpp.i
 
 # target to preprocess a source file
 src/TipTilt.cpp.i:
-	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/src/TipTilt.cpp.i
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/TipTilt.cpp.i
 .PHONY : src/TipTilt.cpp.i
 
 src/TipTilt.s: src/TipTilt.cpp.s
@@ -174,7 +174,7 @@ src/TipTilt.s: src/TipTilt.cpp.s
 
 # target to generate assembly for a file
 src/TipTilt.cpp.s:
-	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/src/TipTilt.cpp.s
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/TipTilt.cpp.s
 .PHONY : src/TipTilt.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -183,7 +183,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/src/main.cpp.o
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -192,7 +192,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/src/main.cpp.i
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -201,7 +201,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/src/main.cpp.s
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 # Help Target
@@ -212,10 +212,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... Test"
-	@echo "... src/GetCentroid.o"
-	@echo "... src/GetCentroid.i"
-	@echo "... src/GetCentroid.s"
+	@echo "... TipTilt"
+	@echo "... src/CameraAndImageHandling.o"
+	@echo "... src/CameraAndImageHandling.i"
+	@echo "... src/CameraAndImageHandling.s"
 	@echo "... src/TipTilt.o"
 	@echo "... src/TipTilt.i"
 	@echo "... src/TipTilt.s"
