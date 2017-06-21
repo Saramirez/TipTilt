@@ -15,14 +15,15 @@ using namespace std;
 
 VideoCapture cam;
 TipTilt TT;
+Point target(375,240);
+/*int target.x = 375;
+int target.y = 240;*/
+bool targetSet = false;
+/*double xPixToSteps = 0.42;
+double yPixToSteps = 0.41;
 double corrAngle = 0.023;
 double cosCorrAngle = 1;
-double sinCorrAngle = 0.023;
-int targetX = 375;
-int targetY = 240;
-bool targetSet = false;
-double xPixToSteps = 0.42;
-double yPixToSteps = 0.41;
+double sinCorrAngle = 0.023;*/
 const string winName = "Star";
 
 mutex TTm;
@@ -37,24 +38,24 @@ int GetKeyFromKeyboard(){
 			return -1;
 		break;
 		case 119: // w
-			targetY-=5;
-			if(targetY < 0)
-				targetY = 0;
+			target.y-=5;
+			if(target.y < 0)
+				target.y = 0;
 		break;
 		case 115: // s
-			targetY+=5;
-			if(targetY > 480)
-				targetY = 480;
+			target.y+=5;
+			if(target.y > 480)
+				target.y = 480;
 		break;
 		case 100: // d
-			targetX+=5;
-			if(targetX > 640)
-				targetX = 640;
+			target.x+=5;
+			if(target.x > 640)
+				target.x = 640;
 		break;
 		case 97: // a
-			targetX-=5;
-			if(targetX < 0)
-				targetX = 0;
+			target.x-=5;
+			if(target.x < 0)
+				target.x = 0;
 		break;
 		case 10: // Intro
 			if(!targetSet){
@@ -63,24 +64,24 @@ int GetKeyFromKeyboard(){
 			}
 		break;
 	}
-	//cout << "Target: " << targetX << "," << targetY << endl;
+	//cout << "Target: " << target.x << "," << target.y << endl;
 	return 0;
 }
 
 void GetTargetFromMouse(int event, int x, int y, int, void*){
 	if (event != EVENT_LBUTTONDOWN)
 		return;
-	targetX = x;
-	targetY = y;
+	target.x = x;
+	target.y = y;
 	targetSet = true;
-	cout << "Targets: " << targetX << "," << targetY << endl;
+	cout << "Targets: " << target.x << "," << target.y << endl;
 
 	setMouseCallback(winName, NULL, NULL);
 }
-
+/*
 void CalculateErrors(Point centroid, int * xErr, int * yErr){
-	int dx = xPixToSteps * (targetX - centroid.x);
-    int dy = yPixToSteps * (targetY - centroid.y);
+	int dx = xPixToSteps * (target.x - centroid.x);
+    int dy = yPixToSteps * (target.y - centroid.y);
 	
 	//cout << "Errors: dx, dy = " << dx << "," << dy << endl;
 	
@@ -88,19 +89,13 @@ void CalculateErrors(Point centroid, int * xErr, int * yErr){
     *yErr = -dx * sinCorrAngle + dy * cosCorrAngle;
 
     //cout << "Errors: xErr, yErr = " << *xErr << "," << *yErr << endl;
-}
+}*/
 
-int CaptureAndProcess(){
+int CaptureAndProcess(VideoCapture& cam){
 	namedWindow(winName,CV_WINDOW_AUTOSIZE); 
 
 	Mat frame;
 
-    cam.open("v4l2src ! video/x-raw,format=GRAY8, width=640, height=480 ! appsink");
-
-	if (!cam.isOpened()){
-		cout << "Cannot open the video cam" << endl;
-		return -1;
-	}
 	int counter = 0;
 
 	int xErr = 0;
@@ -116,15 +111,15 @@ int CaptureAndProcess(){
 	        //cout << "Centroid: " << centroid.x << "," << centroid.y << endl;	
 
 	        //TTm.lock();
-	        CalculateErrors(centroid, &xErr, &yErr);
-	        TT.setErrors(&xErr, &yErr);
+	        //CalculateErrors(centroid, &xErr, &yErr);
+	        TT.setErrors(target, centroid);
 	        //TTm.unlock();
 
 			circle(frame, centroid, 5, Scalar(128,0,0));
 		}
 
 		cvtColor(frame, frame, CV_GRAY2BGR);
-		circle(frame, Point(targetX,targetY), 3, Scalar(128,128,0));
+		circle(frame, Point(target.x,target.y), 3, Scalar(128,128,0));
 
 		imshow(winName, frame);
 		counter++;
@@ -140,8 +135,9 @@ int CaptureAndProcess(){
     return 0;
 }
 
+/*
 void Calibrate(){
-	namedWindow("Alignment",CV_WINDOW_AUTOSIZE);
+	namedWindow("Calibration",CV_WINDOW_AUTOSIZE);
 
 	Mat K,N,S,E,W;
 	Point cK, cN, cS, cE, cW;
@@ -209,13 +205,13 @@ void Calibrate(){
 	circle(complete, cS, 5, Scalar(0,0,128));
 	circle(complete, cE, 5, Scalar(128,0,0));
 	circle(complete, cW, 5, Scalar(128,128,128));
-	imshow("Alignment", complete);
-
+	
+	imshow("Calibration", complete);
 
 	waitKey(0);
 
 	destroyWindow("Alignment");
-}
+}*/
 
 void UpdateTipTilt(atomic<bool>& running){
 	int counter = 0;
@@ -232,9 +228,19 @@ int main( int argc, char** argv )
 {	
     TT.openComm("/dev/ttyUSB0"); 
 
+	cam.open("v4l2src ! video/x-raw,format=GRAY8, width=640, height=480 ! appsink");
+
+	if (!cam.isOpened()){
+		cout << "Cannot open the video cam" << endl;
+		return -1;
+	}
+
     //Calibrate();
     //cout << "Is camera opened? " << cam.isOpened() << endl;
-    thread capture(CaptureAndProcess); 
+
+	TT.calibrate(cam);
+
+    thread capture(CaptureAndProcess, ref(cam)); 
 
 	atomic<bool> running { true };
     thread utt(UpdateTipTilt, ref(running));

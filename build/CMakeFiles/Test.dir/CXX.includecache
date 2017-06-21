@@ -19,6 +19,8 @@ iostream
 -
 stdlib.h
 -
+opencv2/opencv.hpp
+/home/odroid/TipTilt Control/include/opencv2/opencv.hpp
 
 /home/odroid/TipTilt Control/include/frameProcess.hpp
 opencv2/opencv.hpp
@@ -37,6 +39,8 @@ stdlib.h
 /home/odroid/TipTilt Control/src/TipTilt.cpp
 ../include/TipTilt.hpp
 /home/odroid/TipTilt Control/include/TipTilt.hpp
+../include/frameProcess.hpp
+/home/odroid/TipTilt Control/include/frameProcess.hpp
 
 /home/odroid/TipTilt Control/src/main.cpp
 opencv2/opencv.hpp
