@@ -2,13 +2,23 @@
 
 Point target(375, 240);
 double xPixToSteps = 0.42;
-double yPixToSteps = 0.41;
+double yPixToSteps = 0.43;
 const string winName = "Star";
 bool targetSet = false;
 
 double corrAngle = 0.023;
 double cosCorrAngle = 1;
 double sinCorrAngle = 0.023;
+
+int OpenCamera(VideoCapture& cam, const string gstreamPipeline){
+	cam.open(gstreamPipeline);
+	
+	if (!cam.isOpened()){
+		cout << "Cannot open the video cam" << endl;
+		return -1;
+	}
+	return 0;
+}
 
 void SetTarget(int tx, int ty){
     target.x = tx;
@@ -129,6 +139,7 @@ int CaptureAndProcess(VideoCapture& cam, TipTilt& TT){
 
 	cout << "CaptureAndProcess returned" << endl;
     cout << "Updated Errors " << counter << " times." << endl;
+	TT.stop();
     return 0;
 }
 

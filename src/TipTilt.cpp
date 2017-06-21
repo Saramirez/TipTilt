@@ -1,14 +1,14 @@
 #include "../include/TipTilt.hpp"
 
-TipTilt::TipTilt() { 
+TipTilt::TipTilt(const char* device) { 
 	writeBuf = (char *) malloc(8);
+	openComm(device);
 }
-
 
 void TipTilt::configSerial(){	
 	cfsetispeed(&SerialConfig,B9600);
 	cfsetospeed(&SerialConfig,B9600);
-/*
+	/*
 	SerialConfig.c_iflag |= IGNBRK 
 
 	SerialConfig.c_cflag &= ~PARENB;
@@ -35,6 +35,7 @@ int TipTilt::openComm(const char* device){
 
 void TipTilt::closeComm(){	
 	close(fd);
+    cout << "Closed Comm" << endl;
 }
 
 int TipTilt::getSteps(int south){
@@ -46,15 +47,13 @@ int TipTilt::getSteps(int south){
 		return -99;
 }
 
-
 void TipTilt::setErrors(int x, int y){
 	eError = x;	
 	sError = y;
 }
 
 int TipTilt::goTo(char dir){
-	char out = 'n';
-
+	out = 'n';
 	if(dir == 'K'){
 		write(fd, "K", 1);
 		read(fd, &out, 1);
@@ -87,8 +86,6 @@ int TipTilt::goTo(char dir){
 }
 
 void TipTilt::updatePosition(){
-	char out = 'n';
-
 	if(eError != 0){
 		if(eError > 0){
 		writeBuf = (char *)"GT00001";
@@ -125,6 +122,21 @@ void TipTilt::updatePosition(){
 	}
 }
 
+void TipTilt::start(){
+	running = true;
+
+	int counter = 0;
+	while(running){
+    	updatePosition();
+        counter ++;
+    }
+    cout << "UpdateTipTilt returned" << endl;
+    cout << "Updated TipTilt " << counter << " times." << endl;
+}
+
+void TipTilt::stop(){
+	running = false;
+};
 
 
 

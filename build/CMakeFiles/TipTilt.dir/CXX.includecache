@@ -17,8 +17,6 @@ math.h
 -
 
 /home/odroid/TipTilt Control/include/TipTilt.hpp
-stdio.h
--
 fcntl.h
 -
 termios.h
@@ -27,7 +25,7 @@ unistd.h
 -
 iostream
 -
-stdlib.h
+atomic
 -
 
 /home/odroid/TipTilt Control/src/CameraStreamHandling.cpp
@@ -39,13 +37,9 @@ stdlib.h
 /home/odroid/TipTilt Control/include/TipTilt.hpp
 
 /home/odroid/TipTilt Control/src/main.cpp
-iostream
--
 thread
 -
 mutex
--
-atomic
 -
 ../include/TipTilt.hpp
 /home/odroid/TipTilt Control/include/TipTilt.hpp

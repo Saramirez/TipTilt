@@ -9,6 +9,7 @@
 using namespace cv;
 using namespace std;
 
+int OpenCamera(VideoCapture&, const string);
 void SetTarget(int, int);
 int GetKeyFromKeyboard();
 void GetTargetFromMouse(int, int, int, int, void*);
