@@ -47,9 +47,9 @@ int TipTilt::getSteps(int south){
 }
 
 
-void TipTilt::setErrors(int * x, int * y){
-	eError = *x;	
-	sError = *y;
+void TipTilt::setErrors(int x, int y){
+	eError = x;	
+	sError = y;
 }
 
 int TipTilt::goTo(char dir){

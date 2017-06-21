@@ -21,7 +21,7 @@ class TipTilt {
 		void closeComm();
 		int getSteps(int);
 		void updatePosition();
-		void setErrors(int *, int *);
+		void setErrors(int, int);
 		int goTo(char);
 		TipTilt(); 	
 };
