@@ -1,12 +1,10 @@
 #ifndef TT_H
 #define TT_H
 
-//#include <stdio.h>
 #include <fcntl.h>  /* File Control Definitions          */
 #include <termios.h>/* POSIX Terminal Control Definitions*/
 #include <unistd.h> /* UNIX Standard Definitions         */
 #include <iostream>
-//#include <stdlib.h> 
 #include <atomic>
 #include <thread>
 
