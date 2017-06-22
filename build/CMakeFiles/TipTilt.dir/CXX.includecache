@@ -27,6 +27,8 @@ iostream
 -
 atomic
 -
+thread
+-
 
 /home/odroid/TipTilt Control/src/CameraStreamHandling.cpp
 ../include/CameraStreamHandling.hpp
@@ -35,6 +37,8 @@ atomic
 /home/odroid/TipTilt Control/src/TipTilt.cpp
 ../include/TipTilt.hpp
 /home/odroid/TipTilt Control/include/TipTilt.hpp
+chrono
+-
 
 /home/odroid/TipTilt Control/src/main.cpp
 thread

@@ -13,14 +13,15 @@ int main( int argc, char** argv )
 {	
 	OpenCamera(cam, "v4l2src ! video/x-raw,format=GRAY8, width=640, height=480 ! appsink");
 
-    //Calibrate(cam, TT);
+    Calibrate(cam, TT);
 
-    //Cuando CaptureAndProcess termina, llama a TT.stop()
     thread capture(CaptureAndProcess, ref(cam), ref(TT)); 
 
     TT.start();
     
     capture.join();
+
+    TT.stop();
 
     TT.closeComm();
 

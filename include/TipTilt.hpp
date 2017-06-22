@@ -8,6 +8,7 @@
 #include <iostream>
 //#include <stdlib.h> 
 #include <atomic>
+#include <thread>
 
 using namespace std;
 
@@ -16,11 +17,14 @@ class TipTilt {
 		char out;
 		atomic<bool> running;
 		int fd;
+		bool opened = false;
 		void configSerial();
 		char * writeBuf;
 		const char* device;
 		struct termios SerialConfig;
+		thread runningThread;
 	public:
+		bool isOpened();
 		int openComm();
 		void closeComm();
 		int getSteps(int);
@@ -29,6 +33,7 @@ class TipTilt {
 		int goTo(char);
 		void start();
 		void stop();
+		void run();
 		TipTilt(const char *); 	
 };
 

@@ -1,6 +1,6 @@
 #include "../include/CameraStreamHandling.hpp"
 
-Point target(375, 240);
+Point target(64, 64);
 double xPixToSteps = 0.42;
 double yPixToSteps = 0.43;
 const string winName = "Star";
@@ -9,6 +9,8 @@ bool targetSet = false;
 double corrAngle = 0.023;
 double cosCorrAngle = 1;
 double sinCorrAngle = 0.023;
+
+Rect roi(265, 168, 128, 128);
 
 int OpenCamera(VideoCapture& cam, const string gstreamPipeline){
 	cam.open(gstreamPipeline);
@@ -76,7 +78,7 @@ void GetTargetFromMouse(int event, int x, int y, int, void*){
 	setMouseCallback(winName, NULL, NULL);
 }
 
-Point GetCentroid(Mat &src){
+Point GetCentroid(Mat& src){
 	Moments m = moments((src>=150), true);
 	Point res(m.m10/m.m00, m.m01/m.m00);
 	return res;
@@ -104,7 +106,7 @@ int CaptureAndProcess(VideoCapture& cam, TipTilt& TT){
 		cout << "Cam is not opened" << endl;
 		return -1;
 	}
-
+	cout << "Starting capture process" << endl;
 	int counter = 0;
 
 	int xErr = 0;
@@ -114,6 +116,7 @@ int CaptureAndProcess(VideoCapture& cam, TipTilt& TT){
 
     while (1){
 		cam >> frame;
+		frame = frame(roi);
 		if(targetSet){
 			Point centroid = GetCentroid(frame);
 
@@ -139,22 +142,25 @@ int CaptureAndProcess(VideoCapture& cam, TipTilt& TT){
 
 	cout << "CaptureAndProcess returned" << endl;
     cout << "Updated Errors " << counter << " times." << endl;
-	TT.stop();
+	//TT.stop();
     return 0;
 }
 
 int Calibrate(VideoCapture& cam, TipTilt& TT){
+	if (!cam.isOpened()){
+        cout << "Cam is not opened. Can't calibrate." << endl;
+        return -1;
+    }
+	if(!TT.isOpened()){
+		cout << "TT is not opened. Can't calibrate." << endl;
+		return -2;
+	}
 	namedWindow("Calibration",CV_WINDOW_AUTOSIZE);
 
 	Mat K,N,S,E,W;
 	Point cK, cN, cS, cE, cW;
 
-    if (!cam.isOpened()){
-        cout << "Cam is not opened" << endl;
-        return -1;
-    }
-
-	TT.goTo('K');
+    TT.goTo('K');
 	cam >> K;
 
 	TT.goTo('N');
@@ -208,8 +214,16 @@ int Calibrate(VideoCapture& cam, TipTilt& TT){
 	cout << "Angles: " << alpha << "," << beta << ";" << corrAngle << endl;
 
 	Mat complete = (K > 150) + (N > 150) + (S > 150) + (E > 150) + (W > 150);
+
+	roi = boundingRect(complete);
+	cout << "ROI: " << roi << endl;
+
+	target.x = cK.x - roi.x;
+	target.y = cK.y - roi.y;
+
 	cvtColor(complete, complete, CV_GRAY2BGR);
 
+	rectangle(complete, roi, Scalar(0,128,0));
 	circle(complete, cK, 5, Scalar(0,0,0));
 	circle(complete, cN, 5, Scalar(0,128,0));
 	circle(complete, cS, 5, Scalar(0,0,128));
