@@ -57,33 +57,9 @@ include CMakeFiles/TipTilt.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/TipTilt.dir/flags.make
 
-CMakeFiles/TipTilt.dir/src/main.cpp.o: CMakeFiles/TipTilt.dir/flags.make
-CMakeFiles/TipTilt.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/TipTilt.dir/src/main.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/TipTilt.dir/src/main.cpp.o -c "/home/odroid/TipTilt Control/src/main.cpp"
-
-CMakeFiles/TipTilt.dir/src/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/TipTilt.dir/src/main.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/odroid/TipTilt Control/src/main.cpp" > CMakeFiles/TipTilt.dir/src/main.cpp.i
-
-CMakeFiles/TipTilt.dir/src/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TipTilt.dir/src/main.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/odroid/TipTilt Control/src/main.cpp" -o CMakeFiles/TipTilt.dir/src/main.cpp.s
-
-CMakeFiles/TipTilt.dir/src/main.cpp.o.requires:
-
-.PHONY : CMakeFiles/TipTilt.dir/src/main.cpp.o.requires
-
-CMakeFiles/TipTilt.dir/src/main.cpp.o.provides: CMakeFiles/TipTilt.dir/src/main.cpp.o.requires
-	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/main.cpp.o.provides.build
-.PHONY : CMakeFiles/TipTilt.dir/src/main.cpp.o.provides
-
-CMakeFiles/TipTilt.dir/src/main.cpp.o.provides.build: CMakeFiles/TipTilt.dir/src/main.cpp.o
-
-
 CMakeFiles/TipTilt.dir/src/CameraStreamHandling.cpp.o: CMakeFiles/TipTilt.dir/flags.make
 CMakeFiles/TipTilt.dir/src/CameraStreamHandling.cpp.o: ../src/CameraStreamHandling.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/TipTilt.dir/src/CameraStreamHandling.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/TipTilt.dir/src/CameraStreamHandling.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/TipTilt.dir/src/CameraStreamHandling.cpp.o -c "/home/odroid/TipTilt Control/src/CameraStreamHandling.cpp"
 
 CMakeFiles/TipTilt.dir/src/CameraStreamHandling.cpp.i: cmake_force
@@ -107,7 +83,7 @@ CMakeFiles/TipTilt.dir/src/CameraStreamHandling.cpp.o.provides.build: CMakeFiles
 
 CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o: CMakeFiles/TipTilt.dir/flags.make
 CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o: ../src/TipTilt.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o -c "/home/odroid/TipTilt Control/src/TipTilt.cpp"
 
 CMakeFiles/TipTilt.dir/src/TipTilt.cpp.i: cmake_force
@@ -129,18 +105,42 @@ CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o.provides: CMakeFiles/TipTilt.dir/src/Ti
 CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o.provides.build: CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o
 
 
+CMakeFiles/TipTilt.dir/src/main.cpp.o: CMakeFiles/TipTilt.dir/flags.make
+CMakeFiles/TipTilt.dir/src/main.cpp.o: ../src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/TipTilt.dir/src/main.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/TipTilt.dir/src/main.cpp.o -c "/home/odroid/TipTilt Control/src/main.cpp"
+
+CMakeFiles/TipTilt.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/TipTilt.dir/src/main.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/odroid/TipTilt Control/src/main.cpp" > CMakeFiles/TipTilt.dir/src/main.cpp.i
+
+CMakeFiles/TipTilt.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TipTilt.dir/src/main.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/odroid/TipTilt Control/src/main.cpp" -o CMakeFiles/TipTilt.dir/src/main.cpp.s
+
+CMakeFiles/TipTilt.dir/src/main.cpp.o.requires:
+
+.PHONY : CMakeFiles/TipTilt.dir/src/main.cpp.o.requires
+
+CMakeFiles/TipTilt.dir/src/main.cpp.o.provides: CMakeFiles/TipTilt.dir/src/main.cpp.o.requires
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/main.cpp.o.provides.build
+.PHONY : CMakeFiles/TipTilt.dir/src/main.cpp.o.provides
+
+CMakeFiles/TipTilt.dir/src/main.cpp.o.provides.build: CMakeFiles/TipTilt.dir/src/main.cpp.o
+
+
 # Object files for target TipTilt
 TipTilt_OBJECTS = \
-"CMakeFiles/TipTilt.dir/src/main.cpp.o" \
 "CMakeFiles/TipTilt.dir/src/CameraStreamHandling.cpp.o" \
-"CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o"
+"CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o" \
+"CMakeFiles/TipTilt.dir/src/main.cpp.o"
 
 # External object files for target TipTilt
 TipTilt_EXTERNAL_OBJECTS =
 
-TipTilt: CMakeFiles/TipTilt.dir/src/main.cpp.o
 TipTilt: CMakeFiles/TipTilt.dir/src/CameraStreamHandling.cpp.o
 TipTilt: CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o
+TipTilt: CMakeFiles/TipTilt.dir/src/main.cpp.o
 TipTilt: CMakeFiles/TipTilt.dir/build.make
 TipTilt: /usr/local/lib/libopencv_shape.so.3.2.0
 TipTilt: /usr/local/lib/libopencv_stitching.so.3.2.0
@@ -167,9 +167,9 @@ CMakeFiles/TipTilt.dir/build: TipTilt
 
 .PHONY : CMakeFiles/TipTilt.dir/build
 
-CMakeFiles/TipTilt.dir/requires: CMakeFiles/TipTilt.dir/src/main.cpp.o.requires
 CMakeFiles/TipTilt.dir/requires: CMakeFiles/TipTilt.dir/src/CameraStreamHandling.cpp.o.requires
 CMakeFiles/TipTilt.dir/requires: CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o.requires
+CMakeFiles/TipTilt.dir/requires: CMakeFiles/TipTilt.dir/src/main.cpp.o.requires
 
 .PHONY : CMakeFiles/TipTilt.dir/requires
 

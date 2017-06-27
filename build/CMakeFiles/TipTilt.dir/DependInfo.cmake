@@ -10,11 +10,19 @@ set(CMAKE_DEPENDS_CHECK_CXX
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
+# Preprocessor definitions for this target.
+set(CMAKE_TARGET_DEFINITIONS_CXX
+  "WXUSINGDLL"
+  "_FILE_OFFSET_BITS=64"
+  "__WXGTK__"
+  )
+
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "/usr/local/lib/wx/include/gtk2-unicode-3.0"
+  "/usr/local/include/wx-3.0"
   "/usr/local/include"
   "/usr/local/include/opencv"
-  "../include"
   )
 
 # Targets to which this target links.

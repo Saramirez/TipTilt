@@ -174,6 +174,18 @@ TipTilt_BINARY_DIR:STATIC=/home/odroid/TipTilt Control/build
 //Value Computed by CMake
 TipTilt_SOURCE_DIR:STATIC=/home/odroid/TipTilt Control
 
+//Path to a file.
+_filename:FILEPATH=/usr/local/include/wx-3.0/wx/version.h
+
+//Location of wxWidgets library configuration provider binary (wx-config).
+wxWidgets_CONFIG_EXECUTABLE:FILEPATH=/usr/local/bin/wx-config
+
+//Use debug build?
+wxWidgets_USE_DEBUG:BOOL=OFF
+
+//Location of wxWidgets resource file compiler binary (wxrc)
+wxWidgets_wxrc_EXECUTABLE:FILEPATH=/usr/local/bin/wxrc
+
 
 ########################
 # INTERNAL cache entries
@@ -306,4 +318,6 @@ CMAKE_UNAME:INTERNAL=/bin/uname
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding OpenCV
 FIND_PACKAGE_MESSAGE_DETAILS_OpenCV:INTERNAL=[/usr/local][v3.2.0()]
+//Details about finding wxWidgets
+FIND_PACKAGE_MESSAGE_DETAILS_wxWidgets:INTERNAL=[-L/usr/local/lib;-pthread;;;-lwx_gtk2u_core-3.0;-lwx_baseu-3.0][/usr/local/lib/wx/include/gtk2-unicode-3.0;/usr/local/include/wx-3.0][v3.0.3()]
 

@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/TipTilt.dir/src/main.cpp.o"
   "CMakeFiles/TipTilt.dir/src/CameraStreamHandling.cpp.o"
   "CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o"
+  "CMakeFiles/TipTilt.dir/src/main.cpp.o"
   "TipTilt.pdb"
   "TipTilt"
 )

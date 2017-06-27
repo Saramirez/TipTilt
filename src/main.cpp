@@ -3,6 +3,11 @@
 #include "../include/TipTilt.hpp"
 #include "../include/CameraStreamHandling.hpp"
 
+#include <wx/wxprec.h>
+#ifndef WX_PRECOMP
+    #include <wx/wx.h>
+#endif
+
 using namespace cv;
 using namespace std;
 
