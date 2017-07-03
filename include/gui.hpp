@@ -6,9 +6,16 @@
 
 class GUI : public wxFrame
 {
+	void BuildButtons(wxPanel*);
 public: 
     GUI(const wxString& title);
     void OnQuit(wxCommandEvent& event);
     wxMenuBar *menubar;
     wxMenu *file;
+};
+
+
+enum
+{
+    ID_OpenCam = 1
 };

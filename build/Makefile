@@ -123,6 +123,60 @@ TipTiltGUI/fast:
 	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/build
 .PHONY : TipTiltGUI/fast
 
+src/CameraStreamHandling.o: src/CameraStreamHandling.cpp.o
+
+.PHONY : src/CameraStreamHandling.o
+
+# target to build an object file
+src/CameraStreamHandling.cpp.o:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandling.cpp.o
+.PHONY : src/CameraStreamHandling.cpp.o
+
+src/CameraStreamHandling.i: src/CameraStreamHandling.cpp.i
+
+.PHONY : src/CameraStreamHandling.i
+
+# target to preprocess a source file
+src/CameraStreamHandling.cpp.i:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandling.cpp.i
+.PHONY : src/CameraStreamHandling.cpp.i
+
+src/CameraStreamHandling.s: src/CameraStreamHandling.cpp.s
+
+.PHONY : src/CameraStreamHandling.s
+
+# target to generate assembly for a file
+src/CameraStreamHandling.cpp.s:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandling.cpp.s
+.PHONY : src/CameraStreamHandling.cpp.s
+
+src/TipTilt.o: src/TipTilt.cpp.o
+
+.PHONY : src/TipTilt.o
+
+# target to build an object file
+src/TipTilt.cpp.o:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o
+.PHONY : src/TipTilt.cpp.o
+
+src/TipTilt.i: src/TipTilt.cpp.i
+
+.PHONY : src/TipTilt.i
+
+# target to preprocess a source file
+src/TipTilt.cpp.i:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.i
+.PHONY : src/TipTilt.cpp.i
+
+src/TipTilt.s: src/TipTilt.cpp.s
+
+.PHONY : src/TipTilt.s
+
+# target to generate assembly for a file
+src/TipTilt.cpp.s:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.s
+.PHONY : src/TipTilt.cpp.s
+
 src/gui.o: src/gui.cpp.o
 
 .PHONY : src/gui.o
@@ -186,6 +240,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... TipTiltGUI"
+	@echo "... src/CameraStreamHandling.o"
+	@echo "... src/CameraStreamHandling.i"
+	@echo "... src/CameraStreamHandling.s"
+	@echo "... src/TipTilt.o"
+	@echo "... src/TipTilt.i"
+	@echo "... src/TipTilt.s"
 	@echo "... src/gui.o"
 	@echo "... src/gui.i"
 	@echo "... src/gui.s"

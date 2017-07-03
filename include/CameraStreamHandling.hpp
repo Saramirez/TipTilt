@@ -12,10 +12,10 @@ using namespace std;
 int OpenCamera(VideoCapture&, const string);
 void SetTarget(int, int);
 int GetKeyFromKeyboard();
-void GetTargetFromMouse(int, int, int, int, void*);
+//void GetTargetFromMouse(int, int, int, int, void*);
 Point GetCentroid(Mat&);
 void CalculateErrors(Point, int&, int&);
 int CaptureAndProcess(VideoCapture&, TipTilt&);
-int Calibrate(VideoCapture&, TipTilt&);
+//int Calibrate(VideoCapture&, TipTilt&);
 
 #endif
