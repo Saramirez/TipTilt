@@ -123,33 +123,6 @@ TipTiltGUI/fast:
 	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/build
 .PHONY : TipTiltGUI/fast
 
-src/CameraStreamHandling.o: src/CameraStreamHandling.cpp.o
-
-.PHONY : src/CameraStreamHandling.o
-
-# target to build an object file
-src/CameraStreamHandling.cpp.o:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandling.cpp.o
-.PHONY : src/CameraStreamHandling.cpp.o
-
-src/CameraStreamHandling.i: src/CameraStreamHandling.cpp.i
-
-.PHONY : src/CameraStreamHandling.i
-
-# target to preprocess a source file
-src/CameraStreamHandling.cpp.i:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandling.cpp.i
-.PHONY : src/CameraStreamHandling.cpp.i
-
-src/CameraStreamHandling.s: src/CameraStreamHandling.cpp.s
-
-.PHONY : src/CameraStreamHandling.s
-
-# target to generate assembly for a file
-src/CameraStreamHandling.cpp.s:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandling.cpp.s
-.PHONY : src/CameraStreamHandling.cpp.s
-
 src/TipTilt.o: src/TipTilt.cpp.o
 
 .PHONY : src/TipTilt.o
@@ -231,6 +204,33 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/wxCameraStreamHandler.o: src/wxCameraStreamHandler.cpp.o
+
+.PHONY : src/wxCameraStreamHandler.o
+
+# target to build an object file
+src/wxCameraStreamHandler.cpp.o:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o
+.PHONY : src/wxCameraStreamHandler.cpp.o
+
+src/wxCameraStreamHandler.i: src/wxCameraStreamHandler.cpp.i
+
+.PHONY : src/wxCameraStreamHandler.i
+
+# target to preprocess a source file
+src/wxCameraStreamHandler.cpp.i:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.i
+.PHONY : src/wxCameraStreamHandler.cpp.i
+
+src/wxCameraStreamHandler.s: src/wxCameraStreamHandler.cpp.s
+
+.PHONY : src/wxCameraStreamHandler.s
+
+# target to generate assembly for a file
+src/wxCameraStreamHandler.cpp.s:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.s
+.PHONY : src/wxCameraStreamHandler.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -240,9 +240,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... TipTiltGUI"
-	@echo "... src/CameraStreamHandling.o"
-	@echo "... src/CameraStreamHandling.i"
-	@echo "... src/CameraStreamHandling.s"
 	@echo "... src/TipTilt.o"
 	@echo "... src/TipTilt.i"
 	@echo "... src/TipTilt.s"
@@ -252,6 +249,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/wxCameraStreamHandler.o"
+	@echo "... src/wxCameraStreamHandler.i"
+	@echo "... src/wxCameraStreamHandler.s"
 .PHONY : help
 
 

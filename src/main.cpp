@@ -1,14 +1,13 @@
 #include "../include/main.hpp"
 #include "../include/gui.hpp"
-#include "../include/TipTilt.hpp"
-#include "../include/CameraStreamHandling.hpp"
 
-IMPLEMENT_APP(MyApp);
+IMPLEMENT_APP(TipTiltApp);
 
-bool MyApp::OnInit()
+bool TipTiltApp::OnInit()
 {
     GUI *gui = new GUI(wxT("TipTilt Control"));
     gui->Show(true);
+    gui->createWxCSH();
 
     return true;
 }

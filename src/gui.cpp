@@ -1,34 +1,18 @@
 #include "../include/gui.hpp"
 
-
 GUI::GUI(const wxString& title)
-    : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(640, 480))
-{
-    //SetIcon(wxIcon(wxT("web.xpm")));
+    : wxFrame(NULL, wxID_ANY, title) {
 
-    menubar = new wxMenuBar;
-    file = new wxMenu;
-    file->Append(wxID_EXIT, wxT("&Quit"));
-    menubar->Append(file, wxT("&File"));
-    SetMenuBar(menubar);
-    Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(GUI::OnQuit));
-
-    wxPanel *panel = new wxPanel(this, wxID_ANY);
-
-    BuildButtons(panel);
-   
     Centre();
 }
 
-void GUI::BuildButtons(wxPanel* panel){
-    wxButton *button = new wxButton(panel, wxID_EXIT, wxT("Quit"), wxPoint(20, 20));
-    Connect(wxID_EXIT, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(GUI::OnQuit));
-    button->SetFocus();
-    
-    wxButton *openCameraButton = new wxButton(panel, ID_OpenCam, wxT("Open Camera"), wxPoint(20, 100));
-}
+void GUI::createWxCSH(){
+    wxCameraStreamHandler* csh = new wxCameraStreamHandler(
+        this, 
+        wxPoint(-1,-1),
+        wxSize(640, 480));
 
-void GUI::OnQuit(wxCommandEvent & WXUNUSED(event))
-{
-    Close(true);
+    csh->openCamera( "v4l2src ! video/x-raw,format=GRAY8, width=640, height=480 ! appsink");
+    csh->Show(true);
+    csh->startCapture();
 }

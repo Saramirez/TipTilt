@@ -3,7 +3,7 @@
     #include <wx/wx.h>
 #endif
 
-class MyApp : public wxApp
+class TipTiltApp : public wxApp
 {
   public:
     virtual bool OnInit();

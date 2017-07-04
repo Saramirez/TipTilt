@@ -26,7 +26,7 @@ void SetTarget(int tx, int ty){
     target.x = tx;
     target.y = ty;
 }
-
+/*
 int GetKeyFromKeyboard(){
 	int key = waitKey(50);
 	//cout << "Key: " << key << endl;
@@ -76,7 +76,7 @@ void GetTargetFromMouse(int event, int x, int y, int, void*){
 	cout << "Targets: " << target.x << "," << target.y << endl;
 
 	setMouseCallback(winName, NULL, NULL);
-}
+}*/
 
 Point GetCentroid(Mat& src){
 	Moments m = moments((src>=150), true);
@@ -98,7 +98,7 @@ void CalculateErrors(Point centroid, int& xErr, int& yErr){
 
 int CaptureAndProcess(VideoCapture& cam, TipTilt& TT){
 
-	namedWindow(winName,CV_WINDOW_AUTOSIZE); 
+	//namedWindow(winName,CV_WINDOW_AUTOSIZE); 
 
 	Mat frame;
 
@@ -131,13 +131,13 @@ int CaptureAndProcess(VideoCapture& cam, TipTilt& TT){
 		cvtColor(frame, frame, CV_GRAY2BGR);
 		circle(frame, Point(target.x,target.y), 3, Scalar(128,128,0));
 
-		imshow(winName, frame);
+		//imshow(winName, frame);
 		counter++;
 
-		if (GetKeyFromKeyboard() == -1){ 
+		/*if (GetKeyFromKeyboard() == -1){ 
 			cout << "esc key is pressed by user" << endl;
 			break; 
-		}
+		}*/
 	}
 
 	cout << "CaptureAndProcess returned" << endl;
@@ -145,7 +145,7 @@ int CaptureAndProcess(VideoCapture& cam, TipTilt& TT){
 	//TT.stop();
     return 0;
 }
-
+/*
 int Calibrate(VideoCapture& cam, TipTilt& TT){
 	if (!cam.isOpened()){
         cout << "Cam is not opened. Can't calibrate." << endl;
@@ -237,4 +237,4 @@ int Calibrate(VideoCapture& cam, TipTilt& TT){
 	destroyWindow("Calibration");
 
     return 0;
-}
+}*/
