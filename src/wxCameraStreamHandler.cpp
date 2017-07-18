@@ -1,11 +1,14 @@
 #include "../include/wxCameraStreamHandler.hpp"
+#include "../include/CameraThread.hpp"
+
 
 BEGIN_EVENT_TABLE(wxCameraStreamHandler, wxWindow)
 	EVT_PAINT(wxCameraStreamHandler::OnPaint)
 	EVT_CHAR(wxCameraStreamHandler::OnKey)
+	EVT_COMMAND(wxID_ANY, wxEVT_CAM_THREAD, wxCameraStreamHandler::OnFrameRead)
 END_EVENT_TABLE()
 
-wxDEFINE_EVENT(FRAME_READ_EVENT, wxCommandEvent);
+//wxDEFINE_EVENT(FRAME_READ_EVENT, wxCommandEvent);
 
 wxCameraStreamHandler::wxCameraStreamHandler(
 	wxWindow* _parent,
@@ -14,7 +17,7 @@ wxCameraStreamHandler::wxCameraStreamHandler(
 	: wxWindow(_parent, -1, _position, _size, wxSIMPLE_BORDER){
 
  	parent = _parent;
- 	Bind(FRAME_READ_EVENT, &wxCameraStreamHandler::OnFrameRead, this, -1);
+ 	//Bind(FRAME_READ_EVENT, &wxCameraStreamHandler::OnFrameRead, this, -1);
 }
 
 void wxCameraStreamHandler::setTarget(int tx, int ty){
@@ -46,6 +49,8 @@ void wxCameraStreamHandler::startCapture(){
 		return;
 	}
 	capturing = true;
+
+	CameraThread *thread = new CameraThread(this, )
 	//captureThread = thread(&wxCameraStreamHandler::captureAndProcess, this);
 }
 
@@ -57,13 +62,13 @@ void wxCameraStreamHandler::stopCapture(){
 	capturing = false;
 	captureThread.join();
 }
-
+/*
 void wxCameraStreamHandler::SendEvent(){
 	wxCommandEvent event(FRAME_READ_EVENT, GetId());
 	event.SetEventObject(this);
 	// Do send it
 	ProcessWindowEvent(event);
-}
+}*/
 
 void wxCameraStreamHandler::captureAndProcess(){
 
@@ -93,7 +98,6 @@ void wxCameraStreamHandler::captureAndProcess(){
 		circle(cvFrame, Point(target.x,target.y), 3, Scalar(0,128,128));
 
 		//SendEvent();
-		//displayFrame();
 
 		counter++;
 	}
@@ -113,9 +117,7 @@ bool wxCameraStreamHandler::openCamera(const string gstreamPipeline){
 	cvFrame = cvFrame(roi);
 	cvtColor(cvFrame, cvFrame, CV_GRAY2RGB);
 
-	wxFrame = wxImage(cvFrame.cols, cvFrame.rows, cvFrame.data, TRUE);
-
-	SendEvent();
+	//SendEvent();
 
 	return true;
 }
