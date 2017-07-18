@@ -5,6 +5,8 @@ BEGIN_EVENT_TABLE(wxCameraStreamHandler, wxWindow)
 	EVT_CHAR(wxCameraStreamHandler::OnKey)
 END_EVENT_TABLE()
 
+wxDEFINE_EVENT(FRAME_READ_EVENT, wxCommandEvent);
+
 wxCameraStreamHandler::wxCameraStreamHandler(
 	wxWindow* _parent,
 	const wxPoint& _position, 
@@ -12,6 +14,7 @@ wxCameraStreamHandler::wxCameraStreamHandler(
 	: wxWindow(_parent, -1, _position, _size, wxSIMPLE_BORDER){
 
  	parent = _parent;
+ 	Bind(FRAME_READ_EVENT, &wxCameraStreamHandler::OnFrameRead, this, -1);
 }
 
 void wxCameraStreamHandler::setTarget(int tx, int ty){
@@ -52,7 +55,14 @@ void wxCameraStreamHandler::stopCapture(){
 		return;
 	}
 	capturing = false;
-	//captureThread.join();
+	captureThread.join();
+}
+
+void wxCameraStreamHandler::SendEvent(){
+	wxCommandEvent event(FRAME_READ_EVENT, GetId());
+	event.SetEventObject(this);
+	// Do send it
+	ProcessWindowEvent(event);
 }
 
 void wxCameraStreamHandler::captureAndProcess(){
@@ -82,7 +92,8 @@ void wxCameraStreamHandler::captureAndProcess(){
 		cvtColor(cvFrame, cvFrame, CV_GRAY2RGB);
 		circle(cvFrame, Point(target.x,target.y), 3, Scalar(0,128,128));
 
-		displayFrame();
+		//SendEvent();
+		//displayFrame();
 
 		counter++;
 	}
@@ -104,12 +115,13 @@ bool wxCameraStreamHandler::openCamera(const string gstreamPipeline){
 
 	wxFrame = wxImage(cvFrame.cols, cvFrame.rows, cvFrame.data, TRUE);
 
-	displayFrame();
+	SendEvent();
 
 	return true;
 }
 
-void wxCameraStreamHandler::displayFrame(){
+void wxCameraStreamHandler::OnFrameRead(wxCommandEvent& event){
+	wxFrame = wxImage(cvFrame.cols, cvFrame.rows, cvFrame.data, TRUE);
 	wxBmp = wxBitmap(wxFrame);
 	Refresh(FALSE);
 	Update();

@@ -52,10 +52,11 @@ class wxCameraStreamHandler : public wxWindow {
 		void calculateErrors(Point, int&, int&);
 		void captureAndProcess();
 	
-		void displayFrame();
-		void OnPaint(wxPaintEvent& e);
-		void OnKey(wxKeyEvent& e);
+		void OnFrameRead(wxCommandEvent&);
+		void OnPaint(wxPaintEvent&);
+		void OnKey(wxKeyEvent&);
 
+		void SendEvent();
 	protected:
 		DECLARE_EVENT_TABLE();
 };
