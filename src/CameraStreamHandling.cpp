@@ -1,4 +1,8 @@
 #include "../include/CameraStreamHandling.hpp"
+#include <chrono>
+
+using ms = chrono::milliseconds;
+using get_time = chrono::steady_clock;
 
 Point target(64, 64);
 double xPixToSteps = 0.42;
@@ -10,7 +14,12 @@ double corrAngle = 0.023;
 double cosCorrAngle = 1;
 double sinCorrAngle = 0.023;
 
-Rect roi(265, 168, 128, 128);
+int frameCount = 0;
+double avgRateOfChange = 0.0;
+double avgIllum = 0.0;
+const int exposure = 1000; //ms
+
+Rect roi(266, 192, 128, 128);
 
 int OpenCamera(VideoCapture& cam, const string gstreamPipeline){
 	cam.open(gstreamPipeline);
@@ -59,7 +68,8 @@ int GetKeyFromKeyboard(){
 		case 10: // Intro
 			if(!targetSet){
 				targetSet = true;
-				cout << "Target set" << endl;
+				cout << "\n\n\nTarget set. Control loop started.\n\n\n" << endl;
+				frameCount = 0;
 			}
 		break;
 	}
@@ -79,7 +89,7 @@ void GetTargetFromMouse(int event, int x, int y, int, void*){
 }
 
 Point GetCentroid(Mat& src){
-	Moments m = moments((src>=150), true);
+	Moments m = moments((src>=100), true);
 	Point res(m.m10/m.m00, m.m01/m.m00);
 	return res;
 }
@@ -99,6 +109,8 @@ void CalculateErrors(Point centroid, int& xErr, int& yErr){
 int CaptureAndProcess(VideoCapture& cam, TipTilt& TT){
 
 	namedWindow(winName,CV_WINDOW_AUTOSIZE); 
+	namedWindow("Pinhole",CV_WINDOW_AUTOSIZE);
+	moveWindow("Pinhole", 200 , 50);
 
 	Mat frame;
 
@@ -107,32 +119,88 @@ int CaptureAndProcess(VideoCapture& cam, TipTilt& TT){
 		return -1;
 	}
 	cout << "Starting capture process" << endl;
-	int counter = 0;
+	frameCount = 0;
 
 	int xErr = 0;
 	int yErr = 0;
+	int _xErr = 0;
+	int _yErr = 0;
+	double dr = 0.0;
 
+	auto _t = get_time::now();
+	auto t = get_time::now();
+	auto dt = t - _t;
 	//setMouseCallback(winName, GetTargetFromMouse, NULL);
 
-    while (1){
+	while (1){
 		cam >> frame;
+		//Simulate framerate of camera, waiting until the exposure time has passed.
+/*
+		t = get_time::now();
+		while(chrono::duration_cast<ms>(dt).count() < exposure){
+			t = get_time::now();
+			dt = t - _t;
+		}
+*/
+		//Apply region of interest
 		frame = frame(roi);
-		if(targetSet){
-			Point centroid = GetCentroid(frame);
+		frameCount++;
 
-	        //cout << "Centroid: " << centroid.x << "," << centroid.y << endl;	
+		//Separate frame in two, after pinhole and before pinhole.
+		Mat mask(Mat::zeros(frame.rows, frame.cols, CV_8UC1));
+		circle(mask, target, 12.5, Scalar(256,256,256), -1);
+		//pinhole is the image seen after the pinhole
+		Mat pinhole(Mat::zeros(frame.rows, frame.cols, CV_8UC1));
+		bitwise_and(frame, mask, pinhole);
 
-	        CalculateErrors(centroid, xErr, yErr);
+		//get the mean illumination into the pinhole
+		auto illum(mean(frame, mask));
+		//get the average illumination across the elapsed time.
+		avgIllum = ((avgIllum * (double)(frameCount - 1)) + ((double)illum[0] / 256)) / (double)frameCount;
+		//cout << "Illumination: " << ((double)illum[0] / 256) << ". Avg: " << avgIllum << endl;	
+
+		//draw the pinhole into the frame
+		circle(frame, target, 12.5, Scalar(0,0,0), -1);
+
+		Point centroid = GetCentroid(frame);
+
+		//cout << "Centroid: " << centroid.x << "," << centroid.y << endl;	
+
+		CalculateErrors(centroid, xErr, yErr);
+/*
+		dr = sqrt(pow((xErr - _xErr),2) + pow((yErr - _yErr),2));
+
+		_xErr = xErr;
+		_yErr = yErr;	
+
+		double drdt = 1000 * dr / ((double)chrono::duration_cast<ms>(dt).count());
+		if(centroid.x == 0 && centroid.y == 0)
+			drdt = avgRateOfChange;
+
+		//cout << "dr: " << dr << ". dt: " << chrono::duration_cast<ms>(dt).count() << ". drdt: " <<  drdt << endl;
+		avgRateOfChange = ((avgRateOfChange * (double)(frameCount - 1)) + drdt) / (double)frameCount;
+		if(frameCount == 1){
+			avgRateOfChange = 0.0;
+		}*/
+
+		//cout << "Avg Rate is " << avgRateOfChange << " [px/s]" << endl;	
+
+		//simulate exposure by only updating the errors to the TipTilt device with period = exposure
+		t = get_time::now(); 
+		dt = t - _t;
+		if(targetSet && 
+		  (centroid.x != 0 && centroid.y != 0) &&
+		  (chrono::duration_cast<ms>(dt).count() >= exposure)){			
 	        TT.setErrors(xErr, yErr);
-
-			circle(frame, centroid, 5, Scalar(128,0,0));
+			_t = t;
 		}
 
+		circle(frame, centroid, 5, Scalar(128,0,0));
 		cvtColor(frame, frame, CV_GRAY2BGR);
 		circle(frame, Point(target.x,target.y), 3, Scalar(128,128,0));
 
 		imshow(winName, frame);
-		counter++;
+		imshow("Pinhole", pinhole);
 
 		if (GetKeyFromKeyboard() == -1){ 
 			cout << "esc key is pressed by user" << endl;
@@ -141,7 +209,7 @@ int CaptureAndProcess(VideoCapture& cam, TipTilt& TT){
 	}
 
 	cout << "CaptureAndProcess returned" << endl;
-    cout << "Updated Errors " << counter << " times." << endl;
+    cout << "Updated Errors " << frameCount << " times." << endl;
 	//TT.stop();
     return 0;
 }

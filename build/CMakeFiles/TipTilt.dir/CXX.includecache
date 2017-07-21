@@ -33,6 +33,8 @@ thread
 /home/odroid/TipTilt Control/src/CameraStreamHandling.cpp
 ../include/CameraStreamHandling.hpp
 /home/odroid/TipTilt Control/include/CameraStreamHandling.hpp
+chrono
+-
 
 /home/odroid/TipTilt Control/src/TipTilt.cpp
 ../include/TipTilt.hpp

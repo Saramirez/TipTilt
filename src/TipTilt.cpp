@@ -55,7 +55,7 @@ int TipTilt::getSteps(int south){
 
 void TipTilt::setErrors(int x, int y){
 	eError = x;	
-	sError = y;
+	sError = -y;
 }
 
 int TipTilt::goTo(char dir){
@@ -111,14 +111,15 @@ void TipTilt::updatePosition(){
 		//cout << "Device is not opened. Can't update position." << endl;
 		return;
 	}
+	//cout << "eError: " << eError << ". sError" << sError << endl;
 	if(eError != 0){
-		if(eError > 0){
-		writeBuf = (char *)"GT00001";
-		write(fd, writeBuf, 7);
-		eError--;
-		eSteps++;
+		if(eError > 0){// && eSteps < 50){
+			writeBuf = (char *)"GT00001";
+			write(fd, writeBuf, 7);
+			eError--;
+			eSteps++;
 		}
-		else if(eError < 0){
+		else if(eError < 0){// && eSteps > -50){
 			writeBuf = (char *)"GW00001";
 			write(fd, writeBuf, 7);		
 			eError++;
@@ -129,13 +130,13 @@ void TipTilt::updatePosition(){
 		//cout << "Out: " << out << endl;
 	}
 	if(sError != 0){
-		if(sError > 0){
+		if(sError > 0){// && sSteps < 50){
 			writeBuf = (char *)"GN00001";
 			write(fd, writeBuf, 7);
 			sError--;
 			sSteps++;
 		}
-		else if(sError < 0){
+		else if(sError < 0){// && sSteps > -50){
 			writeBuf = (char *)"GS00001";
 			write(fd, writeBuf, 7);		
 			sError++;

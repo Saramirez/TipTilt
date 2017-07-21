@@ -18,7 +18,7 @@ int main( int argc, char** argv )
 {	
 	OpenCamera(cam, "v4l2src ! video/x-raw,format=GRAY8, width=640, height=480 ! appsink");
 
-    Calibrate(cam, TT);
+    //Calibrate(cam, TT);
 
     thread capture(CaptureAndProcess, ref(cam), ref(TT)); 
 
