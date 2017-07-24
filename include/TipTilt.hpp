@@ -15,7 +15,7 @@ using namespace std;
 class TipTilt {
 		int sSteps, eSteps;
 		int * sError, eError;
-		mutex mtx;
+		mutex * mtx;
 		char out;
 		atomic<bool> running;
 		int fd;
