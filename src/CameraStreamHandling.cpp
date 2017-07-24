@@ -106,7 +106,7 @@ void CalculateErrors(Point centroid, int& xErr, int& yErr){
     //cout << "Errors: xErr, yErr = " << *xErr << "," << *yErr << endl;
 }
 
-int CaptureAndProcess(VideoCapture& cam, TipTilt& TT){
+int CaptureAndProcess(VideoCapture& cam, int * ex, int * ey, mutex * mtx){
 
 	namedWindow(winName,CV_WINDOW_AUTOSIZE); 
 	namedWindow("Pinhole",CV_WINDOW_AUTOSIZE);
@@ -190,8 +190,11 @@ int CaptureAndProcess(VideoCapture& cam, TipTilt& TT){
 		dt = t - _t;
 		if(targetSet && 
 		  (centroid.x != 0 && centroid.y != 0) &&
-		  (chrono::duration_cast<ms>(dt).count() >= exposure)){			
-	        TT.setErrors(xErr, yErr);
+		  (chrono::duration_cast<ms>(dt).count() >= exposure)){
+			mtx->lock();
+			*ex = xErr;
+			*ey = yErr;
+			mtx->unlock();
 			_t = t;
 		}
 

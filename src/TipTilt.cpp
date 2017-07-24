@@ -1,12 +1,14 @@
 #include "../include/TipTilt.hpp"
-#include <chrono>
 
 using ms = chrono::milliseconds;
 using get_time = chrono::steady_clock;
 
-TipTilt::TipTilt(const char* _device) { 
+TipTilt::TipTilt(const char* _device, int* _sError, int* _eError, mutex * _mtx) { 
 	//writeBuf = (char *) malloc(8);
 	device = _device;
+	eError = _eError;
+	sError = _sError;
+	mtx = _mtx;
 	openComm();
 }
 
@@ -54,8 +56,8 @@ int TipTilt::getSteps(int south){
 }
 
 void TipTilt::setErrors(int x, int y){
-	eError = x;	
-	sError = -y;
+	*eError = x;	
+	*sError = -y;
 }
 
 int TipTilt::goTo(char dir){
@@ -111,41 +113,44 @@ void TipTilt::updatePosition(){
 		//cout << "Device is not opened. Can't update position." << endl;
 		return;
 	}
-	//cout << "eError: " << eError << ". sError" << sError << endl;
-	if(eError != 0){
-		if(eError > 0){// && eSteps < 50){
+	//cout << "eError: " << *eError << ". sError" << *sError << endl;
+	mtx->lock();
+	if(*eError != 0){
+		if(*eError > 0){// && eSteps < 50){
 			writeBuf = (char *)"GT00001";
 			write(fd, writeBuf, 7);
-			eError--;
+			(*eError)--;
 			eSteps++;
 		}
-		else if(eError < 0){// && eSteps > -50){
+		else if(*eError < 0){// && eSteps > -50){
 			writeBuf = (char *)"GW00001";
 			write(fd, writeBuf, 7);		
-			eError++;
+			(*eError)++;
 			eSteps--;
 		}
 		
 		//read(fd, &out, 1);
 		//cout << "Out: " << out << endl;
 	}
-	if(sError != 0){
-		if(sError > 0){// && sSteps < 50){
+	if(*sError != 0){
+		if(*sError > 0){// && sSteps < 50){
 			writeBuf = (char *)"GN00001";
 			write(fd, writeBuf, 7);
-			sError--;
+			(*sError)--;
 			sSteps++;
 		}
-		else if(sError < 0){// && sSteps > -50){
+		else if(*sError < 0){// && sSteps > -50){
 			writeBuf = (char *)"GS00001";
 			write(fd, writeBuf, 7);		
-			sError++;
+			(*sError)++;
 			sSteps--;
 		}
 
 		//read(fd, &out, 1);
 		//cout << "Out: " << out << endl;
 	}
+	mtx->unlock();
+	this_thread::sleep_for(chrono::microseconds(1));
 }
 
 void TipTilt::start(){

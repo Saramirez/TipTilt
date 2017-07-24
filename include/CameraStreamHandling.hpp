@@ -5,6 +5,7 @@
 #include <iostream>
 #include "../include/TipTilt.hpp"
 #include <math.h>
+#include <mutex>
 
 using namespace cv;
 using namespace std;
@@ -15,7 +16,7 @@ int GetKeyFromKeyboard();
 void GetTargetFromMouse(int, int, int, int, void*);
 Point GetCentroid(Mat&);
 void CalculateErrors(Point, int&, int&);
-int CaptureAndProcess(VideoCapture&, TipTilt&);
+int CaptureAndProcess(VideoCapture&, int *, int *, mutex *);
 int Calibrate(VideoCapture&, TipTilt&);
 
 #endif

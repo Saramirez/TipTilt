@@ -7,11 +7,15 @@
 #include <iostream>
 #include <atomic>
 #include <thread>
+#include <mutex>
+#include <chrono>
 
 using namespace std;
 
 class TipTilt {
-		int sSteps, eSteps, sError, eError;
+		int sSteps, eSteps;
+		int * sError, eError;
+		mutex mtx;
 		char out;
 		atomic<bool> running;
 		int fd;
@@ -32,7 +36,7 @@ class TipTilt {
 		void start();
 		void stop();
 		void run();
-		TipTilt(const char *); 	
+		TipTilt(const char *, int *, int *, mutex *); 	
 };
 
 #endif
