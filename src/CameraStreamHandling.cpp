@@ -194,7 +194,9 @@ int CaptureAndProcess(VideoCapture& cam, int * ex, int * ey, mutex * mtx){
 			mtx->lock();
 			*ex = xErr;
 			*ey = yErr;
+			cout << "Updated errors - ex = " << *ex << ", ey = " << *ey << endl;
 			mtx->unlock();
+			cout << "Time between updates = " << chrono::duration_cast<ms>(dt).count() << endl;
 			_t = t;
 		}
 
