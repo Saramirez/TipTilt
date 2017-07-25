@@ -1,0 +1,52 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/odroid/TipTilt Control/JustTT/TipTilt.cpp
+../include/TipTilt.hpp
+/home/odroid/TipTilt Control/include/TipTilt.hpp
+
+/home/odroid/TipTilt Control/JustTT/TipTilt.hpp
+fcntl.h
+-
+termios.h
+-
+unistd.h
+-
+iostream
+-
+atomic
+-
+thread
+-
+mutex
+-
+chrono
+-
+
+/home/odroid/TipTilt Control/JustTT/main.cpp
+TipTilt.hpp
+/home/odroid/TipTilt Control/JustTT/TipTilt.hpp
+
+/home/odroid/TipTilt Control/include/TipTilt.hpp
+fcntl.h
+-
+termios.h
+-
+unistd.h
+-
+iostream
+-
+atomic
+-
+thread
+-
+mutex
+-
+chrono
+-
+

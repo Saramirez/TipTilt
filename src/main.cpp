@@ -12,10 +12,10 @@ using namespace cv;
 using namespace std;
 
 VideoCapture cam;
-int ex = 0;
-int ey = 0;
+int eX = 0;
+int eY = 0;
 mutex mtx;
-TipTilt TT("/dev/ttyUSB0", &ex, &ey);
+TipTilt TT("/dev/ttyUSB0", &eX, &eY, &mtx);
 
 int main( int argc, char** argv )
 {	
@@ -23,7 +23,7 @@ int main( int argc, char** argv )
 
     //Calibrate(cam, TT);
 
-    thread capture(CaptureAndProcess, ref(cam), &ex, &ey, &mtx); 
+    thread capture(CaptureAndProcess, ref(cam), &eX, &eY, &mtx); 
 
     TT.start();
     

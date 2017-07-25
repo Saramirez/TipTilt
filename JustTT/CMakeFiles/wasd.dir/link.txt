@@ -1,0 +1,1 @@
+/usr/bin/c++   -g   CMakeFiles/wasd.dir/TipTilt.cpp.o CMakeFiles/wasd.dir/main.cpp.o  -o wasd -rdynamic -lpthread 

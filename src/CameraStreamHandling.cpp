@@ -4,22 +4,44 @@
 using ms = chrono::milliseconds;
 using get_time = chrono::steady_clock;
 
-Point target(64, 64);
-double xPixToSteps = 0.42;
-double yPixToSteps = 0.43;
+Point target(40, 40);
+double xPixToSteps = 2.38;
+double yPixToSteps = 2.33;
+const double Kp = 1;
 const string winName = "Star";
 bool targetSet = false;
 
-double corrAngle = 0.023;
+double corrAngle = 0;
 double cosCorrAngle = 1;
-double sinCorrAngle = 0.023;
+double sinCorrAngle = 0;
 
 int frameCount = 0;
 double avgRateOfChange = 0.0;
 double avgIllum = 0.0;
-const int exposure = 1000; //ms
+const int exposure = 2000; //ms
+/*
+const double ksq = 0.03;
+const double k = 0.72;
+const double n = 8.54;
 
-Rect roi(266, 192, 128, 128);
+const double ksq2 = -0.02;
+const double k2 = -0.49;
+const double n2 = 0.03;
+*/
+
+const double kl1 = 0.36;
+
+const double kl2 = 0.5;
+const double n2 = 0.35;
+
+const double kl3 = 1.1;
+const double n3 = - 16;
+
+const double kl4 = 1.47;
+const double n4 = -27.73;
+
+
+Rect roi(300, 195, 80, 80);
 
 int OpenCamera(VideoCapture& cam, const string gstreamPipeline){
 	cam.open(gstreamPipeline);
@@ -46,22 +68,22 @@ int GetKeyFromKeyboard(){
 			return -1;
 		break;
 		case 119: // w
-			target.y-=5;
+			target.y-=1;
 			if(target.y < 0)
 				target.y = 0;
 		break;
 		case 115: // s
-			target.y+=5;
+			target.y+=1;
 			if(target.y > 480)
 				target.y = 480;
 		break;
 		case 100: // d
-			target.x+=5;
+			target.x+=1;
 			if(target.x > 640)
 				target.x = 640;
 		break;
 		case 97: // a
-			target.x-=5;
+			target.x-=1;
 			if(target.x < 0)
 				target.x = 0;
 		break;
@@ -83,7 +105,7 @@ void GetTargetFromMouse(int event, int x, int y, int, void*){
 	target.x = x;
 	target.y = y;
 	targetSet = true;
-	cout << "Targets: " << target.x << "," << target.y << endl;
+	cout << "Target: " << target.x << "," << target.y << endl;
 
 	setMouseCallback(winName, NULL, NULL);
 }
@@ -100,13 +122,56 @@ void CalculateErrors(Point centroid, int& xErr, int& yErr){
 	
 	//cout << "Errors: dx, dy = " << dx << "," << dy << endl;
 	
-    xErr = dx * cosCorrAngle + dy * sinCorrAngle;
-    yErr = -dx * sinCorrAngle + dy * cosCorrAngle;
+    /*xErr = Kp * (dx * cosCorrAngle + dy * sinCorrAngle);
+    yErr = Kp * (-dx * sinCorrAngle + dy * cosCorrAngle);*/
 
-    //cout << "Errors: xErr, yErr = " << *xErr << "," << *yErr << endl;
+    xErr = dx;
+    yErr = dy;
+
+	double dxSgn = (dx >= 0) ? 1.0: -1.0;
+	double dySgn = (dy >= 0) ? 1.0: -1.0;
+
+	if(abs(dx) <= 10)
+		xErr = kl1 * dx;
+	else if(abs(dx) <= 20)
+		xErr = kl2 * dx + dxSgn * n2;
+	else if(abs(dx) <= 30)
+		xErr = kl3 * dx + dxSgn * n3;
+	else if(abs(dx) <= 40)
+		xErr = kl4 * dx + dxSgn * n4;
+
+	if(abs(dy) <= 10)
+		yErr = kl1 * dy;
+	else if(abs(dy) <= 20)
+		yErr = kl2 * dy + dySgn * n2;
+	else if(abs(dy) <= 30)
+		yErr = kl3 * dy + dySgn * n3;
+	else if(abs(dy) <= 40)
+		yErr = kl4 * dy + dySgn * n4;
+
+	/*if(abs(dx) < 50){
+		if(abs(dx) <= 20){
+			xErr = kl * dx;
+			//xErr = dxSgn * ksq2 * pow(dx, 2) - k2 * dx + dxSgn * n2;
+		}
+		else{
+			xErr = dxSgn * ksq * pow(dx, 2) - k * dx + dxSgn * n;
+		}
+	} 
+	if(abs(dy) < 50){
+		if(abs(dy) <= 20){
+			yErr = kl * dy;
+			//yErr = dySgn * ksq2 * pow(dy, 2) - k2 * dy + dySgn * n2;
+		}
+		else{
+			yErr = dySgn * ksq * pow(dy, 2) - k * dy + dySgn * n;
+		}
+	}*/
+    //cout << "Errors: dx, dy = " << dx << "," << dy << endl;	 
+    //cout << "Errors: xErr, yErr = " << xErr << "," << yErr << endl;
 }
 
-int CaptureAndProcess(VideoCapture& cam, int * ex, int * ey, mutex * mtx){
+int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx){
 
 	namedWindow(winName,CV_WINDOW_AUTOSIZE); 
 	namedWindow("Pinhole",CV_WINDOW_AUTOSIZE);
@@ -120,6 +185,7 @@ int CaptureAndProcess(VideoCapture& cam, int * ex, int * ey, mutex * mtx){
 	}
 	cout << "Starting capture process" << endl;
 	frameCount = 0;
+	int processedFrameCount = 0;
 
 	int xErr = 0;
 	int yErr = 0;
@@ -135,13 +201,13 @@ int CaptureAndProcess(VideoCapture& cam, int * ex, int * ey, mutex * mtx){
 	while (1){
 		cam >> frame;
 		//Simulate framerate of camera, waiting until the exposure time has passed.
-/*
+	/*
 		t = get_time::now();
 		while(chrono::duration_cast<ms>(dt).count() < exposure){
 			t = get_time::now();
 			dt = t - _t;
 		}
-*/
+	*/
 		//Apply region of interest
 		frame = frame(roi);
 		frameCount++;
@@ -163,12 +229,13 @@ int CaptureAndProcess(VideoCapture& cam, int * ex, int * ey, mutex * mtx){
 		circle(frame, target, 12.5, Scalar(0,0,0), -1);
 
 		Point centroid = GetCentroid(frame);
-
+		
+		//cout << "Target: " << target.x << "," << target.y << endl;
 		//cout << "Centroid: " << centroid.x << "," << centroid.y << endl;	
 
 		CalculateErrors(centroid, xErr, yErr);
-/*
-		dr = sqrt(pow((xErr - _xErr),2) + pow((yErr - _yErr),2));
+
+		/*dr = sqrt(pow((xErr - _xErr),2) + pow((yErr - _yErr),2));
 
 		_xErr = xErr;
 		_yErr = yErr;	
@@ -191,12 +258,16 @@ int CaptureAndProcess(VideoCapture& cam, int * ex, int * ey, mutex * mtx){
 		if(targetSet && 
 		  (centroid.x != 0 && centroid.y != 0) &&
 		  (chrono::duration_cast<ms>(dt).count() >= exposure)){
+			//cout << "Target: " << target.x << "," << target.y << endl;
+			//cout << "Centroid: " << centroid.x << "," << centroid.y << endl;
 			mtx->lock();
-			*ex = xErr;
-			*ey = yErr;
-			cout << "Updated errors - ex = " << *ex << ", ey = " << *ey << endl;
+			cout << "Outdated errors - eX = " << *eX << ", eY = " << *eY << endl;
+			*eX = xErr;
+			*eY = yErr;
+			cout << "Updated errors - eX = " << *eX << ", eY = " << *eY << endl;
 			mtx->unlock();
 			cout << "Time between updates = " << chrono::duration_cast<ms>(dt).count() << endl;
+			processedFrameCount++;
 			_t = t;
 		}
 
@@ -211,10 +282,11 @@ int CaptureAndProcess(VideoCapture& cam, int * ex, int * ey, mutex * mtx){
 			cout << "esc key is pressed by user" << endl;
 			break; 
 		}
+		this_thread::sleep_for(chrono::microseconds(10));
 	}
 
 	cout << "CaptureAndProcess returned" << endl;
-    cout << "Updated Errors " << frameCount << " times." << endl;
+    cout << "Updated Errors " << processedFrameCount << " times." << endl;
 	//TT.stop();
     return 0;
 }
@@ -267,8 +339,8 @@ int Calibrate(VideoCapture& cam, TipTilt& TT){
 
 	cout << "Dists: " << NSDist << "," << EWDist << endl;
 
-	xPixToSteps = NSDist / ((double)NSSteps);
-	yPixToSteps = EWDist / ((double)EWSteps);
+	xPixToSteps = ((double)NSSteps) / NSDist;
+	yPixToSteps = ((double)EWSteps) / EWDist;
 
 	cout << "Factors: " << xPixToSteps << "," << yPixToSteps << endl;
 
