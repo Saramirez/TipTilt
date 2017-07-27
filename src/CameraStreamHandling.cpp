@@ -8,7 +8,7 @@ const double Kp = 1;
 const string winName = "Star";
 bool targetSet = false;
 const int thresh = 100;
-Rect roi(305, 185, 80, 80);
+Rect roi(300, 180, 80, 80);
 
 Point target(40, 40);
 double xPixToSteps = 2.38;
@@ -234,7 +234,7 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 	auto currentTime = startTime;
 	auto elapsedTime = currentTime - startTime;
 	
-	cout << "\nStarting test.\n\n   simulated exposure = " << exposure << "\n   r0 = 20cm" << "\n   driver speed = 50" << "\n   test time = " << testTime << "s\n" <<  endl;
+	cout << "\nStarting test.\n\n   simulated exposure = " << exposure << "\n   r0 = 40cm" << "\n   driver speed = 100" << "\n   test time = " << testTime << "s\n" <<  endl;
 	
 	while (1){
 		_tt = tt;

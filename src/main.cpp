@@ -23,7 +23,7 @@ int main( int argc, char** argv )
 
     //Calibrate(cam, TT);
 
-    thread capture(CaptureAndProcess, ref(cam), &eX, &eY, &mtx, 100); 
+    thread capture(CaptureAndProcess, ref(cam), &eX, &eY, &mtx, 50); 
 
     TT.start();
     
