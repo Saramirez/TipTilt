@@ -186,19 +186,35 @@ void TipTilt::stop(){
 
 void TipTilt::moveWithWASD(){
 	char dir = 'n';
+	int counter = 0;
 	while(dir != 'q'){
 		cin>>dir;
-		cout << "input: " << dir << endl;
-		if(dir == 'w')
-			writeBuf = (char *)"GN00001";
-		else if(dir == 's')
-			writeBuf = (char *)"GS00001";
-		else if(dir == 'd')
-			writeBuf = (char *)"GT00001";
-		else if(dir == 'a')
-			writeBuf = (char *)"GW00001";
-		else
-			continue;		
+		switch(dir){
+			case 'w':
+				writeBuf = (char *)"GN00001";
+			break;
+			case 'a':
+				writeBuf = (char *)"GW00001";
+			break;
+			case 's':
+				writeBuf = (char *)"GS00001";
+			break;
+			case 'd':
+				writeBuf = (char *)"GT00001";
+			break;
+			case 'k':
+				writeBuf = (char *)"K";
+			break;
+			case 'o':
+				counter = 0;
+				cout << "Counter reseted" << endl;
+			break;
+			default:
+				continue;
+			break;
+		}	
+		counter++;
+		cout << "Counter = " << counter << endl;
 		write(fd, writeBuf, 7);		
 	}
 }

@@ -16,7 +16,7 @@ int GetKeyFromKeyboard();
 void GetTargetFromMouse(int, int, int, int, void*);
 Point GetCentroid(Mat&);
 void CalculateErrors(Point, int&, int&);
-int CaptureAndProcess(VideoCapture&, int *, int *, mutex *);
+int CaptureAndProcess(VideoCapture&, int *, int *, mutex *, const int);
 int Calibrate(VideoCapture&, TipTilt&);
 
 #endif
