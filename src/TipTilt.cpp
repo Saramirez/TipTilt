@@ -184,6 +184,18 @@ void TipTilt::stop(){
 	runningThread.join();
 };
 
+void TipTilt::move(char dir){
+	if(dir == 'n')
+		writeBuf = (char *)"GN00001";
+	else if(dir == 's')
+		writeBuf = (char *)"GS00001";
+	else if(dir == 'e')
+		writeBuf = (char *)"GT00001";
+	else if(dir == 'w')
+		writeBuf = (char *)"GW00001";
+	write(fd, writeBuf, 7);	
+}
+
 void TipTilt::moveWithWASD(){
 	char dir = 'n';
 	while(dir != 'q'){

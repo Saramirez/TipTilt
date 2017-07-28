@@ -38,6 +38,7 @@ class TipTilt {
 		void start();
 		void stop();
 		void run();
+		void move(char);
 		TipTilt(const char *, int *, int *, mutex *); 	
 };
 

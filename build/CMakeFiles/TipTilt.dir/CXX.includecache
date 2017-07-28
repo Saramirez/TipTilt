@@ -11,6 +11,8 @@ opencv2/opencv.hpp
 /home/odroid/TipTilt Control/include/opencv2/opencv.hpp
 iostream
 -
+fstream
+-
 ../include/TipTilt.hpp
 /home/odroid/TipTilt Control/include/TipTilt.hpp
 math.h

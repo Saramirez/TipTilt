@@ -8,7 +8,7 @@ const double Kp = 1;
 const string winName = "Star";
 bool targetSet = false;
 const int thresh = 100;
-Rect roi(300, 180, 80, 80);
+Rect roi(300, 184, 80, 80);
 
 Point target(40, 40);
 double xPixToSteps = 2.38;
@@ -431,6 +431,117 @@ int Calibrate(VideoCapture& cam, TipTilt& TT){
 
 
 	waitKey(0);
+
+	destroyWindow("Calibration");
+
+    return 0;
+}
+
+int CalibrateErrorCalculation(VideoCapture& cam, TipTilt& TT){
+	if (!cam.isOpened()){
+        cout << "Cam is not opened. Can't calibrate." << endl;
+        return -1;
+    }
+	if(!TT.isOpened()){
+		cout << "TT is not opened. Can't calibrate." << endl;
+		return -2;
+	}
+
+	ofstream file;
+	file.open("Calibration.txt", ios::out | ios::app);
+	file << "New calibration run. Format is 'error steps'\n\nLeft\n\n";
+
+	namedWindow("Calibration",CV_WINDOW_AUTOSIZE);
+
+	Mat frame;
+	int ex = 10;
+	int ey = 10;
+	Point centroid;
+
+    //TT.goTo('K');
+	//this_thread::sleep_for(chrono::seconds(4));
+
+	
+	int steps = 0;
+	int run = 0;
+
+	cout << "Centering" << endl;
+	while(run < 4){
+		cam >> frame;
+		frame = frame(roi);
+
+		if(run == 0){ //center
+			centroid = GetCentroid(frame);
+			ex = target.x - centroid.x;
+			ey = target.y - centroid.y;
+			if(ex > 0)
+				TT.move('e');
+			else if(ex < 0)
+				TT.move('w');
+			if(ey > 0)
+				TT.move('s');
+			else if(ey < 0)
+				TT.move('n');
+			cout << "ex " << ex << " ey " << ey << endl;
+
+			if(ex == 0 && ey == 0){
+				run = 1;
+				cout << "\nCentered. Going left." << endl;
+			}
+		}
+		else if(run == 1){//go to one side
+			circle(frame, target, pinholeRadius, Scalar(0,0,0), -1);
+
+			centroid = GetCentroid(frame);
+			ex = target.x - centroid.x;
+			cout << "ex " << ex << " steps " << steps << endl; 
+			file << ex << " " << steps << "\n";
+			
+			if(steps == 50){
+				run = 2;
+				cout << "\nFinished. Centering again." << endl;
+				file << "\nUp\n\n";
+			}
+			TT.move('w');
+			steps++;
+		}
+		else if(run == 2){//back at center
+			centroid = GetCentroid(frame);
+			TT.move('e');
+			steps--;
+			if(steps == 0){
+				run = 3;
+				cout << "\nCentered. Going up." << endl;
+			}
+		}
+		else if(run == 3){//go up
+			circle(frame, target, pinholeRadius, Scalar(0,0,0), -1);
+
+			centroid = GetCentroid(frame);
+			ey = target.y - centroid.y;
+			cout << "ey " << ey << " steps " << steps << endl;
+			file << ey << " " << steps << "\n";
+
+			if(steps == 50){
+				run = 4;
+				cout << "\nFinished." << endl;
+				file << "\nFinished\n\n";
+			}
+			TT.move('n');
+			steps++;
+		}
+
+		circle(frame, centroid, 5, Scalar(128,0,0));	
+		cvtColor(frame, frame, CV_GRAY2BGR);
+		circle(frame, Point(target.x,target.y), 3, Scalar(128,128,0));
+
+		imshow("Calibration", frame);
+		int key = waitKey(100);
+	}
+
+	file.close();
+
+	//waitKey(0);
 
 	destroyWindow("Calibration");
 
