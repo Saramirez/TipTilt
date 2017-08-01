@@ -116,13 +116,13 @@ void TipTilt::updatePosition(){
 	//cout << "eX: " << *eX << ". eY" << *eY << endl;
 	mtx->lock();
 	if(*eX != 0){
-		if(*eX > 0 && eSteps < 50){
+		if(*eX > 0 && eSteps < 45){
 			writeBuf = (char *)"GT00001";
 			write(fd, writeBuf, 7);
 			(*eX)--;
 			eSteps++;
 		}
-		else if(*eX < 0 && eSteps > -50){
+		else if(*eX < 0 && eSteps > -45){
 			writeBuf = (char *)"GW00001";
 			write(fd, writeBuf, 7);		
 			(*eX)++;
@@ -133,13 +133,13 @@ void TipTilt::updatePosition(){
 		//cout << "Out: " << out << endl;
 	}
 	if(*eY != 0){
-		if(*eY > 0 && sSteps < 50){
+		if(*eY > 0 && sSteps < 45){
 			writeBuf = (char *)"GS00001";
 			write(fd, writeBuf, 7);
 			(*eY)--;
 			sSteps++;
 		}
-		else if(*eY < 0 && sSteps > -50){
+		else if(*eY < 0 && sSteps > -45){
 			writeBuf = (char *)"GN00001";
 			write(fd, writeBuf, 7);		
 			(*eY)++;

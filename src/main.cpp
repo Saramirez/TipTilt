@@ -23,15 +23,15 @@ int main( int argc, char** argv )
 
     //Calibrate(cam, TT);
 
-    //thread capture(CaptureAndProcess, ref(cam), &eX, &eY, &mtx, 50); 
+    thread capture(CaptureAndProcess, ref(cam), &eX, &eY, &mtx, 50); 
 
-    //TT.start();
+    TT.start();
     
-    //capture.join();
+    capture.join();
 
-    //TT.stop();
+    TT.stop();
 
-    CalibrateErrorCalculation(cam, TT);
+    //CalibrateErrorCalculation(cam, TT);
     TT.closeComm();
 
 	return(0);
