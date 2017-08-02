@@ -4,7 +4,6 @@
 using ms = chrono::milliseconds;
 using get_time = chrono::steady_clock;
 
-const double Kp = 1;
 const string winName = "Star";
 bool targetSet = false;
 const int thresh = 100;
@@ -28,28 +27,8 @@ const int testTime = 60;
 
 const double pinholeRadius = 13; //13*4.8*2 um = 124.8 um 
 const double pinholeArea = M_PI*pinholeRadius*pinholeRadius;
-
-/*
-const double ksq = 0.03;
-const double k = 0.72;
-const double n = 8.54;
-
-const double ksq2 = -0.02;
-const double k2 = -0.49;
-const double n2 = 0.03;
-*/
-const double kl1 = 0.36;
-
-const double kl2 = 0.5;
-const double n2 = 0.35;
-
-const double kl3 = 1.1;
-const double n3 = - 16;
-
-const double kl4 = 1.47;
-const double n4 = -27.73;
-
-
+double starRadius = 10;
+const double starArea = M_PI*starRadius*starRadius;
 
 int OpenCamera(VideoCapture& cam, const string gstreamPipeline){
 	cam.open(gstreamPipeline);
@@ -127,11 +106,28 @@ Point GetCentroid(Mat& src){
 	return res;
 }
 
-void GetShapeInfo(Mat& src, Point& centroid, double& area){
-	Moments m = moments((src>=thresh), true);
+void GetShapeInfo(Mat& src, Point& centroid, double& area, int& width, double& ang){
+	Mat bw;
+	threshold(src, bw, thresh, 255, THRESH_BINARY);
+	Moments m = moments(bw, true);
 	Point res(m.m10/m.m00, m.m01/m.m00);
 	centroid = res;
 	area = m.m00;
+
+	double intensity = 1;
+	int flag = 0;
+	ang = atan((centroid.x - target.x) / (centroid.y - target.y));
+	Point dir(cos(ang), sin(ang));
+
+	width = 0;
+	while (intensity != 0 || flag != 1){
+		Point pixel = T + (pinholeRadius + width) * dir;
+		intensity = bw.at<uchar>(pixel);
+		if (intensity == 255)
+			flag = 1;
+		width++;
+	}
+
 	/*
 	Mat aux;
 	threshold(src, aux, thresh, 255, THRESH_TOZERO);
@@ -143,67 +139,58 @@ void GetShapeInfo(Mat& src, Point& centroid, double& area){
 	*/
 }
 
-void CalculateErrors(Point centroid, int& xErr, int& yErr, double& area){
-	int dx = (target.x - centroid.x); //xPixToSteps * (target.x - centroid.x);
-    int dy = (target.y - centroid.y); //yPixToSteps * (target.y - centroid.y);
+void CalculateErrors(Point centroid, int& xErr, int& yErr, double& area, int& width, double& ang){
+	int dx = xPixToSteps * (target.x - centroid.x);
+    int dy = yPixToSteps * (target.y - centroid.y);
 	
 	//cout << "Errors: dx, dy = " << dx << "," << dy << endl;
-	
-    /*xErr = Kp * (dx * cosCorrAngle + dy * sinCorrAngle);
-    yErr = Kp * (-dx * sinCorrAngle + dy * cosCorrAngle);*/
 
-	
-    //xErr = dx;// * min(area / pinholeArea, 1.0);
-    //yErr = dy;// * min(area / pinholeArea, 1.0);
-
-	double dxSgn = (dx >= 0) ? 1.0: -1.0;
+	/*double dxSgn = (dx >= 0) ? 1.0: -1.0;
 	double dySgn = (dy >= 0) ? 1.0: -1.0;
 
 	xErr = 0.0009 * pow(dx, 3) + dxSgn * 0.0412 * pow(dx, 2) + 0.5165 * dx;
-	yErr = 0.0031 * pow(dy, 3) - dySgn * 0.0219 * pow(dy, 2) + 0.9595 * dy;
+	yErr = 0.0031 * pow(dy, 3) - dySgn * 0.0219 * pow(dy, 2) + 0.9595 * dy;*/
 
-/*
-	if(abs(dx) <= 10)
-		xErr = kl1 * dx;
-	else if(abs(dx) <= 20)
-		xErr = kl2 * dx + dxSgn * n2;
-	else if(abs(dx) <= 30)
-		xErr = kl3 * dx + dxSgn * n3;
-	else if(abs(dx) <= 40)
-		xErr = kl4 * dx + dxSgn * n4;
+	xErr = dx;
+	yErr = dy;
 
-	if(abs(dy) <= 10)
-		yErr = kl1 * dy;
-	else if(abs(dy) <= 20)
-		yErr = kl2 * dy + dySgn * n2;
-	else if(abs(dy) <= 30)
-		yErr = kl3 * dy + dySgn * n3;
-	else if(abs(dy) <= 40)
-		yErr = kl4 * dy + dySgn * n4;*/
+	if (dx < (pinholeRadius + starRadius))
+		xErr *= area / starArea;
+	if (dy < (pinholeRadius + starRadius))
+		yErr *= area / starArea;
+	
+	int xxErr = xPixToSteps * width * cos(ang);
+	int yyErr = yPixToSteps * width * sin(ang);
 
-	/*if(abs(dx) < 50){
-		if(abs(dx) <= 20){
-			xErr = kl * dx;
-			//xErr = dxSgn * ksq2 * pow(dx, 2) - k2 * dx + dxSgn * n2;
-		}
-		else{
-			xErr = dxSgn * ksq * pow(dx, 2) - k * dx + dxSgn * n;
-		}
-	} 
-	if(abs(dy) < 50){
-		if(abs(dy) <= 20){
-			yErr = kl * dy;
-			//yErr = dySgn * ksq2 * pow(dy, 2) - k2 * dy + dySgn * n2;
-		}
-		else{
-			yErr = dySgn * ksq * pow(dy, 2) - k * dy + dySgn * n;
-		}
-	}*/
-	/*
-	cout << "Area: area = " << area << "; area/pinArea = " << min(area / pinholeArea, 1.0) << endl;
+	cout << "Area: area = " << area << "; area/starArea = " << area / starArea << endl;
     cout << "Errors: dx   = " << dx <<"; dy   = " << dy << endl;	 
     cout << "Errors: xErr = " << xErr << "; yErr = " << yErr << endl;
-	*/
+	cout << "Width = " << width << "; Ang = " << ang << endl;
+	cout << "Errors: xxErr = " << xxErr << "; yyErr = " << yyErr << endl;
+	
+}
+
+void GetStarParams(VideoCapture& cam) {
+	Mat frame;
+	moveWindow(winName, 400, 50);
+
+	if (!cam.isOpened()) {
+		cout << "Cam is not opened" << endl;
+		return -1;
+	}
+
+	Point centroid;
+	cam >> frame;
+	GetShapeInfo(frame, centroid, starArea);
+	starRadius = sqrt(starArea / M_PI);
+
+	cout << "Star area = " << area << "; Star radius = " << starRadius << endl;
+
+	cvtColor(frame, frame, CV_GRAY2BGR);
+	circle(frame, centroid, starRadius, Scalar(0, 128, 0));
+	imshow(winName, frame);
+
+	waitKey(0);
 }
 
 int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const int _exposure){
@@ -229,6 +216,8 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 
 	Point centroid;
 	double area;
+	int width;
+	double ang;
 	
 	Point cent;
 	Point _cent;
@@ -246,7 +235,7 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 	auto currentTime = startTime;
 	auto elapsedTime = currentTime - startTime;
 	
-	cout << "\nStarting test.\n\n   simulated exposure = " << exposure << "\n   r0 = 40cm" << "\n   driver speed = 100" << "\n   test time = " << testTime << "s\n" <<  endl;
+	//cout << "\nStarting test.\n\n   simulated exposure = " << exposure << "\n   r0 = 40cm" << "\n   driver speed = 100" << "\n   test time = " << testTime << "s\n" <<  endl;
 	
 	while (1){
 		_tt = tt;
@@ -255,22 +244,14 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 		tt = get_time::now();
 		dtt = tt - _tt;
 
-		//Simulate framerate of camera, waiting until the exposure time has passed.
-	/*
-		t = get_time::now();
-		while(chrono::duration_cast<ms>(dt).count() < exposure){
-			t = get_time::now();
-			dt = t - _t;
-		}
-	*/
 		//Apply region of interest
 		frame = frame(roi);
 		frameCount++;
 
 		_cent = cent;
 		cent = GetCentroid(frame);
-
-		if(frameCount > 1){ //compute rate of change
+		
+		/*if(frameCount > 1){ //compute rate of change
 			dr = xPixToSteps * sqrt(pow((cent.x - _cent.x),2) + pow((cent.y - _cent.y),2));			
 			double drdt = 1000 * dr / ((double)chrono::duration_cast<ms>(dtt).count());
 			//cout << "dr = " << dr << "; dtt = " << ((double)chrono::duration_cast<ms>(dtt).count()) << "; drdt = " << drdt <<  endl;
@@ -280,7 +261,8 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 			avgRateOfChange = ((avgRateOfChange * (double)(frameCount - 2)) + drdt) / ((double)(frameCount - 1));
 			//cout << "Avg Rate of change is " << avgRateOfChange << " [steps/s]" << endl;	
 		}
-		
+		*/
+
 		//Separate frame in two, after pinhole and before pinhole.
 		Mat mask(Mat::zeros(frame.rows, frame.cols, CV_8UC1));
 		circle(mask, target, pinholeRadius, Scalar(256,256,256), -1);
@@ -297,10 +279,9 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 		//draw the pinhole into the frame
 		circle(frame, target, pinholeRadius, Scalar(0,0,0), -1);
 
+		GetShapeInfo(frame, centroid, area, width, ang);
 
-		GetShapeInfo(frame, centroid, area);
-
-		CalculateErrors(centroid, xErr, yErr, area);
+		CalculateErrors(centroid, xErr, yErr, area, width, ang);
 
 		//simulate exposure by only updating the errors to the TipTilt device with period = exposure
 		t = get_time::now(); 
@@ -353,7 +334,8 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 	cout << "   Average Illumination with active control: " << (100.0 * avgIllum) << "\%\n" << endl;*/
 	//cout << "CaptureAndProcess returned" << endl;
     //cout << "Updated Errors " << processedFrameCount << " times." << endl;
-	//TT.stop();
+
+
     return 0;
 }
 

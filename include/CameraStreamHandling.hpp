@@ -20,5 +20,7 @@ void CalculateErrors(Point, int&, int&);
 int CaptureAndProcess(VideoCapture&, int *, int *, mutex *, const int);
 int Calibrate(VideoCapture&, TipTilt&);
 int CalibrateErrorCalculation(VideoCapture&, TipTilt&);
+void GetStarParams(VideoCapture&);
+void GetShapeInfo(Mat&, Point&, double&, int&, double&);
 
 #endif
