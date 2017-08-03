@@ -57,7 +57,7 @@ int TipTilt::getSteps(int south){
 
 void TipTilt::setErrors(int x, int y){
 	*eX = x;	
-	*eY = -y;
+	*eY = y;
 }
 
 int TipTilt::goTo(char dir){
@@ -134,13 +134,13 @@ void TipTilt::updatePosition(){
 	}
 	if(*eY != 0){
 		if(*eY > 0 && sSteps < 45){
-			writeBuf = (char *)"GS00001";
+			writeBuf = (char *)"GN00001";
 			write(fd, writeBuf, 7);
 			(*eY)--;
 			sSteps++;
 		}
 		else if(*eY < 0 && sSteps > -45){
-			writeBuf = (char *)"GN00001";
+			writeBuf = (char *)"GS00001";
 			write(fd, writeBuf, 7);		
 			(*eY)++;
 			sSteps--;

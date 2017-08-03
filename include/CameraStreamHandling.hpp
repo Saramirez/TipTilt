@@ -16,11 +16,12 @@ void SetTarget(int, int);
 int GetKeyFromKeyboard();
 void GetTargetFromMouse(int, int, int, int, void*);
 Point GetCentroid(Mat&);
-void CalculateErrors(Point, int&, int&);
+void CalculateErrors(int&, int&, double&, double*, double&, double&);
 int CaptureAndProcess(VideoCapture&, int *, int *, mutex *, const int);
 int Calibrate(VideoCapture&, TipTilt&);
 int CalibrateErrorCalculation(VideoCapture&, TipTilt&);
-void GetStarParams(VideoCapture&);
-void GetShapeInfo(Mat&, Point&, double&, int&, double&);
+int GetStarParams(VideoCapture&);
+void GetShapeInfo(Mat&, Point&, double&);
+void GetShapeInfo(Mat&, Point&, double&, double*, double&, double&);
 
 #endif

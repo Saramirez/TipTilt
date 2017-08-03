@@ -15,7 +15,7 @@ VideoCapture cam;
 int eX = 0;
 int eY = 0;
 mutex mtx;
-//TipTilt TT("/dev/ttyUSB0", &eX, &eY, &mtx);
+TipTilt TT("/dev/ttyUSB0", &eX, &eY, &mtx);
 
 int main( int argc, char** argv )
 {	
@@ -23,18 +23,18 @@ int main( int argc, char** argv )
 
     //Calibrate(cam, TT);
 
-	GetStarParams(cam);
+	//GetStarParams(cam);
 
-    thread capture(CaptureAndProcess, ref(cam), &eX, &eY, &mtx, 50); 
+    thread capture(CaptureAndProcess, ref(cam), &eX, &eY, &mtx, 1000); 
 
-    //TT.start();
+    TT.start();
     
     capture.join();
 	
-    //TT.stop();
+    TT.stop();
 
     //CalibrateErrorCalculation(cam, TT);
-    //TT.closeComm();
+    TT.closeComm();
 
 	return(0);
 }
