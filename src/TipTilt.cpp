@@ -119,38 +119,42 @@ void TipTilt::updatePosition(){
 		if(*eX > 0 && eSteps < 45){
 			writeBuf = (char *)"GT00001";
 			write(fd, writeBuf, 7);
+			write(fd, "L", 1);
 			(*eX)--;
 			eSteps++;
+			//read(fd, &out, 1);
 		}
 		else if(*eX < 0 && eSteps > -45){
 			writeBuf = (char *)"GW00001";
 			write(fd, writeBuf, 7);		
+			write(fd, "L", 1);
 			(*eX)++;
 			eSteps--;
+			//read(fd, &out, 1);
 		}
-		
-		//read(fd, &out, 1);
 		//cout << "Out: " << out << endl;
 	}
 	if(*eY != 0){
 		if(*eY > 0 && sSteps < 45){
 			writeBuf = (char *)"GN00001";
 			write(fd, writeBuf, 7);
+			write(fd, "L", 1);
 			(*eY)--;
 			sSteps++;
+			//read(fd, &out, 1);
 		}
 		else if(*eY < 0 && sSteps > -45){
 			writeBuf = (char *)"GS00001";
-			write(fd, writeBuf, 7);		
+			write(fd, writeBuf, 7);	
+			write(fd, "L", 1);	
 			(*eY)++;
 			sSteps--;
+			//read(fd, &out, 1);
 		}
-
-		//read(fd, &out, 1);
 		//cout << "Out: " << out << endl;
 	}
 	mtx->unlock();
-	this_thread::sleep_for(chrono::microseconds(10));
+	this_thread::sleep_for(chrono::microseconds(100));
 }
 
 void TipTilt::start(){
@@ -159,6 +163,8 @@ void TipTilt::start(){
 		cout << "Device is not opened. Can't start control loop." << endl;
 		return;
 	}
+	eSteps = 0;
+	sSteps = 0;
 	running = true;
 	runningThread = thread(&TipTilt::run, this);
 }

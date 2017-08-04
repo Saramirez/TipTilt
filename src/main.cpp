@@ -23,7 +23,7 @@ int main( int argc, char** argv )
 
     //Calibrate(cam, TT);
 
-	//GetStarParams(cam);
+	GetStarParams(cam);
 
     thread capture(CaptureAndProcess, ref(cam), &eX, &eY, &mtx, 1000); 
 
