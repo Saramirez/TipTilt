@@ -3,8 +3,9 @@
 using ms = chrono::milliseconds;
 using get_time = chrono::steady_clock;
 
+const int restTime = 8; //ms
+
 TipTilt::TipTilt(const char* _device, int* _eX, int* _eY, mutex * _mtx) { 
-	//writeBuf = (char *) malloc(8);
 	device = _device;
 	eY = _eY;
 	eX = _eX;
@@ -119,18 +120,20 @@ void TipTilt::updatePosition(){
 		if(*eX > 0 && eSteps < 45){
 			writeBuf = (char *)"GT00001";
 			write(fd, writeBuf, 7);
-			write(fd, "L", 1);
+			//write(fd, "L", 1);
 			(*eX)--;
 			eSteps++;
 			//read(fd, &out, 1);
+			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
 		else if(*eX < 0 && eSteps > -45){
 			writeBuf = (char *)"GW00001";
 			write(fd, writeBuf, 7);		
-			write(fd, "L", 1);
+			//write(fd, "L", 1);
 			(*eX)++;
 			eSteps--;
 			//read(fd, &out, 1);
+			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
 		//cout << "Out: " << out << endl;
 	}
@@ -138,18 +141,20 @@ void TipTilt::updatePosition(){
 		if(*eY > 0 && sSteps < 45){
 			writeBuf = (char *)"GN00001";
 			write(fd, writeBuf, 7);
-			write(fd, "L", 1);
+			//write(fd, "L", 1);
 			(*eY)--;
 			sSteps++;
 			//read(fd, &out, 1);
+			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
 		else if(*eY < 0 && sSteps > -45){
 			writeBuf = (char *)"GS00001";
 			write(fd, writeBuf, 7);	
-			write(fd, "L", 1);	
+			//write(fd, "L", 1);	
 			(*eY)++;
 			sSteps--;
 			//read(fd, &out, 1);
+			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
 		//cout << "Out: " << out << endl;
 	}

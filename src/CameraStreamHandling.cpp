@@ -27,7 +27,7 @@ const int testTime = 60;
 
 const double pinholeRadius = 13.0; //13*4.8*2 um = 124.8 um 
 const double pinholeArea = M_PI*pinholeRadius*pinholeRadius;
-double starRadius = 5.80869;
+double starRadius = 9.83698;
 double starArea = M_PI*starRadius*starRadius;
 
 int OpenCamera(VideoCapture& cam, const string gstreamPipeline){
@@ -204,31 +204,31 @@ void CalculateErrors(int& xErr, int& yErr, double& dist, double dir[2], double& 
 	if(dist == -1){
 		xErr = 0;
 		yErr = 0;
-		cout << "No star" << endl;
+		//cout << "No star" << endl;
 		return;
 	}
-	cout << "dist = " << dist << "; dir = " << dir[0] << ", " << dir[1] << endl;
+	//cout << "dist = " << dist << "; dir = " << dir[0] << ", " << dir[1] << endl;
 	
 	double xx = xPixToSteps * dir[0];
 	double yy = yPixToSteps * dir[1];
 
 	if(dist <= (pinholeRadius + starRadius)){
-		cout << "pinhole+star radius = " << (pinholeRadius + starRadius) << endl;
-		cout << "With width = " << width << endl;
+		//cout << "pinhole+star radius = " << (pinholeRadius + starRadius) << endl;
+		//cout << "With width = " << width << endl;
 		xx *= width;
 		yy *= width;
 		//xx *= (dist * area / starArea);
 		//yy *= (dist * area / starArea); 
 	}
 	else{
-		cout << "With distance * factor" << endl;
+		//cout << "With distance * factor" << endl;
 		xx *= dist;
 		yy *= dist;
 	}
 	xErr = (int)xx;
 	yErr = (int)yy;
 	//cout << "width = " << width << " area = " << area << "; area/starArea = " << area / starArea << endl;
-    cout << "xErr = " << xErr << "; yErr = " << yErr << endl;
+    //cout << "xErr = " << xErr << "; yErr = " << yErr << endl;
 }
 
 int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const int _exposure){
@@ -324,22 +324,22 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 
 
 		//simulate exposure by only updating the errors to the TipTilt device with period = exposure
-		t = get_time::now(); 
-		dt = t - _t;
-		if(targetSet && (chrono::duration_cast<ms>(dt).count() >= exposure)){
+		//t = get_time::now(); 
+		//dt = t - _t;
+		if(targetSet){// && (chrono::duration_cast<ms>(dt).count() >= exposure)){
 			//targetSet = false;
 			CalculateErrors(xErr, yErr, dist, dir, area, width);
 			//cout << "Target: " << target.x << "," << target.y << endl;
 			//cout << "Centroid: " << centroid.x << "," << centroid.y << endl;
 			mtx->lock();
-			cout << "Outdated errors - eX = " << *eX << ", eY = " << *eY << endl;
+			//cout << "Outdated errors - eX = " << *eX << ", eY = " << *eY << endl;
 			*eX = xErr;
 			*eY = yErr;
-			cout << "Updated errors - eX = " << *eX << ", eY = " << *eY << endl;
+			//cout << "Updated errors - eX = " << *eX << ", eY = " << *eY << endl;
 			mtx->unlock();
 			//cout << "Time between updates = " << chrono::duration_cast<ms>(dt).count() << endl;
 			processedFrameCount++;
-			_t = t;
+			//_t = t;
 		}
 
 		circle(frame, centroid, 2, Scalar(128,0,0));
