@@ -6,12 +6,14 @@ using get_time = chrono::steady_clock;
 
 const string winName = "Star";
 bool targetSet = false;
-const int thresh = 100;
-Rect roi(283, 185, 80, 80);
+const int thresh = 150;
+Rect oRoi(269, 178, 100, 100);
+Rect roi(269, 178, 100, 100);
 
-Point target(40, 40);
-double xPixToSteps = 2.36;
-double yPixToSteps = 2.35;
+Point oTarget(50, 50);
+Point target(50, 50);
+double xPixToSteps = 2.4;
+double yPixToSteps = 2.33;
 double corrAngle = 0;
 double cosCorrAngle = 1;
 double sinCorrAngle = 0;
@@ -27,7 +29,7 @@ const int testTime = 60;
 
 const double pinholeRadius = 13.0; //13*4.8*2 um = 124.8 um 
 const double pinholeArea = M_PI*pinholeRadius*pinholeRadius;
-double starRadius = 9.83698;
+double starRadius = 13.7736;
 double starArea = M_PI*starRadius*starRadius;
 
 int OpenCamera(VideoCapture& cam, const string gstreamPipeline){
@@ -128,8 +130,18 @@ void GetShapeInfo(Mat& src, Point& centroid, double& dist, double dir[2], double
 	threshold(src, bw, thresh, 255, THRESH_BINARY);
 	Moments m = moments(bw, true);
 	Point res(m.m10/m.m00, m.m01/m.m00);
-	centroid = res;
+	//centroid = res;
 	area = m.m00;
+	
+	Mat aux;
+	threshold(src, aux, thresh, 255, THRESH_TOZERO);
+	Moments m2 = moments(aux);
+	Point res2(m2.m10/m2.m00, m2.m01/m2.m00);
+	centroid = res2;
+	/*cout << "Centroid " << res.x << "," << res.y << endl;
+	cout << "Weighted centroid " << res2.x << "," << res2.y << endl;
+	circle(src, res2, 3, Scalar(128,128,128));
+	*/
 
 	dist = sqrt(pow(target.x - centroid.x, 2) + pow(target.y - centroid.y, 2));
 	if(centroid.x == 0 && centroid.y == 0){
@@ -163,15 +175,6 @@ void GetShapeInfo(Mat& src, Point& centroid, double& dist, double dir[2], double
 
 	//cout << "Width = " << width << endl;
 
-	/*
-	Mat aux;
-	threshold(src, aux, thresh, 255, THRESH_TOZERO);
-	Moments m2 = moments(aux);
-	Point res2(m2.m10/m2.m00, m2.m01/m2.m00);
-	cout << "Centroid " << res.x << "," << res.y << endl;
-	cout << "Weighted centroid " << res2.x << "," << res2.y << endl;
-	circle(src, res2, 3, Scalar(128,128,128));
-	*/
 }
 
 int GetStarParams(VideoCapture& cam) {
@@ -262,6 +265,9 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 	Point _cent;
 	double dr = 0.0;*/
 
+	double w = 2 * M_PI * 0.04;
+	double R = 9;
+
 	auto _t = get_time::now();
 	auto t = get_time::now();
 	auto dt = t - _t;
@@ -274,11 +280,18 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 	auto currentTime = startTime;
 	auto elapsedTime = currentTime - startTime;
 	
-	//cout << "\nStarting test.\n\n   simulated exposure = " << exposure << "\n   r0 = 40cm" << "\n   driver speed = 100" << "\n   test time = " << testTime << "s\n" <<  endl;
+	cout << "\nStarting test.\n\n   exposure = 0.1s \n   r0 > 20cm" << "\n   test time = " << testTime << "s\n" <<  endl;
 	
 	while (1){
 		//_tt = tt;
 		cam >> frame;
+
+		auto cTime = chrono::duration_cast<ms>(elapsedTime).count() / 1000.0;
+		double dx = 2.2 * R * sin(2 * w * cTime) *  cos(2 * w * cTime) + R * cos(4 * w * cTime) + 0.5 * R * cos(10 * w * cTime);
+		double dy = 2.2 * R * cos(2 * w * cTime) * sin(w/1.5 * cTime) + R * sin(3 * w * cTime) + 0.4 * R * sin(15 * w * cTime);
+		roi.x = oRoi.x + dx;
+		roi.y = oRoi.y + dy;
+	
 		/*
 			tt = get_time::now();
 			dtt = tt - _tt;
@@ -354,30 +367,28 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 			break; 
 		}
 		this_thread::sleep_for(chrono::microseconds(100));
-
-		/*
-			currentTime = get_time::now();
-			elapsedTime = currentTime - startTime;
-			if(chrono::duration_cast<chrono::seconds>(elapsedTime).count() >= testTime)
-				break;
-			else if((chrono::duration_cast<chrono::seconds>(elapsedTime).count() >= testTime/2) && !targetSet){
-				targetSet = true;
-				cout << "\nTarget set. Control loop started.\n" << endl;
-				frameCount = 0;
-				avgIllumBefore = avgIllum;
-				avgRateOfChangeBefore = avgRateOfChange;
-			}
-		*/
-
+		
+		currentTime = get_time::now();
+		elapsedTime = currentTime - startTime;
+		
+		if(chrono::duration_cast<chrono::seconds>(elapsedTime).count() >= testTime)
+			break;
+		else if((chrono::duration_cast<chrono::seconds>(elapsedTime).count() >= testTime/2) && !targetSet){
+			targetSet = true;
+			cout << "\nTarget set. Control loop started.\n" << endl;
+			frameCount = 0;
+			avgIllumBefore = avgIllum;
+			avgRateOfChangeBefore = avgRateOfChange;
+		}
+		
 	}
+	
+	cout << "\nTest finished\n\n" << endl; //  Average rate of change (no control): " << avgRateOfChangeBefore << " [steps/s]" << endl; 
+	cout << "   Average Illumination with no control: " << (100.0 * avgIllumBefore) << "\%" << endl;
+	cout << "   Average Illumination with active control: " << (100.0 * avgIllum) << "\%\n" << endl;
+	//cout << "CaptureAndProcess returned" << endl;
+	//cout << "Updated Errors " << processedFrameCount << " times." << endl;
 
-	/*
-		cout << "\nTest finished\n\n   Average rate of change (no control): " << avgRateOfChangeBefore << " [steps/s]" << endl; 
-		cout << "   Average Illumination with no control: " << (100.0 * avgIllumBefore) << "\%" << endl;
-		cout << "   Average Illumination with active control: " << (100.0 * avgIllum) << "\%\n" << endl;
-		cout << "CaptureAndProcess returned" << endl;
-		cout << "Updated Errors " << processedFrameCount << " times." << endl;
-	*/
 
     return 0;
 }
