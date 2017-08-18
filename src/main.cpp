@@ -25,7 +25,7 @@ int main( int argc, char** argv )
 
 	//GetStarParams(cam);
 
-    thread capture(CaptureAndProcess, ref(cam), &eX, &eY, &mtx, 1); 
+    thread capture(CaptureAndProcess, ref(cam), &eX, &eY, &mtx, 100); 
 
     TT.start();
     

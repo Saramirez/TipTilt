@@ -6,9 +6,9 @@ using get_time = chrono::steady_clock;
 
 const string winName = "Star";
 bool targetSet = false;
-const int thresh = 150;
-Rect oRoi(269, 178, 100, 100);
-Rect roi(269, 178, 100, 100);
+const int thresh = 100;
+Rect oRoi(270, 190, 100, 100);
+Rect roi(270, 190, 100, 100);
 
 Point oTarget(50, 50);
 Point target(50, 50);
@@ -27,9 +27,9 @@ double avgIllumBefore = 0.0;
 int exposure; //ms
 const int testTime = 60;
 
-const double pinholeRadius = 13.0; //13*4.8*2 um = 124.8 um 
+const double pinholeRadius = 6; //13*4.8*2 um = 124.8 um 
 const double pinholeArea = M_PI*pinholeRadius*pinholeRadius;
-double starRadius = 13.7736;
+double starRadius = 6.58;
 double starArea = M_PI*starRadius*starRadius;
 
 int OpenCamera(VideoCapture& cam, const string gstreamPipeline){
@@ -254,6 +254,8 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 
 	int xErr = 0;
 	int yErr = 0;
+	int _xErr = 0;
+	int _yErr = 0;
 
 	Point centroid;
 	double dist;
@@ -266,7 +268,7 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 	double dr = 0.0;*/
 
 	double w = 2 * M_PI * 0.04;
-	double R = 9;
+	double R = 4;
 
 	auto _t = get_time::now();
 	auto t = get_time::now();
@@ -337,10 +339,13 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 
 
 		//simulate exposure by only updating the errors to the TipTilt device with period = exposure
-		//t = get_time::now(); 
-		//dt = t - _t;
-		if(targetSet){// && (chrono::duration_cast<ms>(dt).count() >= exposure)){
+		t = get_time::now(); 
+		dt = t - _t;
+		if(targetSet && (chrono::duration_cast<ms>(dt).count() >= exposure)){
 			//targetSet = false;
+			_xErr = xErr;
+			_yErr = yErr;
+
 			CalculateErrors(xErr, yErr, dist, dir, area, width);
 			//cout << "Target: " << target.x << "," << target.y << endl;
 			//cout << "Centroid: " << centroid.x << "," << centroid.y << endl;
@@ -348,11 +353,13 @@ int CaptureAndProcess(VideoCapture& cam, int * eX, int * eY, mutex * mtx, const 
 			//cout << "Outdated errors - eX = " << *eX << ", eY = " << *eY << endl;
 			*eX = xErr;
 			*eY = yErr;
+			//*eX = 0.5 * xErr + 0.5 * _xErr;
+			//*eY = 0.5 * yErr + 0.5 * _yErr;
 			//cout << "Updated errors - eX = " << *eX << ", eY = " << *eY << endl;
 			mtx->unlock();
 			//cout << "Time between updates = " << chrono::duration_cast<ms>(dt).count() << endl;
 			processedFrameCount++;
-			//_t = t;
+			_t = t;
 		}
 
 		circle(frame, centroid, 2, Scalar(128,0,0));
