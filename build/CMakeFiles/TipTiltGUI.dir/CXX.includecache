@@ -6,6 +6,16 @@
 
 #IncludeRegexTransform: 
 
+/home/odroid/TipTilt Control/include/CameraStreamHandler.hpp
+opencv2/opencv.hpp
+/home/odroid/TipTilt Control/include/opencv2/opencv.hpp
+iostream
+-
+math.h
+-
+mutex
+-
+
 /home/odroid/TipTilt Control/include/TipTilt.hpp
 fcntl.h
 -
@@ -19,14 +29,20 @@ atomic
 -
 thread
 -
+mutex
+-
+chrono
+-
 
 /home/odroid/TipTilt Control/include/gui.hpp
 wx/wxprec.h
 -
 wx/wx.h
 -
-../include/wxCameraStreamHandler.hpp
-/home/odroid/TipTilt Control/include/wxCameraStreamHandler.hpp
+../include/TipTilt.hpp
+/home/odroid/TipTilt Control/include/TipTilt.hpp
+../include/CameraStreamHandler.hpp
+/home/odroid/TipTilt Control/include/CameraStreamHandler.hpp
 
 /home/odroid/TipTilt Control/include/main.hpp
 wx/wxprec.h
@@ -34,43 +50,63 @@ wx/wxprec.h
 wx/wx.h
 -
 
-/home/odroid/TipTilt Control/include/wxCameraStreamHandler.hpp
-opencv2/opencv.hpp
-/home/odroid/TipTilt Control/include/opencv2/opencv.hpp
-iostream
--
-../include/TipTilt.hpp
-/home/odroid/TipTilt Control/include/TipTilt.hpp
-math.h
--
-atomic
--
-thread
--
+/home/odroid/TipTilt Control/include/wxStreamPlayer.hpp
 wx/wxprec.h
 -
 wx/wx.h
 -
 
+/home/odroid/TipTilt Control/include/wxStreamThread.hpp
+wx/wxprec.h
+-
+wx/wx.h
+-
+../include/CameraStreamHandler.hpp
+/home/odroid/TipTilt Control/include/CameraStreamHandler.hpp
+../include/wxStreamPlayer.hpp
+/home/odroid/TipTilt Control/include/wxStreamPlayer.hpp
+opencv2/opencv.hpp
+/home/odroid/TipTilt Control/include/opencv2/opencv.hpp
+
+/home/odroid/TipTilt Control/src/CameraStreamHandler.cpp
+../include/CameraStreamHandler.hpp
+/home/odroid/TipTilt Control/include/CameraStreamHandler.hpp
+
 /home/odroid/TipTilt Control/src/TipTilt.cpp
 ../include/TipTilt.hpp
 /home/odroid/TipTilt Control/include/TipTilt.hpp
-chrono
--
 
 /home/odroid/TipTilt Control/src/gui.cpp
 ../include/gui.hpp
 /home/odroid/TipTilt Control/include/gui.hpp
+../include/wxStreamPlayer.hpp
+/home/odroid/TipTilt Control/include/wxStreamPlayer.hpp
+../include/wxStreamThread.hpp
+/home/odroid/TipTilt Control/include/wxStreamThread.hpp
 
 /home/odroid/TipTilt Control/src/main.cpp
 ../include/main.hpp
 /home/odroid/TipTilt Control/include/main.hpp
 ../include/gui.hpp
 /home/odroid/TipTilt Control/include/gui.hpp
+../include/CameraStreamHandler.hpp
+/home/odroid/TipTilt Control/include/CameraStreamHandler.hpp
+../include/TipTilt.hpp
+/home/odroid/TipTilt Control/include/TipTilt.hpp
 
-/home/odroid/TipTilt Control/src/wxCameraStreamHandler.cpp
-../include/wxCameraStreamHandler.hpp
-/home/odroid/TipTilt Control/include/wxCameraStreamHandler.hpp
+/home/odroid/TipTilt Control/src/wxStreamPlayer.cpp
+../include/wxStreamPlayer.hpp
+/home/odroid/TipTilt Control/include/wxStreamPlayer.hpp
+../include/wxStreamThread.hpp
+/home/odroid/TipTilt Control/include/wxStreamThread.hpp
+iostream
+-
+
+/home/odroid/TipTilt Control/src/wxStreamThread.cpp
+../include/wxStreamThread.hpp
+/home/odroid/TipTilt Control/include/wxStreamThread.hpp
+iostream
+-
 
 /usr/local/include/opencv/cxcore.h
 opencv2/core/core_c.h

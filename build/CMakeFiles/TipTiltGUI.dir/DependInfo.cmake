@@ -4,10 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/odroid/TipTilt Control/src/CameraStreamHandler.cpp" "/home/odroid/TipTilt Control/build/CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o"
   "/home/odroid/TipTilt Control/src/TipTilt.cpp" "/home/odroid/TipTilt Control/build/CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o"
   "/home/odroid/TipTilt Control/src/gui.cpp" "/home/odroid/TipTilt Control/build/CMakeFiles/TipTiltGUI.dir/src/gui.cpp.o"
   "/home/odroid/TipTilt Control/src/main.cpp" "/home/odroid/TipTilt Control/build/CMakeFiles/TipTiltGUI.dir/src/main.cpp.o"
-  "/home/odroid/TipTilt Control/src/wxCameraStreamHandler.cpp" "/home/odroid/TipTilt Control/build/CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o"
+  "/home/odroid/TipTilt Control/src/wxStreamPlayer.cpp" "/home/odroid/TipTilt Control/build/CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o"
+  "/home/odroid/TipTilt Control/src/wxStreamThread.cpp" "/home/odroid/TipTilt Control/build/CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

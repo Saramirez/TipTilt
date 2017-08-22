@@ -81,33 +81,81 @@ CMakeFiles/TipTiltGUI.dir/src/gui.cpp.o.provides: CMakeFiles/TipTiltGUI.dir/src/
 CMakeFiles/TipTiltGUI.dir/src/gui.cpp.o.provides.build: CMakeFiles/TipTiltGUI.dir/src/gui.cpp.o
 
 
-CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o: CMakeFiles/TipTiltGUI.dir/flags.make
-CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o: ../src/wxCameraStreamHandler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o -c "/home/odroid/TipTilt Control/src/wxCameraStreamHandler.cpp"
+CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o: CMakeFiles/TipTiltGUI.dir/flags.make
+CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o: ../src/CameraStreamHandler.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o -c "/home/odroid/TipTilt Control/src/CameraStreamHandler.cpp"
 
-CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/odroid/TipTilt Control/src/wxCameraStreamHandler.cpp" > CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.i
+CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/odroid/TipTilt Control/src/CameraStreamHandler.cpp" > CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.i
 
-CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/odroid/TipTilt Control/src/wxCameraStreamHandler.cpp" -o CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.s
+CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/odroid/TipTilt Control/src/CameraStreamHandler.cpp" -o CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.s
 
-CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o.requires:
+CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o.requires:
 
-.PHONY : CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o.requires
+.PHONY : CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o.requires
 
-CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o.provides: CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o.requires
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o.provides.build
-.PHONY : CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o.provides
+CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o.provides: CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o.requires
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o.provides.build
+.PHONY : CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o.provides
 
-CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o.provides.build: CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o
+CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o.provides.build: CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o
+
+
+CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o: CMakeFiles/TipTiltGUI.dir/flags.make
+CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o: ../src/wxStreamThread.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o -c "/home/odroid/TipTilt Control/src/wxStreamThread.cpp"
+
+CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/odroid/TipTilt Control/src/wxStreamThread.cpp" > CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.i
+
+CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/odroid/TipTilt Control/src/wxStreamThread.cpp" -o CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.s
+
+CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o.requires:
+
+.PHONY : CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o.requires
+
+CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o.provides: CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o.requires
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o.provides.build
+.PHONY : CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o.provides
+
+CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o.provides.build: CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o
+
+
+CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o: CMakeFiles/TipTiltGUI.dir/flags.make
+CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o: ../src/wxStreamPlayer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o -c "/home/odroid/TipTilt Control/src/wxStreamPlayer.cpp"
+
+CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/odroid/TipTilt Control/src/wxStreamPlayer.cpp" > CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.i
+
+CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/odroid/TipTilt Control/src/wxStreamPlayer.cpp" -o CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.s
+
+CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o.requires:
+
+.PHONY : CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o.requires
+
+CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o.provides: CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o.requires
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o.provides.build
+.PHONY : CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o.provides
+
+CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o.provides.build: CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o
 
 
 CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o: CMakeFiles/TipTiltGUI.dir/flags.make
 CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o: ../src/TipTilt.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o -c "/home/odroid/TipTilt Control/src/TipTilt.cpp"
 
 CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.i: cmake_force
@@ -131,7 +179,7 @@ CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o.provides.build: CMakeFiles/TipTiltGU
 
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: CMakeFiles/TipTiltGUI.dir/flags.make
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/TipTiltGUI.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/TipTiltGUI.dir/src/main.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/TipTiltGUI.dir/src/main.cpp.o -c "/home/odroid/TipTilt Control/src/main.cpp"
 
 CMakeFiles/TipTiltGUI.dir/src/main.cpp.i: cmake_force
@@ -156,7 +204,9 @@ CMakeFiles/TipTiltGUI.dir/src/main.cpp.o.provides.build: CMakeFiles/TipTiltGUI.d
 # Object files for target TipTiltGUI
 TipTiltGUI_OBJECTS = \
 "CMakeFiles/TipTiltGUI.dir/src/gui.cpp.o" \
-"CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o" \
+"CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o" \
+"CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o" \
+"CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o" \
 "CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o" \
 "CMakeFiles/TipTiltGUI.dir/src/main.cpp.o"
 
@@ -164,7 +214,9 @@ TipTiltGUI_OBJECTS = \
 TipTiltGUI_EXTERNAL_OBJECTS =
 
 TipTiltGUI: CMakeFiles/TipTiltGUI.dir/src/gui.cpp.o
-TipTiltGUI: CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o
+TipTiltGUI: CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o
+TipTiltGUI: CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o
+TipTiltGUI: CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o
 TipTiltGUI: CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o
 TipTiltGUI: CMakeFiles/TipTiltGUI.dir/src/main.cpp.o
 TipTiltGUI: CMakeFiles/TipTiltGUI.dir/build.make
@@ -185,7 +237,7 @@ TipTiltGUI: /usr/local/lib/libopencv_imgcodecs.so.3.2.0
 TipTiltGUI: /usr/local/lib/libopencv_imgproc.so.3.2.0
 TipTiltGUI: /usr/local/lib/libopencv_core.so.3.2.0
 TipTiltGUI: CMakeFiles/TipTiltGUI.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable TipTiltGUI"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable TipTiltGUI"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/TipTiltGUI.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -194,7 +246,9 @@ CMakeFiles/TipTiltGUI.dir/build: TipTiltGUI
 .PHONY : CMakeFiles/TipTiltGUI.dir/build
 
 CMakeFiles/TipTiltGUI.dir/requires: CMakeFiles/TipTiltGUI.dir/src/gui.cpp.o.requires
-CMakeFiles/TipTiltGUI.dir/requires: CMakeFiles/TipTiltGUI.dir/src/wxCameraStreamHandler.cpp.o.requires
+CMakeFiles/TipTiltGUI.dir/requires: CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o.requires
+CMakeFiles/TipTiltGUI.dir/requires: CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o.requires
+CMakeFiles/TipTiltGUI.dir/requires: CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.o.requires
 CMakeFiles/TipTiltGUI.dir/requires: CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o.requires
 CMakeFiles/TipTiltGUI.dir/requires: CMakeFiles/TipTiltGUI.dir/src/main.cpp.o.requires
 

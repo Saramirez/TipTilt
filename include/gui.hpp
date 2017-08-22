@@ -2,10 +2,14 @@
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
 #endif
-#include "../include/wxCameraStreamHandler.hpp"
+#include "../include/TipTilt.hpp"
+#include "../include/CameraStreamHandler.hpp"
 
 class GUI : public wxFrame {
+	private:
+		CameraStreamHandler * CSH;
+		TipTilt * TT;
 	public: 
-	    GUI(const wxString& title);
-	    void createWxCSH();
+	    GUI(const wxString&, CameraStreamHandler *, TipTilt *);
+	    void createWxSP();
 };

@@ -1,12 +1,15 @@
 #include "../include/TipTilt.hpp"
-#include <chrono>
 
 using ms = chrono::milliseconds;
 using get_time = chrono::steady_clock;
 
-TipTilt::TipTilt(const char* _device) { 
-	//writeBuf = (char *) malloc(8);
+const int restTime = 8; //ms
+
+TipTilt::TipTilt(const char* _device, int* _eX, int* _eY, mutex * _mtx) { 
 	device = _device;
+	eY = _eY;
+	eX = _eX;
+	mtx = _mtx;
 	openComm();
 }
 
@@ -54,8 +57,8 @@ int TipTilt::getSteps(int south){
 }
 
 void TipTilt::setErrors(int x, int y){
-	eError = x;	
-	sError = y;
+	*eX = x;	
+	*eY = y;
 }
 
 int TipTilt::goTo(char dir){
@@ -111,40 +114,52 @@ void TipTilt::updatePosition(){
 		//cout << "Device is not opened. Can't update position." << endl;
 		return;
 	}
-	if(eError != 0){
-		if(eError > 0){
-		writeBuf = (char *)"GT00001";
-		write(fd, writeBuf, 7);
-		eError--;
-		eSteps++;
+	//cout << "eX: " << *eX << ". eY" << *eY << endl;
+	mtx->lock();
+	if(*eX != 0){
+		if(*eX > 0 && eSteps < 45){
+			writeBuf = (char *)"GT00001";
+			write(fd, writeBuf, 7);
+			//write(fd, "L", 1);
+			(*eX)--;
+			eSteps++;
+			//read(fd, &out, 1);
+			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
-		else if(eError < 0){
+		else if(*eX < 0 && eSteps > -45){
 			writeBuf = (char *)"GW00001";
 			write(fd, writeBuf, 7);		
-			eError++;
+			//write(fd, "L", 1);
+			(*eX)++;
 			eSteps--;
+			//read(fd, &out, 1);
+			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
-		
-		//read(fd, &out, 1);
 		//cout << "Out: " << out << endl;
 	}
-	if(sError != 0){
-		if(sError > 0){
+	if(*eY != 0){
+		if(*eY > 0 && sSteps < 45){
 			writeBuf = (char *)"GN00001";
 			write(fd, writeBuf, 7);
-			sError--;
+			//write(fd, "L", 1);
+			(*eY)--;
 			sSteps++;
+			//read(fd, &out, 1);
+			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
-		else if(sError < 0){
+		else if(*eY < 0 && sSteps > -45){
 			writeBuf = (char *)"GS00001";
-			write(fd, writeBuf, 7);		
-			sError++;
+			write(fd, writeBuf, 7);	
+			//write(fd, "L", 1);	
+			(*eY)++;
 			sSteps--;
+			//read(fd, &out, 1);
+			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
-
-		//read(fd, &out, 1);
 		//cout << "Out: " << out << endl;
 	}
+	mtx->unlock();
+	this_thread::sleep_for(chrono::microseconds(100));
 }
 
 void TipTilt::start(){
@@ -153,6 +168,8 @@ void TipTilt::start(){
 		cout << "Device is not opened. Can't start control loop." << endl;
 		return;
 	}
+	eSteps = 0;
+	sSteps = 0;
 	running = true;
 	runningThread = thread(&TipTilt::run, this);
 }
@@ -164,8 +181,8 @@ void TipTilt::run(){
     	updatePosition();
         counter ++;
     }
-    cout << "UpdateTipTilt returned" << endl;
-    cout << "Updated TipTilt " << counter << " times." << endl;
+    //cout << "UpdateTipTilt returned" << endl;
+    //cout << "Updated TipTilt " << counter << " times." << endl;
 }
 
 void TipTilt::stop(){
@@ -178,6 +195,36 @@ void TipTilt::stop(){
 	runningThread.join();
 };
 
+void TipTilt::move(char dir){
+	if(dir == 'n')
+		writeBuf = (char *)"GN00001";
+	else if(dir == 's')
+		writeBuf = (char *)"GS00001";
+	else if(dir == 'e')
+		writeBuf = (char *)"GT00001";
+	else if(dir == 'w')
+		writeBuf = (char *)"GW00001";
+	write(fd, writeBuf, 7);	
+}
+
+void TipTilt::moveWithWASD(){
+	char dir = 'n';
+	while(dir != 'q'){
+		cin>>dir;
+		cout << "input: " << dir << endl;
+		if(dir == 'w')
+			writeBuf = (char *)"GN00001";
+		else if(dir == 's')
+			writeBuf = (char *)"GS00001";
+		else if(dir == 'd')
+			writeBuf = (char *)"GT00001";
+		else if(dir == 'a')
+			writeBuf = (char *)"GW00001";
+		else
+			continue;		
+		write(fd, writeBuf, 7);		
+	}
+}
 
 
 
