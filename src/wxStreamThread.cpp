@@ -5,37 +5,36 @@ using namespace std;
 
 DEFINE_EVENT_TYPE(FRAME_READY);
 
-wxStreamThread::wxStreamThread(wxStreamPlayer * _parent,
-                               CameraStreamHandler * _csh){
-    parent = _parent;
-    csh = _csh;
-    wxbitmap = parent->GetBitmap();
+wxStreamThread::wxStreamThread(wxStreamPlayer * _player_p,
+                               CameraStreamHandler * _CSH_p,
+							   wxBitmap * _bmp_p,
+							   wxMutex * _mtxProtectingBitmap_p){
+    player_p = _player_p;
+    CSH_p = _CSH_p;
+	bmp_p = _bmp_p;
+	mtxProtectingBitmap_p = _mtxProtectingBitmap_p;
 }
 void * wxStreamThread::Entry(){
+	if (!(CSH_p->IsCameraOpen())) {
+		cout << "Camera is not open" << endl;
+		return 0;
+	}
     Mat * frame;
+	frame = CSH->GrabOneFrame();
+	img = wxImage(frame->cols,
+		frame->rows,
+		frame->data,
+		TRUE);
 
     while(1){
-        frame = csh -> CaptureAndProcess();
-        *wxbitmap = wxBitmap(wximage);
+        frame = CSH_p -> CaptureAndProcess();
+
+		mtxProtectingBitmap.Lock();
+        *bmp_p = wxBitmap(img);
+		mtxProtectingBitmap.Unlock();
         
         wxCommandEvent evt(FRAME_READY, GetId());
-        parent->GetEventHandler()->AddPendingEvent(evt);
+        player_p->GetEventHandler()->AddPendingEvent(evt);
     }
-}
-int wxStreamThread::Open(){
-    if(csh -> OpenCamera() != 0){
-            cout << "Could not open camera" << endl;
-            return -1;
-        }
-    Mat * frame;
-
-    frame = csh -> GrabOneFrame();
-    wximage = wxImage(frame -> cols,
-                    frame -> rows,
-                    frame -> data,
-                    TRUE);
-    *wxbitmap = wxBitmap(wximage);
-    wxCommandEvent evt(FRAME_READY, GetId());
-    cout << "Opened" << endl;
-    return 0;
+	return 0;
 }

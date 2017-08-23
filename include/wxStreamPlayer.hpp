@@ -9,16 +9,16 @@
 class wxStreamPlayer : public wxWindow {
     private:
         wxWindow * parent;
-        wxBitmap wxbitmap;
+        wxBitmap * wxbitmap_p;
+		wxMutex * mtxProtectingBitmap_p;
         void OnPaint(wxPaintEvent&);
         void OnFrameReady(wxCommandEvent&);
 
     public:
-        wxStreamPlayer(wxWindow *, const wxPoint&, const wxSize&);
-        wxBitmap * GetBitmap();
+        wxStreamPlayer(wxWindow *, const wxPoint&, const wxSize&, wxMutex *, wxBitmap *);
 
     protected:
-        DECLARE_EVENT_TABLE();
+		DECLARE_EVENT_TABLE();
 };
 
 #endif

@@ -2,24 +2,19 @@
 #include "../include/wxStreamPlayer.hpp"
 #include "../include/wxStreamThread.hpp"
 
-GUI::GUI(const wxString& title, CameraStreamHandler * _CSH, TipTilt * _TT)
+GUI::GUI(const wxString& title, SystemControl * _sControl_p)
     : wxFrame(NULL, wxID_ANY, title) {
 
-    CSH = _CSH;
-    TT = _TT;
+    sControl_p = _sControl_p;
 
 
-    wxStreamPlayer* player = new wxStreamPlayer(
-        this, 
-        wxPoint(-1,-1),
-        wxSize(640, 480));
-    player->Show(true);
+    wxStreamPlayer* player_p = new wxStreamPlayer(this, wxPoint(-1,-1), wxSize(640, 480),
+												  sControl_p->GetWxBitmap(), sControl_p->GetWxMutexProtectingBitmap());
+    player_p->Show(true);
 
-    wxStreamThread * sThread = new wxStreamThread(player, CSH);
-
-    sThread -> Open();
-    sThread -> Create();
-    sThread -> Run();
+	sControl_p->SetPlayer(player_p);
+	sControl_p->Setup();
+	sControl_p->Start();
 
     Centre();
 }

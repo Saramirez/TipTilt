@@ -152,3 +152,7 @@ Mat* CameraStreamHandler::GrabOneFrame(){
     frame = frame(roi);
     return &frame;
 }
+
+bool CameraStreamHandler::IsCameraOpen() {
+	return cam.isOpened();
+}

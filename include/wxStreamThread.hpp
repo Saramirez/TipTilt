@@ -15,13 +15,13 @@ END_DECLARE_EVENT_TYPES()
 
 class wxStreamThread : public wxThread{
     private:
-        wxStreamPlayer * parent;
-        CameraStreamHandler * csh;
-        wxImage wximage;
-        wxBitmap * wxbitmap;
+        wxStreamPlayer * player_p;
+        CameraStreamHandler * CSH_p;
+		wxImage img;
+        wxBitmap * bmp_p;
+		wxMutex * mtxProtectingBitmap_p;
     public:
-        wxStreamThread(wxStreamPlayer *, CameraStreamHandler *);
-        int Open();
+        wxStreamThread(wxStreamPlayer *, CameraStreamHandler *, wxBitmap *, wxMutex *);
         virtual void * Entry();
 };
 

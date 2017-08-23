@@ -41,6 +41,7 @@ class CameraStreamHandler{
     public:
         CameraStreamHandler(const char *, int *, int *, mutex * );
         int OpenCamera();
+		bool IsCameraOpen();
         int GetStarParams();
         Mat* GrabOneFrame();
         Mat* CaptureAndProcess();
