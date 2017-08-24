@@ -6,13 +6,9 @@ using namespace std;
 DEFINE_EVENT_TYPE(FRAME_READY);
 
 wxStreamThread::wxStreamThread(wxStreamPlayer * _player_p,
-                               CameraStreamHandler * _CSH_p,
-							   wxBitmap * _bmp_p,
-							   wxMutex * _mtxProtectingBitmap_p){
+                               CameraStreamHandler * _CSH_p){
     player_p = _player_p;
     CSH_p = _CSH_p;
-	bmp_p = _bmp_p;
-	mtxProtectingBitmap_p = _mtxProtectingBitmap_p;
 }
 void * wxStreamThread::Entry(){
 	if (!(CSH_p->IsCameraOpen())) {
@@ -20,7 +16,7 @@ void * wxStreamThread::Entry(){
 		return 0;
 	}
     Mat * frame;
-	frame = CSH->GrabOneFrame();
+	frame = CSH_p->GrabOneFrame();
 	img = wxImage(frame->cols,
 		frame->rows,
 		frame->data,
@@ -28,11 +24,10 @@ void * wxStreamThread::Entry(){
 
     while(1){
         frame = CSH_p -> CaptureAndProcess();
-
-		mtxProtectingBitmap.Lock();
-        *bmp_p = wxBitmap(img);
-		mtxProtectingBitmap.Unlock();
-        
+		//cout << "thread frame w, h: " << frame->cols << ", " << frame->rows << endl;
+		bmp = wxBitmap(img);
+		player_p->bmp = bmp;
+        //cout << "thread_bmp w, h: " << bmp.GetWidth() << ", " << bmp.->GetHeight() << endl;
         wxCommandEvent evt(FRAME_READY, GetId());
         player_p->GetEventHandler()->AddPendingEvent(evt);
     }

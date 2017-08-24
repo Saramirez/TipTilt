@@ -150,6 +150,33 @@ src/CameraStreamHandler.cpp.s:
 	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.s
 .PHONY : src/CameraStreamHandler.cpp.s
 
+src/SystemControl.o: src/SystemControl.cpp.o
+
+.PHONY : src/SystemControl.o
+
+# target to build an object file
+src/SystemControl.cpp.o:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/SystemControl.cpp.o
+.PHONY : src/SystemControl.cpp.o
+
+src/SystemControl.i: src/SystemControl.cpp.i
+
+.PHONY : src/SystemControl.i
+
+# target to preprocess a source file
+src/SystemControl.cpp.i:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/SystemControl.cpp.i
+.PHONY : src/SystemControl.cpp.i
+
+src/SystemControl.s: src/SystemControl.cpp.s
+
+.PHONY : src/SystemControl.s
+
+# target to generate assembly for a file
+src/SystemControl.cpp.s:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/SystemControl.cpp.s
+.PHONY : src/SystemControl.cpp.s
+
 src/TipTilt.o: src/TipTilt.cpp.o
 
 .PHONY : src/TipTilt.o
@@ -297,6 +324,9 @@ help:
 	@echo "... src/CameraStreamHandler.o"
 	@echo "... src/CameraStreamHandler.i"
 	@echo "... src/CameraStreamHandler.s"
+	@echo "... src/SystemControl.o"
+	@echo "... src/SystemControl.i"
+	@echo "... src/SystemControl.s"
 	@echo "... src/TipTilt.o"
 	@echo "... src/TipTilt.i"
 	@echo "... src/TipTilt.s"

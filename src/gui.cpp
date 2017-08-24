@@ -8,8 +8,7 @@ GUI::GUI(const wxString& title, SystemControl * _sControl_p)
     sControl_p = _sControl_p;
 
 
-    wxStreamPlayer* player_p = new wxStreamPlayer(this, wxPoint(-1,-1), wxSize(640, 480),
-												  sControl_p->GetWxBitmap(), sControl_p->GetWxMutexProtectingBitmap());
+    wxStreamPlayer* player_p = new wxStreamPlayer(this, wxPoint(-1,-1), wxSize(640, 480));
     player_p->Show(true);
 
 	sControl_p->SetPlayer(player_p);

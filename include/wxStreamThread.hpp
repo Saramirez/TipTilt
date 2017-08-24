@@ -18,10 +18,9 @@ class wxStreamThread : public wxThread{
         wxStreamPlayer * player_p;
         CameraStreamHandler * CSH_p;
 		wxImage img;
-        wxBitmap * bmp_p;
-		wxMutex * mtxProtectingBitmap_p;
+        wxBitmap bmp;
     public:
-        wxStreamThread(wxStreamPlayer *, CameraStreamHandler *, wxBitmap *, wxMutex *);
+        wxStreamThread(wxStreamPlayer *, CameraStreamHandler *);
         virtual void * Entry();
 };
 

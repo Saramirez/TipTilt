@@ -2,8 +2,8 @@
 #include "../include/wxStreamThread.hpp"
  
 SystemControl::SystemControl(const char* TTDevice, const char* camDevice) :
-				CSH(camDevice, &eX, &eY, &mtx),
-				TT(TTDevice, &eX, &eY, &mtx){
+				CSH(camDevice, &eX, &eY, &mtxProtectingErrors),
+				TT(TTDevice, &eX, &eY, &mtxProtectingErrors){
 	eX = 0;
 	eY = 0;
 }
@@ -12,39 +12,37 @@ void SystemControl::SetPlayer(wxStreamPlayer * _player_p) {
 	player_p = _player_p;
 }
 
-wxImage * SystemControl::GetWxBitmap() {
-	return &bmp;
-}
-
-wxMutex * SystemControl::GetWxMutexProtectingBitmap() {
-	return &mtxProtectingBitmap;
-}
-
 int SystemControl::Setup() {
-	if (CSH -> OpenCamera() != 0) {
+	if (CSH.OpenCamera() != 0) {
 		cout << "Could not open camera" << endl;
 		return -1;
 	}
 	Mat * frame;
 
-	frame = CSH->GrabOneFrame();
-	img = wxImage(frame->cols,
+	frame = CSH.GrabOneFrame();
+	cout << "SC frame w, h: " << frame->cols << ", " << frame->rows << endl;
+	wxImage img = wxImage(frame->cols,
 		frame->rows,
 		frame->data,
 		TRUE);
-	mtxProtectingBitmap.Lock();
-	bmp = wxBitmap(img);
-	mtxProtectingBitmap.Unlock();
+	wxBitmap bmp(img);
+	cout << "SC bmp: " << &bmp << endl;
+	cout << "SC bmp w, h: " << bmp.GetWidth() << ", " << bmp.GetHeight() << endl;
 
 	cout << "Camera stream setup ready" << endl;
-
-	wxCommandEvent evt(FRAME_READY, GetId());
+	player_p->bmp = bmp;
+	wxCommandEvent evt(FRAME_READY, sControlId);
 	player_p->GetEventHandler()->AddPendingEvent(evt);
+
+	cout << "FRAME_READY event posted" << endl;
 }
 
 int SystemControl::Start() {
-	wxStreamThread * sThread = new wxStreamThread(player_p, &CSH, &img, &bmp, &mtxProtectingBitmap);
+	cout << "Called start" << endl;
+	wxStreamThread * sThread = new wxStreamThread(player_p, &CSH);
 
 	sThread->Create();
+	cout << "Called create" << endl;
 	sThread->Run();
+	cout << "Called run" << endl;
 }
