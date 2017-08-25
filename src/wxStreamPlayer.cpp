@@ -30,6 +30,8 @@ void wxStreamPlayer::OnPaint(wxPaintEvent& event){
 
 	if(!dc.IsOk())
 		return;
+	if(!bmp.IsOk())
+		return;
 
 	int x, y, w, h;
 

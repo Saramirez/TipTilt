@@ -147,10 +147,11 @@ Mat* CameraStreamHandler::CaptureAndProcess(){
     return &frame;
 }
 
-Mat* CameraStreamHandler::GrabOneFrame(){
+Mat CameraStreamHandler::GrabOneFrame(){
     cam >> frame;
+	cout << "Called GrabOneFrame" << endl;
     frame = frame(roi);
-    return &frame;
+    return frame;
 }
 
 bool CameraStreamHandler::IsCameraOpen() {
