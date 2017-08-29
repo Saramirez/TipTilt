@@ -39,12 +39,12 @@ class CameraStreamHandler{
         void CalculateErrors(int&, int&, double&, double*, double&);
 
     public:
-        CameraStreamHandler(const char *, int *, int *, mutex * );
+        CameraStreamHandler(const char *, int *, int *, mutex *);
         int OpenCamera();
 		bool IsCameraOpen();
         int GetStarParams();
         Mat GrabOneFrame();
-        Mat* CaptureAndProcess();
+        Mat CaptureAndProcess();
 };
 
 #endif

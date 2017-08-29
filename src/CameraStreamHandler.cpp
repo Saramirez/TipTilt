@@ -16,8 +16,9 @@ int CameraStreamHandler::OpenCamera(){
 
     if(!cam.isOpened()){
         return -1;
-        cout << "Cam is not opened" << endl;
+        cout << "Could not open camera" << endl;
     }
+
     return 0;
 }
 
@@ -119,7 +120,7 @@ void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, do
     //cout << "xErr = " << xErr << "; yErr = " << yErr << endl;
 }
 
-Mat* CameraStreamHandler::CaptureAndProcess(){
+Mat CameraStreamHandler::CaptureAndProcess(){
     cam >> frame;
     frame = frame(roi);
 
@@ -144,13 +145,14 @@ Mat* CameraStreamHandler::CaptureAndProcess(){
     cvtColor(frame, frame, CV_GRAY2RGB);
     circle(frame, Point(target.x,target.y), 2, Scalar(0,128,128));
 
-    return &frame;
+    return frame;
 }
 
 Mat CameraStreamHandler::GrabOneFrame(){
     cam >> frame;
-	cout << "Called GrabOneFrame" << endl;
+	//cout << "Called GrabOneFrame" << endl;
     frame = frame(roi);
+    cvtColor(frame, frame, CV_GRAY2RGB);
     return frame;
 }
 

@@ -6,6 +6,10 @@
     #include <wx/wx.h>
 #endif
 
+BEGIN_DECLARE_EVENT_TYPES()
+    DECLARE_EVENT_TYPE(FRAME_READY, -1);
+END_DECLARE_EVENT_TYPES()
+
 class wxStreamPlayer : public wxWindow {
     private:
         wxWindow * parent;

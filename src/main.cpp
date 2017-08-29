@@ -11,6 +11,8 @@ bool TipTiltApp::OnInit()
 
     GUI *gui = new GUI(wxT("TipTilt Control"), &sControl);
     gui->Show(true);
+    gui->Go();
+    this_thread::sleep_for(chrono::milliseconds(100));
 
     return true;
 }

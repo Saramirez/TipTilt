@@ -7,6 +7,8 @@
 class GUI : public wxFrame {
 	private:
 		SystemControl * sControl_p;
+		wxStreamPlayer player;
 	public: 
 	    GUI(const wxString&, SystemControl *);
+		void Go();
 };
