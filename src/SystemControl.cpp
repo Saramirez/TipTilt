@@ -8,41 +8,28 @@ SystemControl::SystemControl(const char* TTDevice, const char* camDevice) :
 	eY = 0;
 }
 
-void SystemControl::SetPlayer(wxStreamPlayer * _player_p) {
-	player_p = _player_p;
-}
-
-int SystemControl::Setup() {
-	if (CSH.OpenCamera() != 0) {
+int SystemControl::Start() {
+	capturing = true;
+	if (!CSH.OpenCamera()) {
 		cout << "Could not open camera" << endl;
 		return -1;
 	}
-	Mat * frame;
-
-	frame = CSH.GrabOneFrame();
-	cout << "SC frame w, h: " << frame->cols << ", " << frame->rows << endl;
-	wxImage img = wxImage(frame->cols,
-		frame->rows,
-		frame->data,
-		TRUE);
-	wxBitmap bmp(img);
-	cout << "SC bmp: " << &bmp << endl;
-	cout << "SC bmp w, h: " << bmp.GetWidth() << ", " << bmp.GetHeight() << endl;
-
-	cout << "Camera stream setup ready" << endl;
-	player_p->bmp = bmp;
-	wxCommandEvent evt(FRAME_READY, sControlId);
-	player_p->GetEventHandler()->AddPendingEvent(evt);
-
-	cout << "FRAME_READY event posted" << endl;
+	capturingThread = thread(&SystemControl::RunCapture, this);
+	return 0;
 }
 
-int SystemControl::Start() {
-	cout << "Called start" << endl;
-	wxStreamThread * sThread = new wxStreamThread(player_p, &CSH);
+void SystemControl::RunCapture() {
+	Mat frame;
+	while (capturing) {
+		frame = CSH.CaptureAndProcess();
+		player_p->DisplayFrame(frame);
+		this_thread::sleep_for(chrono::milliseconds(5));
+	}
+}
 
-	sThread->Create();
-	cout << "Called create" << endl;
-	sThread->Run();
-	cout << "Called run" << endl;
+int SystemControl::Stop() {
+	capturing = false;
+
+	capturingThread.join();
+	return 0;
 }

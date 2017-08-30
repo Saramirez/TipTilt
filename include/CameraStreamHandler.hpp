@@ -43,8 +43,8 @@ class CameraStreamHandler{
         int OpenCamera();
 		bool IsCameraOpen();
         int GetStarParams();
-        Mat* GrabOneFrame();
-        Mat* CaptureAndProcess();
+        Mat GrabOneFrame();
+        Mat CaptureAndProcess();
 };
 
 #endif

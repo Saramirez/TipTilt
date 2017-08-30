@@ -3,13 +3,9 @@
 #include <iostream>
 
 using namespace std;
-BEGIN_DECLARE_EVENT_TYPES()
-    DECLARE_EVENT_TYPE(FRAME_READY, -1);
-END_DECLARE_EVENT_TYPES()
 
 BEGIN_EVENT_TABLE(wxStreamPlayer, wxWindow)
 	EVT_PAINT(wxStreamPlayer::OnPaint)
-	EVT_COMMAND(wxID_ANY, FRAME_READY, wxStreamPlayer::OnFrameReady)
 END_EVENT_TABLE()
 
 wxStreamPlayer::wxStreamPlayer(wxWindow* _parent, const wxPoint& _position, const wxSize& _size)
@@ -18,8 +14,18 @@ wxStreamPlayer::wxStreamPlayer(wxWindow* _parent, const wxPoint& _position, cons
  	parent = _parent;
 }
 
-void wxStreamPlayer::OnFrameReady(wxCommandEvent& evt){
-	cout << "Recieved FRAME_READY event" << endl;
+void wxStreamPlayer::DisplayFrame(Mat frame) {
+	/*
+	img = wxImage(frame.cols,
+		frame.rows,
+		frame.data,
+		TRUE);
+	*/
+	img = wxImage(frame.cols,
+		frame.rows,
+		frame.data);
+	bmp = wxBitmap(img);
+
 	Refresh(FALSE);
 	Update();
 }

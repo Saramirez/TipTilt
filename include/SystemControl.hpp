@@ -5,6 +5,9 @@
 #include "../include/TipTilt.hpp"
 #include "../include/wxStreamPlayer.hpp"
 
+#include <atomic>
+#include <thread>
+
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
@@ -17,14 +20,16 @@ class SystemControl {
 		CameraStreamHandler CSH;
 		TipTilt TT;
 		mutex mtxProtectingErrors;
-		wxStreamPlayer * player_p;
 		int eX;
 		int eY;
+		atomic<bool> capturing;
+		thread capturingThread;
 	public:
+		wxStreamPlayer * player_p;
 		SystemControl(const char*, const char*);
-		int Setup();
 		int Start();
-		void SetPlayer(wxStreamPlayer *);
+		void RunCapture();
+		int Stop();
 };
 
 

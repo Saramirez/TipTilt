@@ -6,17 +6,21 @@
     #include <wx/wx.h>
 #endif
 
+#include "opencv2/opencv.hpp"
+
 class wxStreamPlayer : public wxWindow {
     private:
         wxWindow * parent;
         //wxBitmap * wxbitmap_p;
 		//wxMutex * mtxProtectingBitmap_p;
+		void DisplayFrame(Mat);
         void OnPaint(wxPaintEvent&);
         void OnFrameReady(wxCommandEvent&);
+		wxImage img;
+		wxBitmap bmp;
 
     public:
         wxStreamPlayer(wxWindow *, const wxPoint&, const wxSize&);
-        wxBitmap bmp;
 
     protected:
 		DECLARE_EVENT_TABLE();

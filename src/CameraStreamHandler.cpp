@@ -119,7 +119,7 @@ void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, do
     //cout << "xErr = " << xErr << "; yErr = " << yErr << endl;
 }
 
-Mat* CameraStreamHandler::CaptureAndProcess(){
+Mat CameraStreamHandler::CaptureAndProcess(){
     cam >> frame;
     frame = frame(roi);
 
@@ -144,13 +144,14 @@ Mat* CameraStreamHandler::CaptureAndProcess(){
     cvtColor(frame, frame, CV_GRAY2RGB);
     circle(frame, Point(target.x,target.y), 2, Scalar(0,128,128));
 
-    return &frame;
+    return frame;
 }
 
-Mat* CameraStreamHandler::GrabOneFrame(){
+Mat CameraStreamHandler::GrabOneFrame(){
     cam >> frame;
     frame = frame(roi);
-    return &frame;
+	cvtColor(frame, frame, CV_GRAY2RGB);
+    return frame;
 }
 
 bool CameraStreamHandler::IsCameraOpen() {
