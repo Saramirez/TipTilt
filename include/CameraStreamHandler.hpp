@@ -29,12 +29,12 @@ class CameraStreamHandler{
         Rect oRoi;
         double xPixToSteps = 2.4;
         double yPixToSteps = 2.33;
-        const double pinholeRadius = 13;
-        double starRadius = 12;
-        const double w = 2 * M_PI * 0.04;
-	    const double R = 9;
+        const double pinholeRadius = 13.0;
+        double starRadius = 10.3;
+        const double w = 2 * M_PI * 0.05;
+	    const double R = 6;
 
-        const int thresh = 100;
+        const int thresh = 150;
         bool targetSet;
         bool simulate;
 

@@ -10,11 +10,12 @@ CameraStreamHandler::CameraStreamHandler(const char * _device, int* _eX, int* _e
     eY = _eY;
     mtx = _mtx;
     Point _target(50, 50);
-    Rect _roi(270,190,100,100);
+    Rect _roi(269, 196, 100, 100);
     target = _target;
     roi = _roi; 
     oRoi = roi;
     simulate = true;
+    targetSet = true;
 }
 
 int CameraStreamHandler::OpenCamera(){
@@ -31,15 +32,15 @@ void CameraStreamHandler::GetShapeInfo(Point& centroid, double& dist, double dir
     Mat bw;
     threshold(frame, bw, thresh, 255, THRESH_BINARY);
     Moments m = moments(bw, true);
-    Point res(m.m10/m.m00, m.m01/m.m00);
+	Point res(m.m10/m.m00, m.m01/m.m00);
 
     Mat aux;
     threshold(frame, aux, thresh, 255, THRESH_TOZERO);
     Moments m2 = moments(aux);
-    Point res2(m2.m10/m2.m00, m2.m01/m.m00);
+	Point res2(m2.m10/m2.m00, m2.m01/m2.m00);
     centroid = res2;
 
-    dist = sqrt(pow(target.x - centroid.x, 2) + pow(target.y - centroid.y, 2));
+	dist = sqrt(pow(target.x - centroid.x, 2) + pow(target.y - centroid.y, 2));
     if(centroid.x == 0 && centroid.y == 0){
         dist = -1;
         return;
@@ -155,10 +156,10 @@ Mat CameraStreamHandler::CaptureAndProcess(){
         mtx->unlock();
         //_t = t;
     }
-
-    circle(frame, centroid, 2, Scalar(128,0,0));
+    if(dist != -1)
+        circle(frame, centroid, 2, Scalar(128,0,0));
     cvtColor(frame, frame, CV_GRAY2RGB);
-    circle(frame, Point(target.x,target.y), 2, Scalar(0,128,128));
+    circle(frame, Point(target.x,target.y), 3, Scalar(0,128,128));
 
     return frame;
 }

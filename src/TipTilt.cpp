@@ -7,8 +7,8 @@ const int restTime = 8; //ms
 
 TipTilt::TipTilt(const char* _device, int* _eX, int* _eY, mutex * _mtx) { 
 	device = _device;
-	eY = _eY;
 	eX = _eX;
+	eY = _eY;
 	mtx = _mtx;
 	openComm();
 }
@@ -128,7 +128,7 @@ void TipTilt::updatePosition(){
 		}
 		else if(*eX < 0 && eSteps > -45){
 			writeBuf = (char *)"GW00001";
-			write(fd, writeBuf, 7);		
+			write(fd, writeBuf, 7);
 			//write(fd, "L", 1);
 			(*eX)++;
 			eSteps--;

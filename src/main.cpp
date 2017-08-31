@@ -16,6 +16,7 @@ bool TipTiltApp::OnInit()
     gui->Show(true);
 
 	sControl.StartCapture();
+	sControl.StartCorrection();
 
     return true;
 }
