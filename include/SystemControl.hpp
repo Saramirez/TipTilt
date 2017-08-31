@@ -4,6 +4,7 @@
 #include "../include/CameraStreamHandler.hpp"
 #include "../include/TipTilt.hpp"
 #include "../include/wxStreamPlayer.hpp"
+#include "opencv2/opencv.hpp"
 
 #include <atomic>
 #include <thread>
@@ -20,15 +21,18 @@ class SystemControl {
 		CameraStreamHandler CSH;
 		TipTilt TT;
 		mutex mtxProtectingErrors;
+		mutex mtxProtectingFrame;
 		int eX;
 		int eY;
 		atomic<bool> capturing;
 		thread capturingThread;
+		Mat frame;
+		void SendFrame();
+		void RunCapture();
 	public:
 		wxStreamPlayer * player_p;
 		SystemControl(const char*, const char*);
 		int Start();
-		void RunCapture();
 		int Stop();
 };
 

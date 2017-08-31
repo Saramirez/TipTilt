@@ -15,15 +15,10 @@ wxStreamPlayer::wxStreamPlayer(wxWindow* _parent, const wxPoint& _position, cons
 }
 
 void wxStreamPlayer::DisplayFrame(Mat frame) {
-	/*
 	img = wxImage(frame.cols,
 		frame.rows,
 		frame.data,
 		TRUE);
-	*/
-	img = wxImage(frame.cols,
-		frame.rows,
-		frame.data);
 	bmp = wxBitmap(img);
 
 	Refresh(FALSE);
@@ -31,7 +26,7 @@ void wxStreamPlayer::DisplayFrame(Mat frame) {
 }
 
 void wxStreamPlayer::OnPaint(wxPaintEvent& event){
-	cout << "Recieved ON_PAINT event" << endl;
+	//cout << "Recieved ON_PAINT event" << endl;
 	wxPaintDC dc(this);
 
 	if(!dc.IsOk())
@@ -39,14 +34,14 @@ void wxStreamPlayer::OnPaint(wxPaintEvent& event){
 
 	int x, y, w, h;
 
-	cout << "player bmp w, h: " << bmp.GetWidth() << ", " << bmp.GetHeight() << endl;
+	//cout << "player bmp w, h: " << bmp.GetWidth() << ", " << bmp.GetHeight() << endl;
 	
 
 	dc.GetClippingBox(&x, &y, &w, &h);
-	cout << "x, y, w, h: " << x << ", " << y << ", " << w << ", " << h << endl;
+	//cout << "x, y, w, h: " << x << ", " << y << ", " << w << ", " << h << endl;
 	dc.DrawBitmap(bmp, x, y);
 
-	cout << "Bitmap Drawn" << endl;
+	//cout << "Bitmap Drawn" << endl;
 
 	return;
 }

@@ -23,6 +23,12 @@ mutex
 /home/odroid/TipTilt Control/include/TipTilt.hpp
 ../include/wxStreamPlayer.hpp
 /home/odroid/TipTilt Control/include/wxStreamPlayer.hpp
+opencv2/opencv.hpp
+/home/odroid/TipTilt Control/include/opencv2/opencv.hpp
+atomic
+-
+thread
+-
 wx/wxprec.h
 -
 wx/wx.h
@@ -51,6 +57,8 @@ wx/wxprec.h
 -
 wx/wx.h
 -
+../include/wxStreamPlayer.hpp
+/home/odroid/TipTilt Control/include/wxStreamPlayer.hpp
 ../include/SystemControl.hpp
 /home/odroid/TipTilt Control/include/SystemControl.hpp
 
@@ -59,22 +67,16 @@ wx/wxprec.h
 -
 wx/wx.h
 -
+opencv2/stitching.hpp
+/home/odroid/TipTilt Control/include/opencv2/stitching.hpp
+X11/Xlib.h
+-
 
 /home/odroid/TipTilt Control/include/wxStreamPlayer.hpp
 wx/wxprec.h
 -
 wx/wx.h
 -
-
-/home/odroid/TipTilt Control/include/wxStreamThread.hpp
-wx/wxprec.h
--
-wx/wx.h
--
-../include/CameraStreamHandler.hpp
-/home/odroid/TipTilt Control/include/CameraStreamHandler.hpp
-../include/wxStreamPlayer.hpp
-/home/odroid/TipTilt Control/include/wxStreamPlayer.hpp
 opencv2/opencv.hpp
 /home/odroid/TipTilt Control/include/opencv2/opencv.hpp
 
@@ -85,8 +87,6 @@ opencv2/opencv.hpp
 /home/odroid/TipTilt Control/src/SystemControl.cpp
 ../include/SystemControl.hpp
 /home/odroid/TipTilt Control/include/SystemControl.hpp
-../include/wxStreamThread.hpp
-/home/odroid/TipTilt Control/include/wxStreamThread.hpp
 
 /home/odroid/TipTilt Control/src/TipTilt.cpp
 ../include/TipTilt.hpp
@@ -95,10 +95,6 @@ opencv2/opencv.hpp
 /home/odroid/TipTilt Control/src/gui.cpp
 ../include/gui.hpp
 /home/odroid/TipTilt Control/include/gui.hpp
-../include/wxStreamPlayer.hpp
-/home/odroid/TipTilt Control/include/wxStreamPlayer.hpp
-../include/wxStreamThread.hpp
-/home/odroid/TipTilt Control/include/wxStreamThread.hpp
 
 /home/odroid/TipTilt Control/src/main.cpp
 ../include/main.hpp
@@ -111,12 +107,6 @@ opencv2/opencv.hpp
 /home/odroid/TipTilt Control/src/wxStreamPlayer.cpp
 ../include/wxStreamPlayer.hpp
 /home/odroid/TipTilt Control/include/wxStreamPlayer.hpp
-iostream
--
-
-/home/odroid/TipTilt Control/src/wxStreamThread.cpp
-../include/wxStreamThread.hpp
-/home/odroid/TipTilt Control/include/wxStreamThread.hpp
 iostream
 -
 

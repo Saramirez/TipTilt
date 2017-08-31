@@ -1,5 +1,4 @@
 #include "../include/SystemControl.hpp"
-#include "../include/wxStreamThread.hpp"
  
 SystemControl::SystemControl(const char* TTDevice, const char* camDevice) :
 				CSH(camDevice, &eX, &eY, &mtxProtectingErrors),
@@ -10,7 +9,7 @@ SystemControl::SystemControl(const char* TTDevice, const char* camDevice) :
 
 int SystemControl::Start() {
 	capturing = true;
-	if (!CSH.OpenCamera()) {
+	if (CSH.OpenCamera() != 0) {
 		cout << "Could not open camera" << endl;
 		return -1;
 	}
@@ -19,12 +18,19 @@ int SystemControl::Start() {
 }
 
 void SystemControl::RunCapture() {
-	Mat frame;
 	while (capturing) {
+		mtxProtectingFrame.lock();
 		frame = CSH.CaptureAndProcess();
-		player_p->DisplayFrame(frame);
+		mtxProtectingFrame.unlock();
+		SendFrame();
 		this_thread::sleep_for(chrono::milliseconds(5));
 	}
+}
+
+void SystemControl::SendFrame(){
+	mtxProtectingFrame.lock();
+	player_p->DisplayFrame(frame);
+	mtxProtectingFrame.unlock();
 }
 
 int SystemControl::Stop() {

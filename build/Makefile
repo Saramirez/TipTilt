@@ -285,33 +285,6 @@ src/wxStreamPlayer.cpp.s:
 	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/wxStreamPlayer.cpp.s
 .PHONY : src/wxStreamPlayer.cpp.s
 
-src/wxStreamThread.o: src/wxStreamThread.cpp.o
-
-.PHONY : src/wxStreamThread.o
-
-# target to build an object file
-src/wxStreamThread.cpp.o:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.o
-.PHONY : src/wxStreamThread.cpp.o
-
-src/wxStreamThread.i: src/wxStreamThread.cpp.i
-
-.PHONY : src/wxStreamThread.i
-
-# target to preprocess a source file
-src/wxStreamThread.cpp.i:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.i
-.PHONY : src/wxStreamThread.cpp.i
-
-src/wxStreamThread.s: src/wxStreamThread.cpp.s
-
-.PHONY : src/wxStreamThread.s
-
-# target to generate assembly for a file
-src/wxStreamThread.cpp.s:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/wxStreamThread.cpp.s
-.PHONY : src/wxStreamThread.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -339,9 +312,6 @@ help:
 	@echo "... src/wxStreamPlayer.o"
 	@echo "... src/wxStreamPlayer.i"
 	@echo "... src/wxStreamPlayer.s"
-	@echo "... src/wxStreamThread.o"
-	@echo "... src/wxStreamThread.i"
-	@echo "... src/wxStreamThread.s"
 .PHONY : help
 
 

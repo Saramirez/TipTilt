@@ -8,12 +8,13 @@
 
 #include "opencv2/opencv.hpp"
 
+using namespace cv;
+
 class wxStreamPlayer : public wxWindow {
     private:
         wxWindow * parent;
         //wxBitmap * wxbitmap_p;
 		//wxMutex * mtxProtectingBitmap_p;
-		void DisplayFrame(Mat);
         void OnPaint(wxPaintEvent&);
         void OnFrameReady(wxCommandEvent&);
 		wxImage img;
@@ -21,6 +22,7 @@ class wxStreamPlayer : public wxWindow {
 
     public:
         wxStreamPlayer(wxWindow *, const wxPoint&, const wxSize&);
+		void DisplayFrame(Mat);
 
     protected:
 		DECLARE_EVENT_TABLE();
