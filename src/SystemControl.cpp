@@ -7,7 +7,7 @@ SystemControl::SystemControl(const char* TTDevice, const char* camDevice) :
 	eY = 0;
 }
 
-int SystemControl::Start() {
+int SystemControl::StartCapture() {
 	capturing = true;
 	if (CSH.OpenCamera() != 0) {
 		cout << "Could not open camera" << endl;
@@ -19,23 +19,23 @@ int SystemControl::Start() {
 
 void SystemControl::RunCapture() {
 	while (capturing) {
-		mtxProtectingFrame.lock();
 		frame = CSH.CaptureAndProcess();
-		mtxProtectingFrame.unlock();
-		SendFrame();
+		player_p->DisplayFrame(frame);
 		this_thread::sleep_for(chrono::milliseconds(5));
 	}
 }
 
-void SystemControl::SendFrame(){
-	mtxProtectingFrame.lock();
-	player_p->DisplayFrame(frame);
-	mtxProtectingFrame.unlock();
-}
-
-int SystemControl::Stop() {
+int SystemControl::StopCapture() {
 	capturing = false;
-
 	capturingThread.join();
 	return 0;
 }
+
+int SystemControl::StartCorrection(){
+	if(TT.start() !=0 ){
+		cout << "Could not start TT" << endl;
+		return -1;
+	}
+	return 0;
+}
+

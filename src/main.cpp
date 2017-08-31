@@ -15,7 +15,7 @@ bool TipTiltApp::OnInit()
 	gui->sControl_p = &sControl;
     gui->Show(true);
 
-	sControl.Start();
+	sControl.StartCapture();
 
     return true;
 }

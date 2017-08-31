@@ -162,16 +162,17 @@ void TipTilt::updatePosition(){
 	this_thread::sleep_for(chrono::microseconds(100));
 }
 
-void TipTilt::start(){
+int TipTilt::start(){
 	//Revisa si el dispositivo esta conectado y escuchando, luego parte el loop de control en una thread.
 	if(!opened){
 		cout << "Device is not opened. Can't start control loop." << endl;
-		return;
+		return -1;
 	}
 	eSteps = 0;
 	sSteps = 0;
 	running = true;
 	runningThread = thread(&TipTilt::run, this);
+	return 0;
 }
 
 void TipTilt::run(){
@@ -185,14 +186,15 @@ void TipTilt::run(){
     //cout << "Updated TipTilt " << counter << " times." << endl;
 }
 
-void TipTilt::stop(){
+int TipTilt::stop(){
 	//Se hace terminar la thread al hacer running = false.
 	if(!opened){
 		cout << "Device is not opened. Can't stop control loop." << endl;
-		return;
+		return -1;
 	}
 	running = false;
 	runningThread.join();
+	return 0;
 };
 
 void TipTilt::move(char dir){

@@ -1,4 +1,8 @@
 #include "../include/CameraStreamHandler.hpp"
+#include <chrono>
+
+using ms = chrono::milliseconds;
+using get_time = chrono::steady_clock;
 
 CameraStreamHandler::CameraStreamHandler(const char * _device, int* _eX, int* _eY, mutex * _mtx){
     device = _device;
@@ -9,6 +13,8 @@ CameraStreamHandler::CameraStreamHandler(const char * _device, int* _eX, int* _e
     Rect _roi(270,190,100,100);
     target = _target;
     roi = _roi; 
+    oRoi = roi;
+    simulate = true;
 }
 
 int CameraStreamHandler::OpenCamera(){
@@ -121,6 +127,16 @@ void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, do
 
 Mat CameraStreamHandler::CaptureAndProcess(){
     cam >> frame;
+
+    if(simulate){
+	    auto t = get_time::now();
+        auto cTime = chrono::duration_cast<ms>(t.time_since_epoch()).count() / 1000.0;
+		double dx = 2.2 * R * sin(2 * w * cTime) *  cos(2 * w * cTime) + R * cos(4 * w * cTime) + 0.5 * R * cos(10 * w * cTime);
+		double dy = 2.2 * R * cos(2 * w * cTime) * sin(w/1.5 * cTime) + R * sin(3 * w * cTime) + 0.4 * R * sin(15 * w * cTime);
+		roi.x = oRoi.x + dx;
+		roi.y = oRoi.y + dy;
+    }
+
     frame = frame(roi);
 
     //draw the pinhole into the frame

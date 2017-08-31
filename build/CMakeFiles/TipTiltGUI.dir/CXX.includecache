@@ -83,6 +83,8 @@ opencv2/opencv.hpp
 /home/odroid/TipTilt Control/src/CameraStreamHandler.cpp
 ../include/CameraStreamHandler.hpp
 /home/odroid/TipTilt Control/include/CameraStreamHandler.hpp
+chrono
+-
 
 /home/odroid/TipTilt Control/src/SystemControl.cpp
 ../include/SystemControl.hpp

@@ -26,6 +26,7 @@ class TipTilt {
 		const char* device;
 		struct termios SerialConfig;
 		thread runningThread;
+		void run();
 	public:
 		bool isOpened();
 		int openComm();
@@ -35,9 +36,8 @@ class TipTilt {
 		void setErrors(int, int);
 		int goTo(char);
 		void moveWithWASD();
-		void start();
-		void stop();
-		void run();
+		int start();
+		int stop();
 		void move(char);
 		TipTilt(const char *, int *, int *, mutex *); 	
 };

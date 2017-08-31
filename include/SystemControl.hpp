@@ -21,19 +21,18 @@ class SystemControl {
 		CameraStreamHandler CSH;
 		TipTilt TT;
 		mutex mtxProtectingErrors;
-		mutex mtxProtectingFrame;
 		int eX;
 		int eY;
 		atomic<bool> capturing;
 		thread capturingThread;
 		Mat frame;
-		void SendFrame();
 		void RunCapture();
 	public:
 		wxStreamPlayer * player_p;
 		SystemControl(const char*, const char*);
-		int Start();
-		int Stop();
+		int StartCapture();
+		int StartCorrection();
+		int StopCapture();
 };
 
 

@@ -26,13 +26,17 @@ class CameraStreamHandler{
         Mat frame;
         Point target;
         Rect roi;
+        Rect oRoi;
         double xPixToSteps = 2.4;
         double yPixToSteps = 2.33;
         const double pinholeRadius = 13;
-        double starRadius = 13.5;
+        double starRadius = 12;
+        const double w = 2 * M_PI * 0.04;
+	    const double R = 9;
 
         const int thresh = 100;
         bool targetSet;
+        bool simulate;
 
         void GetShapeInfo(Point&, double&, double*, double&);
         void GetShapeInfo(Point&, double&);
