@@ -1,9 +1,9 @@
 #ifndef SC_H
 #define SC_H
 
-#include "../include/CameraStreamHandler.hpp"
-#include "../include/TipTilt.hpp"
-#include "../include/wxStreamPlayer.hpp"
+#include "CameraStreamHandler.hpp"
+#include "TipTilt.hpp"
+#include "wxStreamPlayer.hpp"
 #include "opencv2/opencv.hpp"
 
 #include <atomic>
@@ -28,7 +28,7 @@ class SystemControl {
 		Mat frame;
 		void RunCapture();
 	public:
-		wxStreamPlayer * player_p;
+		StreamPlayer * player_p;
 		SystemControl(const char*, const char*);
 		int StartCapture();
 		int StartCorrection();

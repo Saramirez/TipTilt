@@ -38,6 +38,7 @@ class MainFrame : public wxFrame
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnClickStart( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnFramePaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnClickExit( wxCommandEvent& event ) { event.Skip(); }
 		
 	
