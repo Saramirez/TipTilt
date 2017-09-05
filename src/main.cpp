@@ -1,5 +1,5 @@
 #include "../include/main.hpp"
-#include "../include/gui.hpp"
+#include "../include/TTGui.hpp"
 #include "../include/SystemControl.hpp"
 
 
@@ -9,14 +9,13 @@ SystemControl sControl("/dev/ttyUSB0", "v4l2src ! video/x-raw,format=GRAY8, widt
 
 bool TipTiltApp::OnInit()
 {
-	GUI * gui = new GUI(wxT("TipTilt Control"));
+	TTGui * gui = new TTGui(NULL);
 
 	sControl.player_p = gui->player;
 	gui->sControl_p = &sControl;
     gui->Show(true);
 
-	sControl.StartCapture();
-	sControl.StartCorrection();
+	//sControl.StartCapture();
 
     return true;
 }
