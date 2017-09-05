@@ -11,6 +11,8 @@ TipTilt::TipTilt(const char* _device, int* _eX, int* _eY, mutex * _mtx) {
 	eY = _eY;
 	mtx = _mtx;
 	openComm();
+	NSCenter = 0;
+	WECenter = 0;
 }
 
 bool TipTilt::isOpened(){
@@ -45,20 +47,6 @@ void TipTilt::closeComm(){
 	close(fd);
 	opened = false;
     cout << "Closed Comm" << endl;
-}
-
-int TipTilt::getSteps(int south){
-	if(south == 1)
-		return sSteps ;
-	else if(south == 0)
-		return eSteps;
-	else
-		return -99;
-}
-
-void TipTilt::setErrors(int x, int y){
-	*eX = x;	
-	*eY = y;
 }
 
 int TipTilt::goTo(char dir){
@@ -123,6 +111,7 @@ void TipTilt::updatePosition(){
 			//write(fd, "L", 1);
 			(*eX)--;
 			eSteps++;
+			addStep(1);
 			//read(fd, &out, 1);
 			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
@@ -132,6 +121,7 @@ void TipTilt::updatePosition(){
 			//write(fd, "L", 1);
 			(*eX)++;
 			eSteps--;
+			addStep(1);
 			//read(fd, &out, 1);
 			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
@@ -144,6 +134,7 @@ void TipTilt::updatePosition(){
 			//write(fd, "L", 1);
 			(*eY)--;
 			sSteps++;
+			addStep(0);
 			//read(fd, &out, 1);
 			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
@@ -153,6 +144,7 @@ void TipTilt::updatePosition(){
 			//write(fd, "L", 1);	
 			(*eY)++;
 			sSteps--;
+			addStep(0);
 			//read(fd, &out, 1);
 			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
@@ -160,6 +152,35 @@ void TipTilt::updatePosition(){
 	}
 	mtx->unlock();
 	this_thread::sleep_for(chrono::microseconds(100));
+}
+
+void TipTilt::addStep(int dir) {
+	if (dir == 0) {
+		for (int i = avgCount - 1; i > 0; i--)
+			sLastSteps[i] = sLastSteps[i - 1];
+		sLastSteps[i] = sSteps;
+	}
+	else {
+		for (int i = avgCount - 1; i > 0; i--)
+			eLastSteps[i] = eLastSteps[i - 1];
+		eLastSteps[i] = eSteps;
+	}		
+}
+
+int TipTilt::getAvgStep(int dir) {
+	int res = 0;
+	if (dir == 0) {
+		for (int i = 0; i < avgCount; i++)
+			res += sLastSteps[i];
+		res = res / avgCount;
+		return res;
+	}
+	else {
+		for (int i = 0; i < avgCount; i++)
+			res += eLastSteps[i];
+		res = res / avgCount;
+		return res;
+	}
 }
 
 int TipTilt::start(){
@@ -179,8 +200,20 @@ void TipTilt::run(){
 	//Metodo que se estara corriendo en una thread.
 	int counter = 0;
 	while(running){
+		if (NSCenter == 0)
+			if (getAvgStep(0) > 30)
+				NSCenter = 1;
+			else if (getAvgStep(0) < -30)
+				NSCenter = -1;
+
+		if (WECenter == 0)
+			if (getAvgStep(1) > 30)
+				WECenter = 1;
+			else if (getAvgStep(1) < -30)
+				WECenter = -1;
+			
     	updatePosition();
-        counter ++;
+		counter++;
     }
     //cout << "UpdateTipTilt returned" << endl;
     //cout << "Updated TipTilt " << counter << " times." << endl;

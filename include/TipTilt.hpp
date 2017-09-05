@@ -13,7 +13,11 @@
 using namespace std;
 
 class TipTilt {
+	private:
+		const int avgCount = 10;
 		int sSteps, eSteps;
+		int sLastSteps[avgCount];
+		int eLastSteps[avgCount];
 		int * eY;
 		int * eX;
 		mutex * mtx;
@@ -26,14 +30,19 @@ class TipTilt {
 		const char* device;
 		struct termios SerialConfig;
 		thread runningThread;
+		void addStep(int);
+		int getAvgStep(int);
 		void run();
+		// To tell the user it needs to move the telescope mount
+		int NSCenter;
+		int WECenter;
 	public:
+		int GetNSBump;
+		int GetWEBump;
 		bool isOpened();
 		int openComm();
 		void closeComm();
-		int getSteps(int);
 		void updatePosition();
-		void setErrors(int, int);
 		int goTo(char);
 		void moveWithWASD();
 		int start();
