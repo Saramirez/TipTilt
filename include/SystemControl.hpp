@@ -30,6 +30,7 @@ class SystemControl {
 		Mat frame;
 		void RunCapture();
 		void RunCorrection();
+		void CheckBumps(int&, int&);
 	public:
 		StreamPlayer * player_p;
 		SystemControl(const char*, const char*);

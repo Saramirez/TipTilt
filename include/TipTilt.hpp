@@ -32,12 +32,9 @@ class TipTilt {
 		struct termios SerialConfig;
 		thread runningThread;
 		void addStep(int);
-		int getAvgStep(int);
 		void run();
-		// To tell the user it needs to move the telescope mount
-		int NSCenter;
-		int WECenter;
 	public:
+		int getBump(int);
 		bool isOpened();
 		int openComm();
 		void closeComm();

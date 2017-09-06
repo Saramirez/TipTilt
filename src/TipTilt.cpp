@@ -167,20 +167,25 @@ void TipTilt::addStep(int dir) {
 	}		
 }
 
-int TipTilt::getAvgStep(int dir) {
+int TipTilt::getBump( int dir) {
 	double res = 0;
 	if (dir == 0) {
 		for (int i = 0; i < avgCount; i++)
 			res += sLastSteps[i];
 		res = res / avgCount;
-		return (int)res;
 	}
 	else {
 		for (int i = 0; i < avgCount; i++)
 			res += eLastSteps[i];
 		res = res / avgCount;
-		return (int)res;
 	}
+
+	if (res < -30)
+		return -1;
+	else if (res <= 30)
+		return 0;
+	else
+		return 1;
 }
 
 int TipTilt::start(){

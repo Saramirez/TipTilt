@@ -41,8 +41,55 @@ int SystemControl::StartCorrection(){
 	return 0;
 }
 
+void SystemControl::CheckBumps(int& NSBump, int& WEBump) {
+	switch (TT.getBump(0)) {
+	case 0:
+		if (NSBump != 0) {
+			NSBump = 0;
+			cout << "NSBump not needed" << endl;
+		}
+		break;
+	case -1:
+		if (NSBump != -1) {
+			NSBump = -1;
+			cout << "NSBump to the left" << endl;
+		}
+		break;
+	case 1:
+		if (NSBump != 1) {
+			NSBump = 1;
+			cout << "NSBump to the right" << endl;
+		}
+		break;
+	}
+
+	switch (TT.getBump(1)) {
+	case 0:
+		if (WEBump != 0) {
+			WEBump = 0;
+			cout << "WEBump not needed" << endl;
+		}
+		break;
+	case -1:
+		if (WEBump != -1) {
+			WEBump = -1;
+			cout << "WEBump to the left" << endl;
+		}
+		break;
+	case 1:
+		if (WEBump != 1) {
+			WEBump = 1;
+			cout << "WEBump to the right" << endl;
+		}
+		break;
+	}
+}
+
 void SystemControl::RunCorrection() {
-	while (correcting) {
+	int NSBump = 0;
+	int WEBump = 0;
+	while (correcting) {		
+		CheckBumps(NSBump, WEBump);
 		TT.updatePosition();
 		this_thread::sleep_for(chrono::microseconds(100));
 	}
