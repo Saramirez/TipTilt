@@ -13,7 +13,7 @@ void TTGui::OnClickStartCapture( wxCommandEvent& event )
 	sControl_p->StartCapture();
 }
 
-void TipTiltGUIMainFrame::OnClickStartCorrection(wxCommandEvent& event)
+void TTGui::OnClickStartCorrection(wxCommandEvent& event)
 {
 	sControl_p->StartCorrection();
 }

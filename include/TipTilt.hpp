@@ -12,9 +12,10 @@
 
 using namespace std;
 
+const int avgCount = 10;
+
 class TipTilt {
 	private:
-		const int avgCount = 10;
 		int sSteps, eSteps;
 		int sLastSteps[avgCount];
 		int eLastSteps[avgCount];

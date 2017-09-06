@@ -33,9 +33,9 @@ wx/colour.h
 -
 wx/settings.h
 -
-wx/panel.h
--
 wx/sizer.h
+-
+wx/panel.h
 -
 wx/frame.h
 -

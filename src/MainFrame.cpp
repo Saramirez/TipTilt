@@ -5,7 +5,7 @@
 // PLEASE DO "NOT" EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
-#include "MainFrame.h"
+#include "../include/MainFrame.h"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -35,10 +35,7 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizer3 = new wxBoxSizer( wxVERTICAL );
 	
 	StreamPlayerPanel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( 100,100 ), wxTAB_TRAVERSAL );
-	StreamPlayerPanel->SetMinSize( wxSize( 100,100 ) );
-	StreamPlayerPanel->SetMaxSize( wxSize( 100,100 ) );
-	
-	bSizer3->Add( StreamPlayerPanel, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
+	bSizer3->Add( StreamPlayerPanel, 0,wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
 	
 	
 	bSizer2->Add( bSizer3, 1, wxEXPAND, 5 );
