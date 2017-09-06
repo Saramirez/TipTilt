@@ -11,8 +11,6 @@ TipTilt::TipTilt(const char* _device, int* _eX, int* _eY, mutex * _mtx) {
 	eY = _eY;
 	mtx = _mtx;
 	openComm();
-	NSCenter = 0;
-	WECenter = 0;
 }
 
 bool TipTilt::isOpened(){
@@ -167,6 +165,51 @@ void TipTilt::addStep(int dir) {
 	}		
 }
 
+void TipTilt::checkBumps(int& NSBump, int& WEBump) {
+	switch (getBump(0)) {
+	case 0:
+		if (NSBump != 0) {
+			NSBump = 0;
+			cout << "NSBump not needed" << endl;
+		}
+		break;
+	case -1:
+		if (NSBump != -1) {
+			NSBump = -1;
+			cout << "NSBump up" << endl;
+		}
+		break;
+	case 1:
+		if (NSBump != 1) {
+			NSBump = 1;
+			cout << "NSBump down" << endl;
+		}
+		break;
+	}
+
+	switch (getBump(1)) {
+	case 0:
+		if (WEBump != 0) {
+			WEBump = 0;
+			cout << "WEBump not needed" << endl;
+		}
+		break;
+	case -1:
+		if (WEBump != -1) {
+			WEBump = -1;
+			cout << "WEBump to the left" << endl;
+		}
+		break;
+	case 1:
+		if (WEBump != 1) {
+			WEBump = 1;
+			cout << "WEBump to the right" << endl;
+		}
+		break;
+	}
+}
+
+
 int TipTilt::getBump( int dir) {
 	double res = 0;
 	if (dir == 0) {
@@ -204,28 +247,14 @@ int TipTilt::start(){
 void TipTilt::run(){
 	//Metodo que se estara corriendo en una thread.
 	int counter = 0;
+	int NSBump = 0;
+	int WEBump = 0;
 	while(running){
-		/*
-		int avg = getAvgStep(0);
-		if (avg < -30)
-			NSCenter = -1;
-		else if (avg <= 30)
-			NSCenter = 0;
-		else if (avg > 30)
-			NSCenter = 1;
-
-		int avg = getAvgStep(1);
-		if (avg < -30)
-			WECenter = -1;
-		else if (avg <= 30)
-			WECenter = 0;
-		else if (avg > 30)
-			WECenter = 1;
-		*/
-
+		checkBumps(NSBump, WEBump);
     	updatePosition();
 		counter++;
     }
+	this_thread::sleep_for(chrono::microseconds(100));
     //cout << "UpdateTipTilt returned" << endl;
     //cout << "Updated TipTilt " << counter << " times." << endl;
 }

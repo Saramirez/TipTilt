@@ -33,6 +33,7 @@ class TipTilt {
 		thread runningThread;
 		void addStep(int);
 		void run();
+		void checkBumps(int&, int&);
 	public:
 		int getBump(int);
 		bool isOpened();
