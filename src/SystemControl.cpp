@@ -32,10 +32,25 @@ int SystemControl::StopCapture() {
 }
 
 int SystemControl::StartCorrection(){
-	if(TT.start() !=0 ){
-		cout << "Could not start TT" << endl;
+	correcting = true;
+	if (!TT.isOpened()) {
+		cout << "TT device is not open" << endl;
 		return -1;
 	}
+	correctingThread = thread(&SystemControl::RunCorrection, this);
+	return 0;
+}
+
+void SystemControl::RunCorrection() {
+	while (correcting) {
+		TT.updatePosition();
+		this_thread::sleep_for(chrono::microseconds(100));
+	}
+}
+
+int SystemControl::StopCorrection() {
+	correcting = false;
+	correctingThread.join();
 	return 0;
 }
 

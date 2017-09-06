@@ -5,7 +5,7 @@
 // PLEASE DO "NOT" EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
-#include "../include/MainFrame.h"
+#include "MainFrame.h"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -19,8 +19,17 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	wxBoxSizer* bSizer2;
 	bSizer2 = new wxBoxSizer( wxHORIZONTAL );
 	
-	StartButton = new wxButton( this, wxID_ANY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer2->Add( StartButton, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxBoxSizer* bSizer6;
+	bSizer6 = new wxBoxSizer( wxVERTICAL );
+	
+	StartCaptureButton = new wxButton( this, wxID_ANY, wxT("Capture"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer6->Add( StartCaptureButton, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	StartCorrectionButton = new wxButton( this, wxID_ANY, wxT("Correction"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer6->Add( StartCorrectionButton, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	
+	bSizer2->Add( bSizer6, 0, wxALIGN_CENTER_VERTICAL, 5 );
 	
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxVERTICAL );
@@ -56,7 +65,8 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	this->Centre( wxBOTH );
 	
 	// Connect Events
-	StartButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickStart ), NULL, this );
+	StartCaptureButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickStartCapture ), NULL, this );
+	StartCorrectionButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickStartCorrection ), NULL, this );
 	StreamPlayerPanel->Connect( wxEVT_PAINT, wxPaintEventHandler( MainFrame::OnFramePaint ), NULL, this );
 	ExitButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickExit ), NULL, this );
 }
@@ -64,7 +74,8 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 MainFrame::~MainFrame()
 {
 	// Disconnect Events
-	StartButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickStart ), NULL, this );
+	StartCaptureButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickStartCapture ), NULL, this );
+	StartCorrectionButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickStartCorrection ), NULL, this );
 	StreamPlayerPanel->Disconnect( wxEVT_PAINT, wxPaintEventHandler( MainFrame::OnFramePaint ), NULL, this );
 	ExitButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickExit ), NULL, this );
 	

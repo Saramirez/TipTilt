@@ -24,14 +24,18 @@ class SystemControl {
 		int eX;
 		int eY;
 		atomic<bool> capturing;
+		atomic<bool> correcting;
 		thread capturingThread;
+		thread correctingThread;
 		Mat frame;
 		void RunCapture();
+		void RunCorrection();
 	public:
 		StreamPlayer * player_p;
 		SystemControl(const char*, const char*);
 		int StartCapture();
 		int StartCorrection();
+		int StopCorrection();
 		int StopCapture();
 };
 

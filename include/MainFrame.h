@@ -16,8 +16,8 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/panel.h>
 #include <wx/sizer.h>
+#include <wx/panel.h>
 #include <wx/frame.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -31,13 +31,15 @@ class MainFrame : public wxFrame
 	private:
 	
 	protected:
-		wxButton* StartButton;
+		wxButton* StartCaptureButton;
+		wxButton* StartCorrectionButton;
 		wxPanel* StreamPlayerPanel;
 		wxPanel* m_panel4;
 		wxButton* ExitButton;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void OnClickStart( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnClickStartCapture( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnClickStartCorrection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnFramePaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnClickExit( wxCommandEvent& event ) { event.Skip(); }
 		

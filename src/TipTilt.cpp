@@ -151,35 +151,35 @@ void TipTilt::updatePosition(){
 		//cout << "Out: " << out << endl;
 	}
 	mtx->unlock();
-	this_thread::sleep_for(chrono::microseconds(100));
+	//this_thread::sleep_for(chrono::microseconds(100));
 }
 
 void TipTilt::addStep(int dir) {
 	if (dir == 0) {
 		for (int i = avgCount - 1; i > 0; i--)
 			sLastSteps[i] = sLastSteps[i - 1];
-		sLastSteps[i] = sSteps;
+		sLastSteps[0] = sSteps;
 	}
 	else {
 		for (int i = avgCount - 1; i > 0; i--)
 			eLastSteps[i] = eLastSteps[i - 1];
-		eLastSteps[i] = eSteps;
+		eLastSteps[0] = eSteps;
 	}		
 }
 
 int TipTilt::getAvgStep(int dir) {
-	int res = 0;
+	double res = 0;
 	if (dir == 0) {
 		for (int i = 0; i < avgCount; i++)
 			res += sLastSteps[i];
 		res = res / avgCount;
-		return res;
+		return (int)res;
 	}
 	else {
 		for (int i = 0; i < avgCount; i++)
 			res += eLastSteps[i];
 		res = res / avgCount;
-		return res;
+		return (int)res;
 	}
 }
 
@@ -200,18 +200,24 @@ void TipTilt::run(){
 	//Metodo que se estara corriendo en una thread.
 	int counter = 0;
 	while(running){
-		if (NSCenter == 0)
-			if (getAvgStep(0) > 30)
-				NSCenter = 1;
-			else if (getAvgStep(0) < -30)
-				NSCenter = -1;
+		/*
+		int avg = getAvgStep(0);
+		if (avg < -30)
+			NSCenter = -1;
+		else if (avg <= 30)
+			NSCenter = 0;
+		else if (avg > 30)
+			NSCenter = 1;
 
-		if (WECenter == 0)
-			if (getAvgStep(1) > 30)
-				WECenter = 1;
-			else if (getAvgStep(1) < -30)
-				WECenter = -1;
-			
+		int avg = getAvgStep(1);
+		if (avg < -30)
+			WECenter = -1;
+		else if (avg <= 30)
+			WECenter = 0;
+		else if (avg > 30)
+			WECenter = 1;
+		*/
+
     	updatePosition();
 		counter++;
     }

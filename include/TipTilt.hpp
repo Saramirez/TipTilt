@@ -37,8 +37,6 @@ class TipTilt {
 		int NSCenter;
 		int WECenter;
 	public:
-		int GetNSBump;
-		int GetWEBump;
 		bool isOpened();
 		int openComm();
 		void closeComm();

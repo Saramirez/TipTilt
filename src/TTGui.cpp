@@ -7,11 +7,15 @@ MainFrame( parent )
 	player_p = new StreamPlayer(StreamPlayerPanel);
 }
 
-void TTGui::OnClickStart( wxCommandEvent& event )
+void TTGui::OnClickStartCapture( wxCommandEvent& event )
 {
 	//sControl_p->StartCorrection();
 	sControl_p->StartCapture();
-// TODO: Implement OnClickStart
+}
+
+void TipTiltGUIMainFrame::OnClickStartCorrection(wxCommandEvent& event)
+{
+	sControl_p->StartCorrection();
 }
 
 void TTGui::OnFramePaint(wxPaintEvent& event)
