@@ -14,8 +14,9 @@ void StreamPlayer::DisplayFrame(Mat frame) {
 		TRUE);
 	bmp = wxBitmap(img);
 
-	panel_p->Refresh(FALSE);
-	//panel_p->Update(); // Se vuelve inestable la gui al resizesiarla
+	//panel_p->Refresh(FALSE);
+	panel_p->Refresh();
+	panel_p->Update(); // Se vuelve inestable la gui al resizesiarla
 	 
 
 }

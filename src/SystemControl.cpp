@@ -52,13 +52,13 @@ void SystemControl::CheckBumps(int& NSBump, int& WEBump) {
 	case -1:
 		if (NSBump != -1) {
 			NSBump = -1;
-			cout << "NSBump to the left" << endl;
+			cout << "NSBump up" << endl;
 		}
 		break;
 	case 1:
 		if (NSBump != 1) {
 			NSBump = 1;
-			cout << "NSBump to the right" << endl;
+			cout << "NSBump down" << endl;
 		}
 		break;
 	}
