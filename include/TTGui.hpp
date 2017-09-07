@@ -17,8 +17,8 @@ class TTGui : public MainFrame
 {
 	protected:
 		// Handlers for MainFrame events.
-		void OnClickStartCapture(wxCommandEvent& event);
-		void OnClickStartCorrection(wxCommandEvent& event);
+		void OnToggleCapture(wxCommandEvent& event);
+		void OnToggleCorrection(wxCommandEvent& event);
 		void OnFramePaint(wxPaintEvent& event);
 		void OnClickExit(wxCommandEvent& event);
 	public:

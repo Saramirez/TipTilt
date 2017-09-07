@@ -7,15 +7,20 @@ MainFrame( parent )
 	player_p = new StreamPlayer(StreamPlayerPanel);
 }
 
-void TTGui::OnClickStartCapture( wxCommandEvent& event )
+void TTGui::OnToggleCapture( wxCommandEvent& event )
 {
-	//sControl_p->StartCorrection();
-	sControl_p->StartCapture();
+	if(!sControl_p->IsCapturing())
+		sControl_p->StartCapture();
+	else
+		sControl_p->StopCapture();
 }
 
-void TTGui::OnClickStartCorrection(wxCommandEvent& event)
+void TTGui::OnToggleCorrection(wxCommandEvent& event)
 {
-	sControl_p->StartCorrection();
+	if (!sControl_p->IsCorrecting())
+		sControl_p->StartCorrection();
+	else
+		sControl_p->StopCorrection();
 }
 
 void TTGui::OnFramePaint(wxPaintEvent& event)

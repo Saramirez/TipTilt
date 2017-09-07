@@ -101,3 +101,11 @@ int SystemControl::StopCorrection() {
 	return 0;
 }
 
+bool SystemControl::IsCapturing() {
+	return capturing;
+}
+
+bool SystemControl::IsCorrecting() {
+	return correcting;
+}
+

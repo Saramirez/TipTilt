@@ -11,13 +11,19 @@
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/string.h>
-#include <wx/button.h>
+#include <wx/bitmap.h>
+#include <wx/image.h>
+#include <wx/icon.h>
+#include <wx/menu.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/tglbtn.h>
 #include <wx/sizer.h>
 #include <wx/panel.h>
+#include <wx/button.h>
+#include <wx/statusbr.h>
 #include <wx/frame.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -31,15 +37,17 @@ class MainFrame : public wxFrame
 	private:
 	
 	protected:
-		wxButton* StartCaptureButton;
-		wxButton* StartCorrectionButton;
+		wxMenuBar* m_menubar1;
+		wxMenu* tools_menu;
+		wxToggleButton* StartCaptureButton;
+		wxToggleButton* CorrectionButton;
 		wxPanel* StreamPlayerPanel;
-		wxPanel* m_panel4;
 		wxButton* ExitButton;
+		wxStatusBar* m_statusBar1;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void OnClickStartCapture( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnClickStartCorrection( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnToggleCapture( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnToggleCorrection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnFramePaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnClickExit( wxCommandEvent& event ) { event.Skip(); }
 		

@@ -13,6 +13,28 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
+	m_menubar1 = new wxMenuBar( 0 );
+	tools_menu = new wxMenu();
+	wxMenuItem* SettingsMenuItem;
+	SettingsMenuItem = new wxMenuItem( tools_menu, wxID_ANY, wxString( wxT("Settings") ) , wxEmptyString, wxITEM_NORMAL );
+	tools_menu->Append( SettingsMenuItem );
+	
+	wxMenuItem* CalibrateMenuItem;
+	CalibrateMenuItem = new wxMenuItem( tools_menu, wxID_ANY, wxString( wxT("Calibrate") ) , wxEmptyString, wxITEM_NORMAL );
+	tools_menu->Append( CalibrateMenuItem );
+	
+	wxMenuItem* GetStarParamMenuItem;
+	GetStarParamMenuItem = new wxMenuItem( tools_menu, wxID_ANY, wxString( wxT("Measure star size") ) , wxEmptyString, wxITEM_NORMAL );
+	tools_menu->Append( GetStarParamMenuItem );
+	
+	wxMenuItem* CameraSettingsMenuItem;
+	CameraSettingsMenuItem = new wxMenuItem( tools_menu, wxID_ANY, wxString( wxT("Camera settings") ) , wxEmptyString, wxITEM_NORMAL );
+	tools_menu->Append( CameraSettingsMenuItem );
+	
+	m_menubar1->Append( tools_menu, wxT("Tools") ); 
+	
+	this->SetMenuBar( m_menubar1 );
+	
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxVERTICAL );
 	
@@ -22,11 +44,11 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	wxBoxSizer* bSizer6;
 	bSizer6 = new wxBoxSizer( wxVERTICAL );
 	
-	StartCaptureButton = new wxButton( this, wxID_ANY, wxT("Capture"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( StartCaptureButton, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	StartCaptureButton = new wxToggleButton( this, wxID_ANY, wxT("Capture"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer6->Add( StartCaptureButton, 0, wxALL, 5 );
 	
-	StartCorrectionButton = new wxButton( this, wxID_ANY, wxT("Correction"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( StartCorrectionButton, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	CorrectionButton = new wxToggleButton( this, wxID_ANY, wxT("Correction"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer6->Add( CorrectionButton, 0, wxALL, 5 );
 	
 	
 	bSizer2->Add( bSizer6, 0, wxALIGN_CENTER_VERTICAL, 5 );
@@ -35,35 +57,33 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	bSizer3 = new wxBoxSizer( wxVERTICAL );
 	
 	StreamPlayerPanel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( 100,100 ), wxTAB_TRAVERSAL );
-	bSizer3->Add( StreamPlayerPanel, 0,wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
+	bSizer3->Add( StreamPlayerPanel, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
 	
 	
-	bSizer2->Add( bSizer3, 1, wxEXPAND, 5 );
+	bSizer2->Add( bSizer3, 1, wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
-	bSizer1->Add( bSizer2, 0, wxEXPAND|wxTOP|wxBOTTOM, 5 );
-	
-	m_panel4 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	bSizer1->Add( m_panel4, 1, wxALL|wxEXPAND, 5 );
+	bSizer1->Add( bSizer2, 1, wxTOP|wxBOTTOM|wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizer8;
 	bSizer8 = new wxBoxSizer( wxVERTICAL );
 	
 	ExitButton = new wxButton( this, wxID_ANY, wxT("Exit"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer8->Add( ExitButton, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
+	bSizer8->Add( ExitButton, 0, wxALIGN_BOTTOM|wxALL, 5 );
 	
 	
-	bSizer1->Add( bSizer8, 0, wxEXPAND, 5 );
+	bSizer1->Add( bSizer8, 0, wxALIGN_RIGHT, 5 );
 	
 	
 	this->SetSizer( bSizer1 );
 	this->Layout();
+	m_statusBar1 = this->CreateStatusBar( 1, wxST_SIZEGRIP, wxID_ANY );
 	
 	this->Centre( wxBOTH );
 	
 	// Connect Events
-	StartCaptureButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickStartCapture ), NULL, this );
-	StartCorrectionButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickStartCorrection ), NULL, this );
+	StartCaptureButton->Connect( wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnToggleCapture ), NULL, this );
+	CorrectionButton->Connect( wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnToggleCorrection ), NULL, this );
 	StreamPlayerPanel->Connect( wxEVT_PAINT, wxPaintEventHandler( MainFrame::OnFramePaint ), NULL, this );
 	ExitButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickExit ), NULL, this );
 }
@@ -71,8 +91,8 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 MainFrame::~MainFrame()
 {
 	// Disconnect Events
-	StartCaptureButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickStartCapture ), NULL, this );
-	StartCorrectionButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickStartCorrection ), NULL, this );
+	StartCaptureButton->Disconnect( wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnToggleCapture ), NULL, this );
+	CorrectionButton->Disconnect( wxEVT_COMMAND_TOGGLEBUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnToggleCorrection ), NULL, this );
 	StreamPlayerPanel->Disconnect( wxEVT_PAINT, wxPaintEventHandler( MainFrame::OnFramePaint ), NULL, this );
 	ExitButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickExit ), NULL, this );
 	

@@ -38,6 +38,8 @@ class SystemControl {
 		int StartCorrection();
 		int StopCorrection();
 		int StopCapture();
+		bool IsCapturing();
+		bool IsCorrecting();
 };
 
 
