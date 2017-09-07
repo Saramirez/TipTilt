@@ -24,7 +24,7 @@ void TTGui::OnToggleCapture( wxCommandEvent& event )
 void TTGui::OnToggleCorrection(wxCommandEvent& event)
 {
 	if (!sControl_p->IsCorrecting())
-		if(!sControl_p->IsCapturing())
+		if(sControl_p->IsCapturing())
 			sControl_p->StartCorrection();
 		//TODO show can't correct because no capture
 	else
