@@ -5,20 +5,23 @@ SystemControl::SystemControl(const char* TTDevice, const char* camDevice) :
 				TT(TTDevice, &eX, &eY, &mtxProtectingErrors){
 	eX = 0;
 	eY = 0;
+	capturing = false;
+	correcting = false;
 }
 
 int SystemControl::StartCapture() {
-	capturing = true;
 	if (CSH.OpenCamera() != 0) {
 		cout << "Could not open camera" << endl;
 		return -1;
 	}
+	capturingInternal = true;
 	capturingThread = thread(&SystemControl::RunCapture, this);
+	capturing = true;
 	return 0;
 }
 
 void SystemControl::RunCapture() {
-	while (capturing) {
+	while (capturingInternal) {
 		frame = CSH.CaptureAndProcess();
 		player_p->DisplayFrame(frame);
 		this_thread::sleep_for(chrono::milliseconds(5));
@@ -26,18 +29,20 @@ void SystemControl::RunCapture() {
 }
 
 int SystemControl::StopCapture() {
-	capturing = false;
+	capturingInternal = false;
 	capturingThread.join();
+	capturing = false;
 	return 0;
 }
 
 int SystemControl::StartCorrection(){
-	correcting = true;
 	if (!TT.isOpened()) {
 		cout << "TT device is not open" << endl;
 		return -1;
 	}
+	correctingInternal = true;
 	correctingThread = thread(&SystemControl::RunCorrection, this);
+	correcting = true;
 	return 0;
 }
 
@@ -88,7 +93,7 @@ void SystemControl::CheckBumps(int& NSBump, int& WEBump) {
 void SystemControl::RunCorrection() {
 	int NSBump = 0;
 	int WEBump = 0;
-	while (correcting) {		
+	while (correctingInternal) {		
 		CheckBumps(NSBump, WEBump);
 		TT.updatePosition();
 		this_thread::sleep_for(chrono::microseconds(100));
@@ -96,8 +101,9 @@ void SystemControl::RunCorrection() {
 }
 
 int SystemControl::StopCorrection() {
-	correcting = false;
+	correctingInternal = false;
 	correctingThread.join();
+	correcting = false;
 	return 0;
 }
 

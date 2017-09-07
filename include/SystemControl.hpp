@@ -23,8 +23,10 @@ class SystemControl {
 		mutex mtxProtectingErrors;
 		int eX;
 		int eY;
-		atomic<bool> capturing;
-		atomic<bool> correcting;
+		atomic<bool> capturingInternal;
+		atomic<bool> correctingInternal;
+		bool capturing;
+		bool correcting;
 		thread capturingThread;
 		thread correctingThread;
 		Mat frame;

@@ -11,14 +11,22 @@ void TTGui::OnToggleCapture( wxCommandEvent& event )
 {
 	if(!sControl_p->IsCapturing())
 		sControl_p->StartCapture();
-	else
+	else {
 		sControl_p->StopCapture();
+		wxClientDC dc(StreamPlayerPanel);
+
+		if (!dc.IsOk())
+			return;
+		dc.Clear();	
+	}
 }
 
 void TTGui::OnToggleCorrection(wxCommandEvent& event)
 {
 	if (!sControl_p->IsCorrecting())
-		sControl_p->StartCorrection();
+		if(!sControlId->IsCapturing())
+			sControl_p->StartCorrection();
+		//TODO show can't correct because no capture
 	else
 		sControl_p->StopCorrection();
 }
