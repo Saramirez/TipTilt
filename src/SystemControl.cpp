@@ -10,10 +10,11 @@ SystemControl::SystemControl(const char* TTDevice, const char* camDevice) :
 }
 
 int SystemControl::StartCapture() {
-	if (CSH.OpenCamera() != 0) {
-		cout << "Could not open camera" << endl;
-		return -1;
-	}
+	if (!CSH.IsCameraOpen())
+		if(CSH.OpenCamera() != 0) {
+			cout << "Could not open camera" << endl;
+			return -1;
+		}
 	capturingInternal = true;
 	capturingThread = thread(&SystemControl::RunCapture, this);
 	capturing = true;
