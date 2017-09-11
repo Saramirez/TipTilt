@@ -17,9 +17,15 @@ class TTGui : public MainFrame
 {
 	protected:
 		// Handlers for MainFrame events.
+		void OnSelectCameraSettings(wxCommandEvent& event);
 		void OnToggleCapture(wxCommandEvent& event);
 		void OnToggleCorrection(wxCommandEvent& event);
 		void OnFramePaint(wxPaintEvent& event);
+		void OnThrshTextSet(wxCommandEvent& event);
+		void OnShowThresholdChecked(wxCommandEvent& event);
+		void OnGetStarSizeClicked(wxCommandEvent& event);
+		void OnStrSzTextSet(wxCommandEvent& event);
+		void OnDefaultClicked(wxCommandEvent& event);
 		void OnClickExit(wxCommandEvent& event);
 	public:
 		StreamPlayer * player_p;

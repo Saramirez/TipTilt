@@ -27,6 +27,8 @@ class SystemControl {
 		atomic<bool> correctingInternal;
 		bool capturing;
 		bool correcting;
+		bool showThresh;
+		mutex mtxProtectingValues;
 		thread capturingThread;
 		thread correctingThread;
 		Mat frame;
@@ -42,6 +44,10 @@ class SystemControl {
 		int StopCapture();
 		bool IsCapturing();
 		bool IsCorrecting();
+		void ToggleShowThresh();
+		void SetThreshold(int);
+		void SetStarSize(double);
+		double GetStarSize();
 };
 
 

@@ -7,6 +7,49 @@ SystemControl::SystemControl(const char* TTDevice, const char* camDevice) :
 	eY = 0;
 	capturing = false;
 	correcting = false;
+	showThresh = false;
+}
+
+void SystemControl::ToggleShowThresh() {
+	mtxProtectingValues.lock();
+	showThresh = !showThresh;
+	mtxProtectingValues.unlock();
+}
+
+
+void SystemControl::SetThreshold(int _thresh) {
+	if (_thresh > 255 || _thresh < 0) {
+		cout << "Threshold value must be 0 - 255" << endl;
+		return;
+	}
+	mtxProtectingValues.lock();
+	CSH.thresh = _thresh;
+	mtxProtectingValues.unlock();
+}
+
+double SystemControl::GetStarSize() {
+	if (capturing) {
+		StopCapture();
+	}
+	if (correcting) {
+		StopCorrection();
+	}
+	mtxProtectingValues.lock();
+	frame = CSH.GetStarParams();
+	double starRadius = CSH.starRadius;
+	mtxProtectingValues.unlock();
+	player_p->DisplayFrame(frame);
+	return starRadius;
+}
+
+void SystemControl::SetStarSize(double _starRadius) {
+	if (_starRadius > 50 || _starRadius < 0) {
+		cout << "Star radius value must be 0 - 50" << endl;
+		return;
+	}
+	mtxProtectingValues.lock();
+	CSH.starRadius = _starRadius;
+	mtxProtectingValues.unlock();
 }
 
 int SystemControl::StartCapture() {
@@ -23,7 +66,9 @@ int SystemControl::StartCapture() {
 
 void SystemControl::RunCapture() {
 	while (capturingInternal) {
-		frame = CSH.CaptureAndProcess();
+		mtxProtectingValues.lock();
+		frame = CSH.CaptureAndProcess(showThresh);
+		mtxProtectingValues.unlock();
 		player_p->DisplayFrame(frame);
 		this_thread::sleep_for(chrono::milliseconds(5));
 	}
@@ -95,7 +140,7 @@ void SystemControl::RunCorrection() {
 	int NSBump = 0;
 	int WEBump = 0;
 	while (correctingInternal) {		
-		CheckBumps(NSBump, WEBump);
+		//CheckBumps(NSBump, WEBump);
 		TT.updatePosition();
 		this_thread::sleep_for(chrono::microseconds(100));
 	}

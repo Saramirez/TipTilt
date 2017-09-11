@@ -139,16 +139,20 @@ CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o
  /usr/local/include/wx-3.0/wx/buffer.h
  /usr/local/include/wx-3.0/wx/button.h
  /usr/local/include/wx-3.0/wx/chartype.h
+ /usr/local/include/wx-3.0/wx/checkbox.h
  /usr/local/include/wx-3.0/wx/checkeddelete.h
  /usr/local/include/wx-3.0/wx/chkconf.h
+ /usr/local/include/wx-3.0/wx/choice.h
  /usr/local/include/wx-3.0/wx/clntdata.h
  /usr/local/include/wx-3.0/wx/colour.h
+ /usr/local/include/wx-3.0/wx/combobox.h
  /usr/local/include/wx-3.0/wx/compiler.h
  /usr/local/include/wx-3.0/wx/containr.h
  /usr/local/include/wx-3.0/wx/control.h
  /usr/local/include/wx-3.0/wx/convauto.h
  /usr/local/include/wx-3.0/wx/cpp.h
  /usr/local/include/wx-3.0/wx/crt.h
+ /usr/local/include/wx-3.0/wx/ctrlsub.h
  /usr/local/include/wx-3.0/wx/cursor.h
  /usr/local/include/wx-3.0/wx/datetime.h
  /usr/local/include/wx-3.0/wx/debug.h
@@ -179,15 +183,26 @@ CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o
  /usr/local/include/wx-3.0/wx/gtk/anybutton.h
  /usr/local/include/wx-3.0/wx/gtk/bitmap.h
  /usr/local/include/wx-3.0/wx/gtk/button.h
+ /usr/local/include/wx-3.0/wx/gtk/checkbox.h
  /usr/local/include/wx-3.0/wx/gtk/chkconf.h
+ /usr/local/include/wx-3.0/wx/gtk/choice.h
  /usr/local/include/wx-3.0/wx/gtk/colour.h
+ /usr/local/include/wx-3.0/wx/gtk/combobox.h
  /usr/local/include/wx-3.0/wx/gtk/control.h
  /usr/local/include/wx-3.0/wx/gtk/cursor.h
  /usr/local/include/wx-3.0/wx/gtk/font.h
  /usr/local/include/wx-3.0/wx/gtk/frame.h
+ /usr/local/include/wx-3.0/wx/gtk/menu.h
+ /usr/local/include/wx-3.0/wx/gtk/menuitem.h
  /usr/local/include/wx-3.0/wx/gtk/nonownedwnd.h
  /usr/local/include/wx-3.0/wx/gtk/pen.h
  /usr/local/include/wx-3.0/wx/gtk/region.h
+ /usr/local/include/wx-3.0/wx/gtk/statbmp.h
+ /usr/local/include/wx-3.0/wx/gtk/statline.h
+ /usr/local/include/wx-3.0/wx/gtk/stattext.h
+ /usr/local/include/wx-3.0/wx/gtk/textctrl.h
+ /usr/local/include/wx-3.0/wx/gtk/textentry.h
+ /usr/local/include/wx-3.0/wx/gtk/tglbtn.h
  /usr/local/include/wx-3.0/wx/gtk/toplevel.h
  /usr/local/include/wx-3.0/wx/gtk/window.h
  /usr/local/include/wx-3.0/wx/hashmap.h
@@ -208,6 +223,7 @@ CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o
  /usr/local/include/wx-3.0/wx/imagxpm.h
  /usr/local/include/wx-3.0/wx/intl.h
  /usr/local/include/wx-3.0/wx/iosfwrap.h
+ /usr/local/include/wx-3.0/wx/ioswrap.h
  /usr/local/include/wx-3.0/wx/kbdstate.h
  /usr/local/include/wx-3.0/wx/language.h
  /usr/local/include/wx-3.0/wx/list.h
@@ -215,6 +231,8 @@ CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o
  /usr/local/include/wx-3.0/wx/longlong.h
  /usr/local/include/wx-3.0/wx/math.h
  /usr/local/include/wx-3.0/wx/memory.h
+ /usr/local/include/wx-3.0/wx/menu.h
+ /usr/local/include/wx-3.0/wx/menuitem.h
  /usr/local/include/wx-3.0/wx/meta/convertible.h
  /usr/local/include/wx-3.0/wx/meta/if.h
  /usr/local/include/wx-3.0/wx/meta/implicitconversion.h
@@ -237,6 +255,9 @@ CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o
  /usr/local/include/wx-3.0/wx/scopeguard.h
  /usr/local/include/wx-3.0/wx/settings.h
  /usr/local/include/wx-3.0/wx/sizer.h
+ /usr/local/include/wx-3.0/wx/statbmp.h
+ /usr/local/include/wx-3.0/wx/statline.h
+ /usr/local/include/wx-3.0/wx/stattext.h
  /usr/local/include/wx-3.0/wx/statusbr.h
  /usr/local/include/wx-3.0/wx/strconv.h
  /usr/local/include/wx-3.0/wx/stream.h
@@ -244,6 +265,9 @@ CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o
  /usr/local/include/wx-3.0/wx/stringimpl.h
  /usr/local/include/wx-3.0/wx/stringops.h
  /usr/local/include/wx-3.0/wx/strvararg.h
+ /usr/local/include/wx-3.0/wx/textctrl.h
+ /usr/local/include/wx-3.0/wx/textentry.h
+ /usr/local/include/wx-3.0/wx/tglbtn.h
  /usr/local/include/wx-3.0/wx/thread.h
  /usr/local/include/wx-3.0/wx/tls.h
  /usr/local/include/wx-3.0/wx/toplevel.h
@@ -1250,9 +1274,11 @@ CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o
  /usr/local/include/wx-3.0/wx/gtk/slider.h
  /usr/local/include/wx-3.0/wx/gtk/statbmp.h
  /usr/local/include/wx-3.0/wx/gtk/statbox.h
+ /usr/local/include/wx-3.0/wx/gtk/statline.h
  /usr/local/include/wx-3.0/wx/gtk/stattext.h
  /usr/local/include/wx-3.0/wx/gtk/textctrl.h
  /usr/local/include/wx-3.0/wx/gtk/textentry.h
+ /usr/local/include/wx-3.0/wx/gtk/tglbtn.h
  /usr/local/include/wx-3.0/wx/gtk/toolbar.h
  /usr/local/include/wx-3.0/wx/gtk/toplevel.h
  /usr/local/include/wx-3.0/wx/gtk/window.h
@@ -1323,6 +1349,7 @@ CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o
  /usr/local/include/wx-3.0/wx/slider.h
  /usr/local/include/wx-3.0/wx/statbmp.h
  /usr/local/include/wx-3.0/wx/statbox.h
+ /usr/local/include/wx-3.0/wx/statline.h
  /usr/local/include/wx-3.0/wx/stattext.h
  /usr/local/include/wx-3.0/wx/statusbr.h
  /usr/local/include/wx-3.0/wx/stockitem.h
@@ -1337,6 +1364,7 @@ CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o
  /usr/local/include/wx-3.0/wx/textctrl.h
  /usr/local/include/wx-3.0/wx/textdlg.h
  /usr/local/include/wx-3.0/wx/textentry.h
+ /usr/local/include/wx-3.0/wx/tglbtn.h
  /usr/local/include/wx-3.0/wx/thread.h
  /usr/local/include/wx-3.0/wx/time.h
  /usr/local/include/wx-3.0/wx/timer.h
@@ -1627,9 +1655,11 @@ CMakeFiles/TipTiltGUI.dir/src/main.cpp.o
  /usr/local/include/wx-3.0/wx/gtk/slider.h
  /usr/local/include/wx-3.0/wx/gtk/statbmp.h
  /usr/local/include/wx-3.0/wx/gtk/statbox.h
+ /usr/local/include/wx-3.0/wx/gtk/statline.h
  /usr/local/include/wx-3.0/wx/gtk/stattext.h
  /usr/local/include/wx-3.0/wx/gtk/textctrl.h
  /usr/local/include/wx-3.0/wx/gtk/textentry.h
+ /usr/local/include/wx-3.0/wx/gtk/tglbtn.h
  /usr/local/include/wx-3.0/wx/gtk/toolbar.h
  /usr/local/include/wx-3.0/wx/gtk/toplevel.h
  /usr/local/include/wx-3.0/wx/gtk/window.h
@@ -1700,6 +1730,7 @@ CMakeFiles/TipTiltGUI.dir/src/main.cpp.o
  /usr/local/include/wx-3.0/wx/slider.h
  /usr/local/include/wx-3.0/wx/statbmp.h
  /usr/local/include/wx-3.0/wx/statbox.h
+ /usr/local/include/wx-3.0/wx/statline.h
  /usr/local/include/wx-3.0/wx/stattext.h
  /usr/local/include/wx-3.0/wx/statusbr.h
  /usr/local/include/wx-3.0/wx/stockitem.h
@@ -1714,6 +1745,7 @@ CMakeFiles/TipTiltGUI.dir/src/main.cpp.o
  /usr/local/include/wx-3.0/wx/textctrl.h
  /usr/local/include/wx-3.0/wx/textdlg.h
  /usr/local/include/wx-3.0/wx/textentry.h
+ /usr/local/include/wx-3.0/wx/tglbtn.h
  /usr/local/include/wx-3.0/wx/thread.h
  /usr/local/include/wx-3.0/wx/time.h
  /usr/local/include/wx-3.0/wx/timer.h

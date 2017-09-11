@@ -23,7 +23,13 @@ wx/xrc/xmlres.h
 -
 wx/string.h
 -
-wx/button.h
+wx/bitmap.h
+-
+wx/image.h
+-
+wx/icon.h
+-
+wx/menu.h
 -
 wx/gdicmn.h
 -
@@ -33,9 +39,27 @@ wx/colour.h
 -
 wx/settings.h
 -
+wx/tglbtn.h
+-
+wx/combobox.h
+-
 wx/sizer.h
 -
 wx/panel.h
+-
+wx/statline.h
+-
+wx/stattext.h
+-
+wx/textctrl.h
+-
+wx/checkbox.h
+-
+wx/button.h
+-
+wx/statbmp.h
+-
+wx/statusbr.h
 -
 wx/frame.h
 -
@@ -2574,11 +2598,19 @@ wx/icon.h
 
 /usr/local/include/wx-3.0/wx/gtk/statbox.h
 
+/usr/local/include/wx-3.0/wx/gtk/statline.h
+wx/defs.h
+/usr/local/include/wx-3.0/wx/gtk/wx/defs.h
+
 /usr/local/include/wx-3.0/wx/gtk/stattext.h
 
 /usr/local/include/wx-3.0/wx/gtk/textctrl.h
 
 /usr/local/include/wx-3.0/wx/gtk/textentry.h
+
+/usr/local/include/wx-3.0/wx/gtk/tglbtn.h
+wx/bitmap.h
+/usr/local/include/wx-3.0/wx/gtk/wx/bitmap.h
 
 /usr/local/include/wx-3.0/wx/gtk/toolbar.h
 
@@ -3388,6 +3420,28 @@ wx/cocoa/statbox.h
 wx/os2/statbox.h
 /usr/local/include/wx-3.0/wx/wx/os2/statbox.h
 
+/usr/local/include/wx-3.0/wx/statline.h
+wx/defs.h
+/usr/local/include/wx-3.0/wx/wx/defs.h
+wx/control.h
+/usr/local/include/wx-3.0/wx/wx/control.h
+wx/univ/statline.h
+/usr/local/include/wx-3.0/wx/wx/univ/statline.h
+wx/msw/statline.h
+/usr/local/include/wx-3.0/wx/wx/msw/statline.h
+wx/gtk/statline.h
+/usr/local/include/wx-3.0/wx/wx/gtk/statline.h
+wx/gtk1/statline.h
+/usr/local/include/wx-3.0/wx/wx/gtk1/statline.h
+wx/os2/statline.h
+/usr/local/include/wx-3.0/wx/wx/os2/statline.h
+wx/osx/statline.h
+/usr/local/include/wx-3.0/wx/wx/osx/statline.h
+wx/cocoa/statline.h
+/usr/local/include/wx-3.0/wx/wx/cocoa/statline.h
+wx/generic/statline.h
+/usr/local/include/wx-3.0/wx/wx/generic/statline.h
+
 /usr/local/include/wx-3.0/wx/stattext.h
 wx/defs.h
 /usr/local/include/wx-3.0/wx/wx/defs.h
@@ -3629,6 +3683,28 @@ wx/motif/textentry.h
 /usr/local/include/wx-3.0/wx/wx/motif/textentry.h
 wx/os2/textentry.h
 /usr/local/include/wx-3.0/wx/wx/os2/textentry.h
+
+/usr/local/include/wx-3.0/wx/tglbtn.h
+wx/defs.h
+/usr/local/include/wx-3.0/wx/wx/defs.h
+wx/event.h
+/usr/local/include/wx-3.0/wx/wx/event.h
+wx/anybutton.h
+/usr/local/include/wx-3.0/wx/wx/anybutton.h
+wx/univ/tglbtn.h
+/usr/local/include/wx-3.0/wx/wx/univ/tglbtn.h
+wx/msw/tglbtn.h
+/usr/local/include/wx-3.0/wx/wx/msw/tglbtn.h
+wx/gtk/tglbtn.h
+/usr/local/include/wx-3.0/wx/wx/gtk/tglbtn.h
+wx/gtk1/tglbtn.h
+/usr/local/include/wx-3.0/wx/wx/gtk1/tglbtn.h
+wx/motif/tglbtn.h
+/usr/local/include/wx-3.0/wx/wx/motif/tglbtn.h
+wx/osx/tglbtn.h
+/usr/local/include/wx-3.0/wx/wx/osx/tglbtn.h
+wx/os2/tglbtn.h
+/usr/local/include/wx-3.0/wx/wx/os2/tglbtn.h
 
 /usr/local/include/wx-3.0/wx/thread.h
 wx/defs.h

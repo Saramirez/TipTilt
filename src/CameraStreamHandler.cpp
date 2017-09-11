@@ -10,7 +10,7 @@ CameraStreamHandler::CameraStreamHandler(const char * _device, int* _eX, int* _e
     eY = _eY;
     mtx = _mtx;
     Point _target(50, 50);
-    Rect _roi(269, 196, 100, 100);
+    Rect _roi(880, 490, 100, 100);
     target = _target;
     roi = _roi; 
     oRoi = roi;
@@ -31,8 +31,9 @@ int CameraStreamHandler::OpenCamera(){
 void CameraStreamHandler::GetShapeInfo(Point& centroid, double& dist, double dir[2], double& width){
     Mat bw;
     threshold(frame, bw, thresh, 255, THRESH_BINARY);
-    Moments m = moments(bw, true);
-	Point res(m.m10/m.m00, m.m01/m.m00);
+    
+	//Moments m = moments(bw, true);
+	//Point res(m.m10/m.m00, m.m01/m.m00);
 
     Mat aux;
     threshold(frame, aux, thresh, 255, THRESH_TOZERO);
@@ -76,15 +77,17 @@ void CameraStreamHandler::GetShapeInfo(Point& centroid, double& area){
     area = m.m00;
 }
 
-int CameraStreamHandler::GetStarParams() {
+Mat CameraStreamHandler::GetStarParams() {
 	cout << "Getting star params" << endl;
 
 	if (!cam.isOpened()) {
 		cout << "Cam is not opened" << endl;
-		return -1;
+		return Mat();
 	}
 
 	cam >> frame;
+	frame = frame(roi);
+
     double starArea;
 	GetShapeInfo(centroid, starArea);
 	starRadius = sqrt(starArea / M_PI);
@@ -93,6 +96,8 @@ int CameraStreamHandler::GetStarParams() {
 
 	cvtColor(frame, frame, CV_GRAY2BGR);
 	circle(frame, centroid, starRadius, Scalar(0, 128, 0));
+
+	return frame;
 }
 
 void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, double dir[2], double& width){
@@ -126,7 +131,7 @@ void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, do
     //cout << "xErr = " << xErr << "; yErr = " << yErr << endl;
 }
 
-Mat CameraStreamHandler::CaptureAndProcess(){
+Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh){
     cam >> frame;
 
     if(simulate){
@@ -156,9 +161,14 @@ Mat CameraStreamHandler::CaptureAndProcess(){
         mtx->unlock();
         //_t = t;
     }
+
+	if (returnThresh) {
+		threshold(frame, frame, thresh, 255, THRESH_BINARY);
+	}
+
+	cvtColor(frame, frame, CV_GRAY2RGB);
     if(dist != -1)
         circle(frame, centroid, 2, Scalar(128,0,0));
-    cvtColor(frame, frame, CV_GRAY2RGB);
     circle(frame, Point(target.x,target.y), 3, Scalar(0,128,128));
 
     return frame;

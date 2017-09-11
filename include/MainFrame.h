@@ -20,9 +20,15 @@
 #include <wx/colour.h>
 #include <wx/settings.h>
 #include <wx/tglbtn.h>
+#include <wx/combobox.h>
 #include <wx/sizer.h>
 #include <wx/panel.h>
+#include <wx/statline.h>
+#include <wx/stattext.h>
+#include <wx/textctrl.h>
+#include <wx/checkbox.h>
 #include <wx/button.h>
+#include <wx/statbmp.h>
 #include <wx/statusbr.h>
 #include <wx/frame.h>
 
@@ -40,15 +46,38 @@ class MainFrame : public wxFrame
 		wxMenuBar* m_menubar1;
 		wxMenu* tools_menu;
 		wxToggleButton* StartCaptureButton;
+		wxComboBox* CamDeviceComboBox;
 		wxToggleButton* CorrectionButton;
+		wxComboBox* TTDeviceComboBox;
 		wxPanel* StreamPlayerPanel;
+		wxStaticLine* m_staticline1;
+		wxStaticText* m_staticText1;
+		wxTextCtrl* ThrsTxCtrl;
+		wxStaticText* m_staticText11;
+		wxCheckBox* m_checkBox1;
+		wxStaticText* m_staticText12;
+		wxButton* GetStarSizeButton;
+		wxTextCtrl* StrSzTxCtrl;
+		wxButton* DefaultButton;
+		wxStaticLine* m_staticline2;
+		wxStaticText* m_staticText10;
+		wxStaticBitmap* m_bitmap1;
+		wxStaticBitmap* m_bitmap2;
+		wxStaticBitmap* m_bitmap3;
+		wxStaticBitmap* m_bitmap4;
 		wxButton* ExitButton;
 		wxStatusBar* m_statusBar1;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnSelectCameraSettings( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnToggleCapture( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnToggleCorrection( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnFramePaint( wxPaintEvent& event ) { event.Skip(); }
+		virtual void OnThrshTextSet( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnShowThresholdChecked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnGetStarSizeClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnStrSzTextSet( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnDefaultClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnClickExit( wxCommandEvent& event ) { event.Skip(); }
 		
 	

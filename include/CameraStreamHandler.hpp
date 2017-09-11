@@ -29,12 +29,10 @@ class CameraStreamHandler{
         Rect oRoi;
         double xPixToSteps = 2.4;
         double yPixToSteps = 2.33;
-        const double pinholeRadius = 13.0;
-        double starRadius = 10.3;
+        const double pinholeRadius = 8.0;
         const double w = 2 * M_PI * 0.05;
 	    const double R = 6;
 
-        const int thresh = 150;
         bool targetSet;
         bool simulate;
 
@@ -44,11 +42,15 @@ class CameraStreamHandler{
 
     public:
         CameraStreamHandler(const char *, int *, int *, mutex * );
-        int OpenCamera();
+
+		int thresh = 150;
+		double starRadius = 10.3;
+		
+		int OpenCamera();
 		bool IsCameraOpen();
-        int GetStarParams();
+        Mat GetStarParams();
         Mat GrabOneFrame();
-        Mat CaptureAndProcess();
+        Mat CaptureAndProcess(bool showThresh = false);
 };
 
 #endif
