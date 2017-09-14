@@ -122,3 +122,9 @@ bool SystemControl::IsCorrecting() {
 	return correcting;
 }
 
+void SystemControl::CenterTT() {
+	TT.goTo('K');
+	TT.sSteps = 0;
+	TT.eSteps = 0;
+}
+

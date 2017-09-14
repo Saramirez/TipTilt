@@ -52,6 +52,7 @@ class SystemControl {
 		void SetThreshold(int);
 		void SetStarSize(double);
 		double GetStarSize();
+		void CenterTT();
 };
 
 

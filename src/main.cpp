@@ -5,8 +5,8 @@
 
 IMPLEMENT_APP(TipTiltApp);
 
-SystemControl sControl("/dev/ttyUSB0", "v4l2src ! video/x-raw,format=GRAY8 ! appsink");
-//"/dev/ttyUSB0", "v4l2src ! video/x-raw,format=GRAY8, width=640, height=480 ! appsink"
+SystemControl sControl("/dev/ttyUSB0", "v4l2src device=/dev/video0 ! video/x-raw,format=GRAY8 ! appsink");
+//"/dev/ttyUSB0", "v4l2src device=/dev/video0 ! video/x-raw,format=GRAY8 ! appsink"
 
 bool TipTiltApp::OnInit()
 {

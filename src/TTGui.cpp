@@ -14,7 +14,7 @@ void TTGui::OnSelectCameraSettings(wxCommandEvent& event)
 	//std::system("v4l2ucp");
 }
 
-void TTGui::OnToggleCapture( wxCommandEvent& event )
+void TTGui::OnClickCapture( wxCommandEvent& event )
 {
 	if(!sControl_p->IsCapturing())
 		sControl_p->StartCapture();
@@ -28,7 +28,7 @@ void TTGui::OnToggleCapture( wxCommandEvent& event )
 	}
 }
 
-void TTGui::OnToggleCorrection(wxCommandEvent& event)
+void TTGui::OnClickCorrection(wxCommandEvent& event)
 {
 	if (!sControl_p->IsCorrecting()){
 		if(sControl_p->IsCapturing())
@@ -132,6 +132,13 @@ void TTGui::OnStrSzTextSet(wxCommandEvent& event)
 void TTGui::OnDefaultClicked(wxCommandEvent& event)
 {
 	// TODO: Implement OnDefaultClicked
+}
+
+void TTGui::OnClickCenterTT(wxCommandEvent& event)
+{
+	if (sControl_p->IsCorrecting())
+		sControl_p->StopCorrection();
+	sControl_p->CenterTT();
 }
 
 void TTGui::OnClickExit( wxCommandEvent& event )
