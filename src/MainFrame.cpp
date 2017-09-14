@@ -54,7 +54,7 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxVERTICAL );
 	
-	StreamPlayerPanel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( 100,100 ), wxSTATIC_BORDER|wxTAB_TRAVERSAL );
+	StreamPlayerPanel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( 100,100 ), wxSIMPLE_BORDER |wxTAB_TRAVERSAL );
 	bSizer3->Add( StreamPlayerPanel, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 10 );
 	
 	
@@ -79,7 +79,7 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_staticText1->Wrap( -1 );
 	gSizer2->Add( m_staticText1, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	ThrsTxCtrl = new wxTextCtrl( this, wxID_ANY, wxT("150"), wxDefaultPosition, wxSize( 40,-1 ), wxTE_CENTRE|wxTE_NO_VSCROLL|wxTE_PROCESS_ENTER);
+	ThrsTxCtrl = new wxTextCtrl( this, wxID_ANY, wxT("150"), wxDefaultPosition, wxSize( 40,-1 ), wxTE_CENTRE|wxTE_NO_VSCROLL|wxTE_PROCESS_ENTER );
 	#ifdef __WXGTK__
 	if ( !ThrsTxCtrl->HasFlag( wxTE_MULTILINE ) )
 	{
@@ -97,7 +97,7 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_checkBox1 = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
 	gSizer2->Add( m_checkBox1, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxRIGHT, 15 );
 	
-	m_staticText12 = new wxStaticText( this, wxID_ANY, wxT("Star size"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
+	m_staticText12 = new wxStaticText( this, wxID_ANY, wxT("Star radius (in pixels)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
 	m_staticText12->Wrap( -1 );
 	gSizer2->Add( m_staticText12, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
@@ -146,32 +146,11 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	wxBoxSizer* bSizer15;
 	bSizer15 = new wxBoxSizer( wxVERTICAL );
 	
-	m_bitmap1 = new wxStaticBitmap( this, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer15->Add( m_bitmap1, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP|wxRIGHT|wxLEFT, 5 );
-	
-	wxBoxSizer* bSizer13;
-	bSizer13 = new wxBoxSizer( wxHORIZONTAL );
-	
-	m_bitmap2 = new wxStaticBitmap( this, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer13->Add( m_bitmap2, 0, wxALL, 5 );
+	TTPositionPanel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( 120,120 ), wxSIMPLE_BORDER |wxTAB_TRAVERSAL );
+	bSizer15->Add( TTPositionPanel, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	
-	bSizer13->Add( 20, 0, 1, wxEXPAND, 5 );
-	
-	m_bitmap3 = new wxStaticBitmap( this, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer13->Add( m_bitmap3, 0, wxALL, 5 );
-	
-	
-	bSizer15->Add( bSizer13, 0, wxALIGN_CENTER_HORIZONTAL, 5 );
-	
-	m_bitmap4 = new wxStaticBitmap( this, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer15->Add( m_bitmap4, 0, wxALIGN_CENTER_HORIZONTAL|wxBOTTOM|wxRIGHT|wxLEFT, 5 );
-	
-	
-	bSizer15->Add( 200, 0, 1, wxEXPAND, 5 );
-	
-	
-	bSizer14->Add( bSizer15, 0, wxALIGN_CENTER_VERTICAL, 5 );
+	bSizer14->Add( bSizer15, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	
 	bSizer12->Add( bSizer14, 0, wxALIGN_CENTER_HORIZONTAL|wxTOP, 5 );
@@ -205,6 +184,7 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	GetStarSizeButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnGetStarSizeClicked ), NULL, this );
 	StrSzTxCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( MainFrame::OnStrSzTextSet ), NULL, this );
 	DefaultButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnDefaultClicked ), NULL, this );
+	TTPositionPanel->Connect( wxEVT_PAINT, wxPaintEventHandler( MainFrame::OnTTPosPaint ), NULL, this );
 	ExitButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickExit ), NULL, this );
 }
 
@@ -220,6 +200,7 @@ MainFrame::~MainFrame()
 	GetStarSizeButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnGetStarSizeClicked ), NULL, this );
 	StrSzTxCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( MainFrame::OnStrSzTextSet ), NULL, this );
 	DefaultButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnDefaultClicked ), NULL, this );
+	TTPositionPanel->Disconnect( wxEVT_PAINT, wxPaintEventHandler( MainFrame::OnTTPosPaint ), NULL, this );
 	ExitButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickExit ), NULL, this );
 	
 }

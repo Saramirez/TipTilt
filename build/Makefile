@@ -150,6 +150,33 @@ src/CameraStreamHandler.cpp.s:
 	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.s
 .PHONY : src/CameraStreamHandler.cpp.s
 
+src/DisplayControl.o: src/DisplayControl.cpp.o
+
+.PHONY : src/DisplayControl.o
+
+# target to build an object file
+src/DisplayControl.cpp.o:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o
+.PHONY : src/DisplayControl.cpp.o
+
+src/DisplayControl.i: src/DisplayControl.cpp.i
+
+.PHONY : src/DisplayControl.i
+
+# target to preprocess a source file
+src/DisplayControl.cpp.i:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.i
+.PHONY : src/DisplayControl.cpp.i
+
+src/DisplayControl.s: src/DisplayControl.cpp.s
+
+.PHONY : src/DisplayControl.s
+
+# target to generate assembly for a file
+src/DisplayControl.cpp.s:
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.s
+.PHONY : src/DisplayControl.cpp.s
+
 src/MainFrame.o: src/MainFrame.cpp.o
 
 .PHONY : src/MainFrame.o
@@ -176,33 +203,6 @@ src/MainFrame.s: src/MainFrame.cpp.s
 src/MainFrame.cpp.s:
 	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.s
 .PHONY : src/MainFrame.cpp.s
-
-src/StreamPlayer.o: src/StreamPlayer.cpp.o
-
-.PHONY : src/StreamPlayer.o
-
-# target to build an object file
-src/StreamPlayer.cpp.o:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o
-.PHONY : src/StreamPlayer.cpp.o
-
-src/StreamPlayer.i: src/StreamPlayer.cpp.i
-
-.PHONY : src/StreamPlayer.i
-
-# target to preprocess a source file
-src/StreamPlayer.cpp.i:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.i
-.PHONY : src/StreamPlayer.cpp.i
-
-src/StreamPlayer.s: src/StreamPlayer.cpp.s
-
-.PHONY : src/StreamPlayer.s
-
-# target to generate assembly for a file
-src/StreamPlayer.cpp.s:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.s
-.PHONY : src/StreamPlayer.cpp.s
 
 src/SystemControl.o: src/SystemControl.cpp.o
 
@@ -324,12 +324,12 @@ help:
 	@echo "... src/CameraStreamHandler.o"
 	@echo "... src/CameraStreamHandler.i"
 	@echo "... src/CameraStreamHandler.s"
+	@echo "... src/DisplayControl.o"
+	@echo "... src/DisplayControl.i"
+	@echo "... src/DisplayControl.s"
 	@echo "... src/MainFrame.o"
 	@echo "... src/MainFrame.i"
 	@echo "... src/MainFrame.s"
-	@echo "... src/StreamPlayer.o"
-	@echo "... src/StreamPlayer.i"
-	@echo "... src/StreamPlayer.s"
 	@echo "... src/SystemControl.o"
 	@echo "... src/SystemControl.i"
 	@echo "... src/SystemControl.s"

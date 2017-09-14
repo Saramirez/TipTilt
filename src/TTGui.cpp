@@ -4,13 +4,14 @@ TTGui::TTGui( wxWindow* parent )
 :
 MainFrame( parent )
 {
-	player_p = new StreamPlayer(StreamPlayerPanel);
+	dControl_p = new DisplayControl(StreamPlayerPanel, TTPositionPanel,
+		&mtxProtectingBmpAndCamPanel, &mtxProtectingTTPositionsAndPanel);
 }
 
 void TTGui::OnSelectCameraSettings(wxCommandEvent& event)
 {
-	//std::system("guvcview -z");
-	std::system("v4l2ucp");
+	std::system("guvcview -z");
+	//std::system("v4l2ucp");
 }
 
 void TTGui::OnToggleCapture( wxCommandEvent& event )
@@ -40,25 +41,54 @@ void TTGui::OnToggleCorrection(wxCommandEvent& event)
 
 void TTGui::OnFramePaint(wxPaintEvent& event)
 {
+	mtxProtectingBmpAndCamPanel.lock();
 	wxPaintDC dc(StreamPlayerPanel);
 
-	if (!dc.IsOk())
+	if (!dc.IsOk()) {
+		mtxProtectingBmpAndCamPanel.unlock();
 		return;
+	}
 
+
+	wxBitmap bmp = dControl_p->bmp;
+
+	if (!bmp.IsOk()) {
+		mtxProtectingBmpAndCamPanel.unlock();
+		return;
+	}
+	/*
 	int x, y, w, h;
-
-	//cout << "player bmp w, h: " << bmp.GetWidth() << ", " << bmp.GetHeight() << endl;
-
-	wxBitmap bmp = player_p->bmp;
-
-	if (!bmp.IsOk())
-		return;
-
 	dc.GetClippingBox(&x, &y, &w, &h);
-	//cout << "x, y, w, h: " << x << ", " << y << ", " << w << ", " << h << endl;
 	dc.DrawBitmap(bmp, x, y);
+	*/
+	dc.DrawBitmap(bmp, 0, 0);
+	mtxProtectingBmpAndCamPanel.unlock();
 
-	//cout << "Bitmap Drawn" << endl;
+	return;
+}
+
+void TTGui::OnTTPosPaint(wxPaintEvent& event)
+{
+	mtxProtectingTTPositionsAndPanel.lock();
+	wxPaintDC dc(TTPositionPanel);
+
+	if (!dc.IsOk()) {
+		mtxProtectingTTPositionsAndPanel.unlock();
+		return;
+	}
+
+	int w, h, x, y;
+	x = dControl_p->TTPosX;
+	y = dControl_p->TTPosY;
+	dc.GetSize(&w, &h);
+	dc.SetPen(wxPen(*wxRED_PEN));
+	dc.DrawRectangle(w / 2 - 35, h / 2 - 35, 70, 70);
+	dc.SetPen(wxPen(*wxBLACK_PEN));
+	dc.CrossHair(w / 2, h / 2);
+	dc.SetBrush(*wxGREEN_BRUSH);
+	dc.DrawCircle(wxPoint(w / 2 + x, h / 2 + y), 5);
+
+	mtxProtectingTTPositionsAndPanel.unlock();
 
 	return;
 }

@@ -31,7 +31,7 @@ class CameraStreamHandler{
         double yPixToSteps = 2.33;
         const double pinholeRadius = 8.0;
         const double w = 2 * M_PI * 0.05;
-	    const double R = 6;
+	    const double R = 4;
 
         bool targetSet;
         bool simulate;

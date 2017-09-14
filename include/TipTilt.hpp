@@ -16,9 +16,6 @@ const int avgCount = 10;
 
 class TipTilt {
 	private:
-		int sSteps, eSteps;
-		int sLastSteps[avgCount];
-		int eLastSteps[avgCount];
 		int * eY;
 		int * eX;
 		mutex * mtx;
@@ -31,11 +28,9 @@ class TipTilt {
 		const char* device;
 		struct termios SerialConfig;
 		thread runningThread;
-		void addStep(int);
 		void run();
-		void checkBumps(int&, int&);
 	public:
-		int getBump(int);
+		int sSteps, eSteps;
 		bool isOpened();
 		int openComm();
 		void closeComm();

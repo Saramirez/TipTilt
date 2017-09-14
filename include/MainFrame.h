@@ -28,7 +28,6 @@
 #include <wx/textctrl.h>
 #include <wx/checkbox.h>
 #include <wx/button.h>
-#include <wx/statbmp.h>
 #include <wx/statusbr.h>
 #include <wx/frame.h>
 
@@ -61,10 +60,7 @@ class MainFrame : public wxFrame
 		wxButton* DefaultButton;
 		wxStaticLine* m_staticline2;
 		wxStaticText* m_staticText10;
-		wxStaticBitmap* m_bitmap1;
-		wxStaticBitmap* m_bitmap2;
-		wxStaticBitmap* m_bitmap3;
-		wxStaticBitmap* m_bitmap4;
+		wxPanel* TTPositionPanel;
 		wxButton* ExitButton;
 		wxStatusBar* m_statusBar1;
 		
@@ -78,12 +74,13 @@ class MainFrame : public wxFrame
 		virtual void OnGetStarSizeClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnStrSzTextSet( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnDefaultClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnTTPosPaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnClickExit( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		MainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("TipTilt Correction"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 680,400 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		MainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("TipTilt Correction"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 680,420 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~MainFrame();
 	

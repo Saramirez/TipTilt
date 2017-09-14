@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/TipTiltGUI.dir/src/SystemControl.cpp.o"
+  "CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o"
   "CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o"
-  "CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o"
   "CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o"
   "CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o"
   "CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o"

@@ -3,11 +3,12 @@
 
 #include "CameraStreamHandler.hpp"
 #include "TipTilt.hpp"
-#include "StreamPlayer.hpp"
+#include "DisplayControl.hpp"
 #include "opencv2/opencv.hpp"
 
 #include <atomic>
 #include <thread>
+#include <mutex>
 
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
@@ -15,6 +16,7 @@
 #endif
 
 const int sControlId = 9;
+using namespace std;
 
 class SystemControl {
 	private:
@@ -23,20 +25,22 @@ class SystemControl {
 		mutex mtxProtectingErrors;
 		int eX;
 		int eY;
+		int TTposX;
+		int TTposY;
 		atomic<bool> capturingInternal;
 		atomic<bool> correctingInternal;
 		bool capturing;
 		bool correcting;
 		bool showThresh;
 		mutex mtxProtectingValues;
+		mutex mtxProtectingDisplayControl;
 		thread capturingThread;
 		thread correctingThread;
 		Mat frame;
 		void RunCapture();
 		void RunCorrection();
-		void CheckBumps(int&, int&);
 	public:
-		StreamPlayer * player_p;
+		DisplayControl * dControl_p;
 		SystemControl(const char*, const char*);
 		int StartCapture();
 		int StartCorrection();

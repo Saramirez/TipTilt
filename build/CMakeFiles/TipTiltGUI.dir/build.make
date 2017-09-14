@@ -81,9 +81,33 @@ CMakeFiles/TipTiltGUI.dir/src/SystemControl.cpp.o.provides: CMakeFiles/TipTiltGU
 CMakeFiles/TipTiltGUI.dir/src/SystemControl.cpp.o.provides.build: CMakeFiles/TipTiltGUI.dir/src/SystemControl.cpp.o
 
 
+CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o: CMakeFiles/TipTiltGUI.dir/flags.make
+CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o: ../src/DisplayControl.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o -c "/home/odroid/TipTilt Control/src/DisplayControl.cpp"
+
+CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/odroid/TipTilt Control/src/DisplayControl.cpp" > CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.i
+
+CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/odroid/TipTilt Control/src/DisplayControl.cpp" -o CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.s
+
+CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o.requires:
+
+.PHONY : CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o.requires
+
+CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o.provides: CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o.requires
+	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o.provides.build
+.PHONY : CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o.provides
+
+CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o.provides.build: CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o
+
+
 CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o: CMakeFiles/TipTiltGUI.dir/flags.make
 CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o: ../src/CameraStreamHandler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o"
 	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o -c "/home/odroid/TipTilt Control/src/CameraStreamHandler.cpp"
 
 CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.i: cmake_force
@@ -103,30 +127,6 @@ CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o.provides: CMakeFiles/Tip
 .PHONY : CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o.provides
 
 CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o.provides.build: CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o
-
-
-CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o: CMakeFiles/TipTiltGUI.dir/flags.make
-CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o: ../src/StreamPlayer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/home/odroid/TipTilt Control/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o -c "/home/odroid/TipTilt Control/src/StreamPlayer.cpp"
-
-CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/odroid/TipTilt Control/src/StreamPlayer.cpp" > CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.i
-
-CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/odroid/TipTilt Control/src/StreamPlayer.cpp" -o CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.s
-
-CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o.requires:
-
-.PHONY : CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o.requires
-
-CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o.provides: CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o.requires
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o.provides.build
-.PHONY : CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o.provides
-
-CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o.provides.build: CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o
 
 
 CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o: CMakeFiles/TipTiltGUI.dir/flags.make
@@ -228,8 +228,8 @@ CMakeFiles/TipTiltGUI.dir/src/main.cpp.o.provides.build: CMakeFiles/TipTiltGUI.d
 # Object files for target TipTiltGUI
 TipTiltGUI_OBJECTS = \
 "CMakeFiles/TipTiltGUI.dir/src/SystemControl.cpp.o" \
+"CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o" \
 "CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o" \
-"CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o" \
 "CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o" \
 "CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o" \
 "CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o" \
@@ -239,8 +239,8 @@ TipTiltGUI_OBJECTS = \
 TipTiltGUI_EXTERNAL_OBJECTS =
 
 TipTiltGUI: CMakeFiles/TipTiltGUI.dir/src/SystemControl.cpp.o
+TipTiltGUI: CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o
 TipTiltGUI: CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o
-TipTiltGUI: CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o
 TipTiltGUI: CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o
 TipTiltGUI: CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o
 TipTiltGUI: CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o
@@ -276,8 +276,8 @@ CMakeFiles/TipTiltGUI.dir/build: TipTiltGUI
 .PHONY : CMakeFiles/TipTiltGUI.dir/build
 
 CMakeFiles/TipTiltGUI.dir/requires: CMakeFiles/TipTiltGUI.dir/src/SystemControl.cpp.o.requires
+CMakeFiles/TipTiltGUI.dir/requires: CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o.requires
 CMakeFiles/TipTiltGUI.dir/requires: CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o.requires
-CMakeFiles/TipTiltGUI.dir/requires: CMakeFiles/TipTiltGUI.dir/src/StreamPlayer.cpp.o.requires
 CMakeFiles/TipTiltGUI.dir/requires: CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o.requires
 CMakeFiles/TipTiltGUI.dir/requires: CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o.requires
 CMakeFiles/TipTiltGUI.dir/requires: CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o.requires

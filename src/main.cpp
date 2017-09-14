@@ -12,7 +12,7 @@ bool TipTiltApp::OnInit()
 {
 	TTGui * gui = new TTGui(NULL);
 
-	sControl.player_p = gui->player_p;
+	sControl.dControl_p = gui->dControl_p;
 	gui->sControl_p = &sControl;
     gui->Show(true);
 

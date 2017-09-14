@@ -16,6 +16,16 @@ math.h
 mutex
 -
 
+/home/odroid/TipTilt Control/include/DisplayControl.hpp
+opencv2/opencv.hpp
+/home/odroid/TipTilt Control/include/opencv2/opencv.hpp
+mutex
+-
+wx/wxprec.h
+-
+wx/wx.h
+-
+
 /home/odroid/TipTilt Control/include/MainFrame.h
 wx/artprov.h
 -
@@ -57,33 +67,25 @@ wx/checkbox.h
 -
 wx/button.h
 -
-wx/statbmp.h
--
 wx/statusbr.h
 -
 wx/frame.h
 -
-
-/home/odroid/TipTilt Control/include/StreamPlayer.hpp
-wx/wxprec.h
--
-wx/wx.h
--
-opencv2/opencv.hpp
-/home/odroid/TipTilt Control/include/opencv2/opencv.hpp
 
 /home/odroid/TipTilt Control/include/SystemControl.hpp
 CameraStreamHandler.hpp
 /home/odroid/TipTilt Control/include/CameraStreamHandler.hpp
 TipTilt.hpp
 /home/odroid/TipTilt Control/include/TipTilt.hpp
-StreamPlayer.hpp
-/home/odroid/TipTilt Control/include/StreamPlayer.hpp
+DisplayControl.hpp
+/home/odroid/TipTilt Control/include/DisplayControl.hpp
 opencv2/opencv.hpp
 /home/odroid/TipTilt Control/include/opencv2/opencv.hpp
 atomic
 -
 thread
+-
+mutex
 -
 wx/wxprec.h
 -
@@ -93,10 +95,12 @@ wx/wx.h
 /home/odroid/TipTilt Control/include/TTGui.hpp
 MainFrame.h
 /home/odroid/TipTilt Control/include/MainFrame.h
-StreamPlayer.hpp
-/home/odroid/TipTilt Control/include/StreamPlayer.hpp
+DisplayControl.hpp
+/home/odroid/TipTilt Control/include/DisplayControl.hpp
 SystemControl.hpp
 /home/odroid/TipTilt Control/include/SystemControl.hpp
+mutex
+-
 
 /home/odroid/TipTilt Control/include/TipTilt.hpp
 fcntl.h
@@ -132,15 +136,15 @@ X11/Xlib.h
 chrono
 -
 
+/home/odroid/TipTilt Control/src/DisplayControl.cpp
+../include/DisplayControl.hpp
+/home/odroid/TipTilt Control/include/DisplayControl.hpp
+iostream
+-
+
 /home/odroid/TipTilt Control/src/MainFrame.cpp
 ../include/MainFrame.h
 /home/odroid/TipTilt Control/include/MainFrame.h
-
-/home/odroid/TipTilt Control/src/StreamPlayer.cpp
-../include/StreamPlayer.hpp
-/home/odroid/TipTilt Control/include/StreamPlayer.hpp
-iostream
--
 
 /home/odroid/TipTilt Control/src/SystemControl.cpp
 ../include/SystemControl.hpp

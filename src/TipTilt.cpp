@@ -109,7 +109,6 @@ void TipTilt::updatePosition(){
 			//write(fd, "L", 1);
 			(*eX)--;
 			eSteps++;
-			addStep(1);
 			//read(fd, &out, 1);
 			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
@@ -119,7 +118,6 @@ void TipTilt::updatePosition(){
 			//write(fd, "L", 1);
 			(*eX)++;
 			eSteps--;
-			addStep(1);
 			//read(fd, &out, 1);
 			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
@@ -132,7 +130,6 @@ void TipTilt::updatePosition(){
 			//write(fd, "L", 1);
 			(*eY)--;
 			sSteps++;
-			addStep(0);
 			//read(fd, &out, 1);
 			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
@@ -142,7 +139,6 @@ void TipTilt::updatePosition(){
 			//write(fd, "L", 1);	
 			(*eY)++;
 			sSteps--;
-			addStep(0);
 			//read(fd, &out, 1);
 			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
@@ -150,85 +146,6 @@ void TipTilt::updatePosition(){
 	}
 	mtx->unlock();
 	//this_thread::sleep_for(chrono::microseconds(100));
-}
-
-void TipTilt::addStep(int dir) {
-	if (dir == 0) {
-		for (int i = avgCount - 1; i > 0; i--)
-			sLastSteps[i] = sLastSteps[i - 1];
-		sLastSteps[0] = sSteps;
-	}
-	else {
-		for (int i = avgCount - 1; i > 0; i--)
-			eLastSteps[i] = eLastSteps[i - 1];
-		eLastSteps[0] = eSteps;
-	}		
-}
-
-void TipTilt::checkBumps(int& NSBump, int& WEBump) {
-	switch (getBump(0)) {
-	case 0:
-		if (NSBump != 0) {
-			NSBump = 0;
-			cout << "NSBump not needed" << endl;
-		}
-		break;
-	case -1:
-		if (NSBump != -1) {
-			NSBump = -1;
-			cout << "NSBump up" << endl;
-		}
-		break;
-	case 1:
-		if (NSBump != 1) {
-			NSBump = 1;
-			cout << "NSBump down" << endl;
-		}
-		break;
-	}
-
-	switch (getBump(1)) {
-	case 0:
-		if (WEBump != 0) {
-			WEBump = 0;
-			cout << "WEBump not needed" << endl;
-		}
-		break;
-	case -1:
-		if (WEBump != -1) {
-			WEBump = -1;
-			cout << "WEBump to the left" << endl;
-		}
-		break;
-	case 1:
-		if (WEBump != 1) {
-			WEBump = 1;
-			cout << "WEBump to the right" << endl;
-		}
-		break;
-	}
-}
-
-
-int TipTilt::getBump( int dir) {
-	double res = 0;
-	if (dir == 0) {
-		for (int i = 0; i < avgCount; i++)
-			res += sLastSteps[i];
-		res = res / avgCount;
-	}
-	else {
-		for (int i = 0; i < avgCount; i++)
-			res += eLastSteps[i];
-		res = res / avgCount;
-	}
-
-	if (res < -30)
-		return -1;
-	else if (res <= 30)
-		return 0;
-	else
-		return 1;
 }
 
 int TipTilt::start(){
@@ -246,13 +163,8 @@ int TipTilt::start(){
 
 void TipTilt::run(){
 	//Metodo que se estara corriendo en una thread.
-	int counter = 0;
-	int NSBump = 0;
-	int WEBump = 0;
 	while(running){
-		checkBumps(NSBump, WEBump);
     	updatePosition();
-		counter++;
     }
 	this_thread::sleep_for(chrono::microseconds(100));
     //cout << "UpdateTipTilt returned" << endl;
