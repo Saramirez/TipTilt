@@ -11,7 +11,7 @@ TipTilt::TipTilt(int* _eX, int* _eY, mutex * _mtx) {
 	mtx = _mtx;
 }
 
-void setDevice(const char * _device) {
+void TipTilt::setDevice(const char * _device) {
 	device = _device;
 }
 

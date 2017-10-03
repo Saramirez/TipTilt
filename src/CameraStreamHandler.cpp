@@ -17,7 +17,7 @@ CameraStreamHandler::CameraStreamHandler(int* _eX, int* _eY, mutex * _mtx){
     targetSet = true;
 }
 
-void SetDevice(const char * _device) {
+void CameraStreamHandler::SetDevice(const char * _device) {
 	device = _device;
 }
 
@@ -32,7 +32,7 @@ int CameraStreamHandler::OpenCamera(){
 }
 
 int CameraStreamHandler::CloseCamera() {
-	cam.release(device);
+	cam.release();
 
 	if (cam.isOpened()) {
 		return -1;

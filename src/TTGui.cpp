@@ -18,7 +18,7 @@ void TTGui::OnCaptureDeviceChoice(wxCommandEvent& event)
 {
 	if (sControl_p->IsCapturing())
 		sControl_p->StopCapture();
-	int choice = CamChoice->selection;
+	int choice = CamChoice->GetSelection();
 	sControl_p->SetCamDevice(choice);
 }
 
@@ -26,7 +26,7 @@ void TTGui::OnTTDeviceChoice(wxCommandEvent& event)
 {
 	if (sControl_p->IsCorrecting())
 		sControl_p->StopCorrection();
-	int choice = TTChoice->selection;
+	int choice = TTChoice->GetSelection();
 	sControl_p->SetTTDevice(choice);
 }
 
