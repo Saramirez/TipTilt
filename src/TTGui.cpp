@@ -8,6 +8,28 @@ dControl_p(new DisplayControl(StreamPlayerPanel, TTPositionPanel,
 {
 }
 
+
+void TTGui::OnSelectCalibrate(wxCommandEvent& event)
+{
+	// TODO: Implement OnSelectCalibrate
+}
+
+void TTGui::OnCaptureDeviceChoice(wxCommandEvent& event)
+{
+	if (sControl_p->IsCapturing())
+		sControl_p->StopCapture();
+	int choice = CamChoice->selection;
+	sControl_p->SetCamDevice(choice);
+}
+
+void TTGui::OnTTDeviceChoice(wxCommandEvent& event)
+{
+	if (sControl_p->IsCorrecting())
+		sControl_p->StopCorrection();
+	int choice = TTChoice->selection;
+	sControl_p->SetTTDevice(choice);
+}
+
 void TTGui::OnSelectCameraSettings(wxCommandEvent& event)
 {
 	std::system("guvcview -z");

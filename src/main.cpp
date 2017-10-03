@@ -13,6 +13,8 @@ bool TipTiltApp::OnInit()
 	TTGui * gui = new TTGui(NULL);
 
 	sControl.dControl_p = gui->dControl_p;
+	sControl.SetCamDevice(0);
+	sControl.SetTTDevice(0);
 	gui->sControl_p = &sControl;
     gui->Show(true);
 

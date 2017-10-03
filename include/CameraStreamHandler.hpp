@@ -41,12 +41,14 @@ class CameraStreamHandler{
         void CalculateErrors(int&, int&, double&, double*, double&);
 
     public:
-        CameraStreamHandler(const char *, int *, int *, mutex * );
+        CameraStreamHandler(int *, int *, mutex * );
 
 		int thresh = 150;
 		double starRadius = 10.3;
 		
+		void SetDevice(const char *);
 		int OpenCamera();
+		int CloseCamera();
 		bool IsCameraOpen();
         Mat GetStarParams();
         Mat GrabOneFrame();

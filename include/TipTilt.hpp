@@ -33,6 +33,7 @@ class TipTilt {
 		int sSteps, eSteps;
 		bool isOpened();
 		int openComm();
+		void setDevice(const char *);
 		void closeComm();
 		void updatePosition();
 		int goTo(char);
@@ -40,7 +41,7 @@ class TipTilt {
 		int start();
 		int stop();
 		void move(char);
-		TipTilt(const char *, int *, int *, mutex *); 	
+		TipTilt(int *, int *, mutex *); 	
 };
 
 #endif

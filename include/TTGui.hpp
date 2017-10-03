@@ -23,9 +23,12 @@ class TTGui : public MainFrame
 		mutex mtxProtectingTTPositionsAndPanel;
 	protected:
 		// Handlers for MainFrame events.
+		void OnSelectCalibrate(wxCommandEvent& event);
 		void OnSelectCameraSettings(wxCommandEvent& event);
 		void OnClickCapture(wxCommandEvent& event);
+		void OnCaptureDeviceChoice(wxCommandEvent& event);
 		void OnClickCorrection(wxCommandEvent& event);
+		void OnTTDeviceChoice(wxCommandEvent& event);
 		void OnFramePaint(wxPaintEvent& event);
 		void OnThrshTextSet(wxCommandEvent& event);
 		void OnShowThresholdChecked(wxCommandEvent& event);

@@ -39,18 +39,20 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	CaptureButton = new wxButton( this, wxID_ANY, wxT("Capture"), wxDefaultPosition, wxDefaultSize, 0 );
 	gSizer1->Add( CaptureButton, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxArrayString m_choice1Choices;
-	m_choice1 = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice1Choices, 0 );
-	m_choice1->SetSelection( 0 );
-	gSizer1->Add( m_choice1, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxString CamChoiceChoices[] = { wxT("video0"), wxT("video1"), wxT("video2"), wxT("video3") };
+	int CamChoiceNChoices = sizeof( CamChoiceChoices ) / sizeof( wxString );
+	CamChoice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, CamChoiceNChoices, CamChoiceChoices, 0 );
+	CamChoice->SetSelection( 0 );
+	gSizer1->Add( CamChoice, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	CorrectionButton = new wxButton( this, wxID_ANY, wxT("Correction"), wxDefaultPosition, wxDefaultSize, 0 );
 	gSizer1->Add( CorrectionButton, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
-	wxArrayString m_choice2Choices;
-	m_choice2 = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice2Choices, 0 );
-	m_choice2->SetSelection( 0 );
-	gSizer1->Add( m_choice2, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
+	wxString TTChoiceChoices[] = { wxT("ttyUSB0"), wxT("ttyUSB1"), wxT("ttyUSB2"), wxT("ttyUSB3") };
+	int TTChoiceNChoices = sizeof( TTChoiceChoices ) / sizeof( wxString );
+	TTChoice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, TTChoiceNChoices, TTChoiceChoices, 0 );
+	TTChoice->SetSelection( 0 );
+	gSizer1->Add( TTChoice, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	bSizer2->Add( gSizer1, 1, wxALIGN_CENTER_VERTICAL, 0 );
@@ -188,9 +190,12 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	this->Connect( CalibrateMenuItem->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnSelectCalibrate ) );
 	this->Connect( CameraSettingsMenuItem->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnSelectCameraSettings ) );
 	CaptureButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickCapture ), NULL, this );
+	CamChoice->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrame::OnCaptureDeviceChoice ), NULL, this );
 	CorrectionButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickCorrection ), NULL, this );
+	TTChoice->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrame::OnTTDeviceChoice ), NULL, this );
 	StreamPlayerPanel->Connect( wxEVT_PAINT, wxPaintEventHandler( MainFrame::OnFramePaint ), NULL, this );
 	ThrsTxCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( MainFrame::OnThrshTextSet ), NULL, this );
 	m_checkBox1->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( MainFrame::OnShowThresholdChecked ), NULL, this );
@@ -205,9 +210,12 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 MainFrame::~MainFrame()
 {
 	// Disconnect Events
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnSelectCalibrate ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( MainFrame::OnSelectCameraSettings ) );
 	CaptureButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickCapture ), NULL, this );
+	CamChoice->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrame::OnCaptureDeviceChoice ), NULL, this );
 	CorrectionButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnClickCorrection ), NULL, this );
+	TTChoice->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( MainFrame::OnTTDeviceChoice ), NULL, this );
 	StreamPlayerPanel->Disconnect( wxEVT_PAINT, wxPaintEventHandler( MainFrame::OnFramePaint ), NULL, this );
 	ThrsTxCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( MainFrame::OnThrshTextSet ), NULL, this );
 	m_checkBox1->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( MainFrame::OnShowThresholdChecked ), NULL, this );

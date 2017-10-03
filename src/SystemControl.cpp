@@ -1,13 +1,55 @@
 #include "../include/SystemControl.hpp"
  
-SystemControl::SystemControl(const char* TTDevice, const char* camDevice) :
-				CSH(camDevice, &eX, &eY, &mtxProtectingErrors),
-				TT(TTDevice, &eX, &eY, &mtxProtectingErrors){
+SystemControl::SystemControl() :
+				CSH(&eX, &eY, &mtxProtectingErrors),
+				TT(&eX, &eY, &mtxProtectingErrors){
 	eX = 0;
 	eY = 0;
 	capturing = false;
 	correcting = false;
 	showThresh = false;
+}
+
+void SystemControl::SetCamDevice(int id) {
+	if (id < 0 || id > 3) {
+		cout << "Can't set that device for TT" << endl;
+		return;
+	}
+	switch (id)	{
+	case 0:
+		CSH.SetDevice("v4l2src device=/dev/video0 ! video/x-raw,format=GRAY8 ! appsink");
+		break;
+	case 1:
+		CSH.SetDevice("v4l2src device=/dev/video1 ! video/x-raw,format=GRAY8 ! appsink");
+		break;
+	case 2:
+		CSH.SetDevice("v4l2src device=/dev/video2 ! video/x-raw,format=GRAY8 ! appsink");
+		break;
+	case 3:
+		CSH.SetDevice("v4l2src device=/dev/video3 ! video/x-raw,format=GRAY8 ! appsink");
+		break;
+	}
+}
+
+void SystemControl::SetTTDevice(int id) {
+	if (id < 0 || id > 3) {
+		cout << "Can't set that device for TT" << endl;
+		return;
+	}
+	switch (id) {
+	case 0:
+		TT.setDevice("/dev/ttyUSB0");
+		break;
+	case 1:
+		TT.setDevice("/dev/ttyUSB1");
+		break;
+	case 2:
+		TT.setDevice("/dev/ttyUSB2");
+		break;
+	case 3:
+		TT.setDevice("/dev/ttyUSB3");
+		break;
+	}
 }
 
 void SystemControl::ToggleShowThresh() {
@@ -33,6 +75,12 @@ double SystemControl::GetStarSize() {
 	if (correcting) {
 		StopCorrection();
 	}
+	if (!CSH.IsCameraOpen()) {
+		if (CSH.OpenCamera() != 0) {
+			cout << "Could not open camera" << endl;
+			return -1;
+		}
+	}
 	mtxProtectingValues.lock();
 	frame = CSH.GetStarParams();
 	double starRadius = CSH.starRadius;
@@ -54,11 +102,12 @@ void SystemControl::SetStarSize(double _starRadius) {
 }
 
 int SystemControl::StartCapture() {
-	if (!CSH.IsCameraOpen())
-		if(CSH.OpenCamera() != 0) {
+	if (!CSH.IsCameraOpen()) {
+		if (CSH.OpenCamera() != 0) {
 			cout << "Could not open camera" << endl;
 			return -1;
 		}
+	}
 	capturingInternal = true;
 	capturingThread = thread(&SystemControl::RunCapture, this);
 	capturing = true;
@@ -86,8 +135,10 @@ int SystemControl::StopCapture() {
 
 int SystemControl::StartCorrection(){
 	if (!TT.isOpened()) {
-		cout << "TT device is not open" << endl;
-		return -1;
+		if (TT.openComm() != 0) {
+			cout << "Could not open TT device" << endl;
+			return -1;
+		}
 	}
 	correctingInternal = true;
 	correctingThread = thread(&SystemControl::RunCorrection, this);
@@ -111,6 +162,7 @@ int SystemControl::StopCorrection() {
 	correctingInternal = false;
 	correctingThread.join();
 	correcting = false;
+	TT.closeComm();
 	return 0;
 }
 
@@ -123,6 +175,12 @@ bool SystemControl::IsCorrecting() {
 }
 
 void SystemControl::CenterTT() {
+	if (!TT.isOpened()) {
+		if (TT.openComm() != 0) {
+			cout << "Could not open TT device" << endl;
+			return;
+		}
+	}
 	TT.goTo('K');
 	TT.sSteps = 0;
 	TT.eSteps = 0;

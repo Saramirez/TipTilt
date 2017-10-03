@@ -5,12 +5,14 @@ using get_time = chrono::steady_clock;
 
 const int restTime = 8; //ms
 
-TipTilt::TipTilt(const char* _device, int* _eX, int* _eY, mutex * _mtx) { 
-	device = _device;
+TipTilt::TipTilt(int* _eX, int* _eY, mutex * _mtx) { 
 	eX = _eX;
 	eY = _eY;
 	mtx = _mtx;
-	openComm();
+}
+
+void setDevice(const char * _device) {
+	device = _device;
 }
 
 bool TipTilt::isOpened(){
@@ -27,7 +29,7 @@ void TipTilt::configSerial(){
 int TipTilt::openComm(){	
 	fd = open(device, O_RDWR | O_NOCTTY);
 	if(fd < 0){
-		cout << "Error opening ttyUSB0" << endl;
+		cout << "Error opening comm" << endl;
 		return -1;
 	}
 	opened = true;

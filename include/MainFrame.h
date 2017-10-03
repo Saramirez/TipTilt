@@ -44,9 +44,9 @@ class MainFrame : public wxFrame
 		wxMenuBar* m_menubar1;
 		wxMenu* tools_menu;
 		wxButton* CaptureButton;
-		wxChoice* m_choice1;
+		wxChoice* CamChoice;
 		wxButton* CorrectionButton;
-		wxChoice* m_choice2;
+		wxChoice* TTChoice;
 		wxPanel* StreamPlayerPanel;
 		wxStaticLine* m_staticline1;
 		wxStaticText* m_staticText1;
@@ -65,9 +65,12 @@ class MainFrame : public wxFrame
 		wxStatusBar* m_statusBar1;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnSelectCalibrate( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSelectCameraSettings( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnClickCapture( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnCaptureDeviceChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnClickCorrection( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnTTDeviceChoice( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnFramePaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnThrshTextSet( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnShowThresholdChecked( wxCommandEvent& event ) { event.Skip(); }

@@ -4,8 +4,7 @@
 using ms = chrono::milliseconds;
 using get_time = chrono::steady_clock;
 
-CameraStreamHandler::CameraStreamHandler(const char * _device, int* _eX, int* _eY, mutex * _mtx){
-    device = _device;
+CameraStreamHandler::CameraStreamHandler(int* _eX, int* _eY, mutex * _mtx){
     eX = _eX;
     eY = _eY;
     mtx = _mtx;
@@ -18,6 +17,10 @@ CameraStreamHandler::CameraStreamHandler(const char * _device, int* _eX, int* _e
     targetSet = true;
 }
 
+void SetDevice(const char * _device) {
+	device = _device;
+}
+
 int CameraStreamHandler::OpenCamera(){
     cam.open(device);
 
@@ -26,6 +29,16 @@ int CameraStreamHandler::OpenCamera(){
         cout << "Cam is not opened" << endl;
     }
     return 0;
+}
+
+int CameraStreamHandler::CloseCamera() {
+	cam.release(device);
+
+	if (cam.isOpened()) {
+		return -1;
+		cout << "Cam is not closed" << endl;
+	}
+	return 0;
 }
 
 void CameraStreamHandler::GetShapeInfo(Point& centroid, double& dist, double dir[2], double& width){

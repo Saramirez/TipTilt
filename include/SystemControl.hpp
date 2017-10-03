@@ -41,7 +41,9 @@ class SystemControl {
 		void RunCorrection();
 	public:
 		shared_ptr<DisplayControl> dControl_p;
-		SystemControl(const char*, const char*);
+		SystemControl();
+		void SetCamDevice(int);
+		void SetTTDevice(int);
 		int StartCapture();
 		int StartCorrection();
 		int StopCorrection();
