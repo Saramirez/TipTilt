@@ -17,6 +17,7 @@
 
 const int sControlId = 9;
 using namespace std;
+using namespace cv;
 
 class SystemControl {
 	private:
@@ -32,6 +33,7 @@ class SystemControl {
 		bool capturing;
 		bool correcting;
 		bool showThresh;
+		bool simulate;
 		mutex mtxProtectingValues;
 		mutex mtxProtectingDisplayControl;
 		thread capturingThread;
@@ -44,6 +46,7 @@ class SystemControl {
 		SystemControl();
 		void SetCamDevice(int);
 		void SetTTDevice(int);
+		int CalibrateTT();
 		int StartCapture();
 		int StartCorrection();
 		int StopCorrection();
@@ -51,6 +54,7 @@ class SystemControl {
 		bool IsCapturing();
 		bool IsCorrecting();
 		void ToggleShowThresh();
+		void ToggleSimulate();
 		void SetThreshold(int);
 		void SetStarSize(double);
 		double GetStarSize();

@@ -13,8 +13,21 @@ CameraStreamHandler::CameraStreamHandler(int* _eX, int* _eY, mutex * _mtx){
     target = _target;
     roi = _roi; 
     oRoi = roi;
-    simulate = true;
     targetSet = true;
+}
+
+Point CameraStreamHandler::GetTarget() {
+	return target;
+}
+
+void CameraStreamHandler::SetPixToStepsFactors(double xp2s, double yp2s) {
+	xPixToSteps = xp2s;
+	yPixToSteps = yp2s;
+}
+
+void CameraStreamHandler::SetRoi(Rect _roi) {
+	roi = _roi;
+	oRoi = roi;
 }
 
 void CameraStreamHandler::SetDevice(const char * _device) {
@@ -39,6 +52,15 @@ int CameraStreamHandler::CloseCamera() {
 		cout << "Cam is not closed" << endl;
 	}
 	return 0;
+}
+
+
+Point GetCentroid(Mat& src) {
+	Mat aux;
+	threshold(src, aux, thresh, 255, THRESH_TOZERO);
+	Moments m2 = moments(aux);
+	Point res2(m2.m10 / m2.m00, m2.m01 / m2.m00);
+	return res2;
 }
 
 void CameraStreamHandler::GetShapeInfo(Point& centroid, double& dist, double dir[2], double& width){
@@ -81,7 +103,7 @@ void CameraStreamHandler::GetShapeInfo(Point& centroid, double& dist, double dir
     if(flag == 0)
         width = 0;
 }
-void CameraStreamHandler::GetShapeInfo(Point& centroid, double& area){
+void CameraStreamHandler::GetSimpleShapeInfo(Point& centroid, double& area){
     Mat bw;
     threshold(frame, bw, thresh, 255, THRESH_BINARY);
     Moments m = moments(bw, true);
@@ -102,7 +124,7 @@ Mat CameraStreamHandler::GetStarParams() {
 	frame = frame(roi);
 
     double starArea;
-	GetShapeInfo(centroid, starArea);
+	GetSimpleShapeInfo(centroid, starArea);
 	starRadius = sqrt(starArea / M_PI);
 
 	cout << "Star area = " << starArea << "; Star radius = " << starRadius << endl;
@@ -144,7 +166,7 @@ void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, do
     //cout << "xErr = " << xErr << "; yErr = " << yErr << endl;
 }
 
-Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh){
+Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate){
     cam >> frame;
 
     if(simulate){
@@ -187,9 +209,10 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh){
     return frame;
 }
 
-Mat CameraStreamHandler::GrabOneFrame(){
+Mat CameraStreamHandler::GrabOneFrame(bool full){
     cam >> frame;
-    frame = frame(roi);
+	if(!full)
+		frame = frame(roi);
 	cvtColor(frame, frame, CV_GRAY2RGB);
     return frame;
 }

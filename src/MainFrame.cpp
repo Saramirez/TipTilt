@@ -103,6 +103,13 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	m_checkBox1 = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
 	gSizer2->Add( m_checkBox1, 0, wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT|wxRIGHT, 15 );
 	
+	m_staticText111 = new wxStaticText( this, wxID_ANY, wxT("Simulate disturbance"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
+	m_staticText111->Wrap( -1 );
+	gSizer2->Add( m_staticText111, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	m_checkBox11 = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+	gSizer2->Add( m_checkBox11, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxRIGHT, 15 );
+	
 	m_staticText12 = new wxStaticText( this, wxID_ANY, wxT("Star radius (in pixels)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
 	m_staticText12->Wrap( -1 );
 	gSizer2->Add( m_staticText12, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
@@ -185,7 +192,7 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	
 	this->SetSizer( bSizer1 );
 	this->Layout();
-	m_statusBar1 = this->CreateStatusBar( 1, wxST_SIZEGRIP, wxID_ANY );
+	m_statusBar1 = this->CreateStatusBar( 1, 0, wxID_ANY );
 	
 	this->Centre( wxBOTH );
 	
@@ -199,6 +206,7 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 	StreamPlayerPanel->Connect( wxEVT_PAINT, wxPaintEventHandler( MainFrame::OnFramePaint ), NULL, this );
 	ThrsTxCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( MainFrame::OnThrshTextSet ), NULL, this );
 	m_checkBox1->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( MainFrame::OnShowThresholdChecked ), NULL, this );
+	m_checkBox11->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( MainFrame::OnSimulateChecked ), NULL, this );
 	GetStarSizeButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnGetStarSizeClicked ), NULL, this );
 	StrSzTxCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( MainFrame::OnStrSzTextSet ), NULL, this );
 	DefaultButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnDefaultClicked ), NULL, this );
@@ -219,6 +227,7 @@ MainFrame::~MainFrame()
 	StreamPlayerPanel->Disconnect( wxEVT_PAINT, wxPaintEventHandler( MainFrame::OnFramePaint ), NULL, this );
 	ThrsTxCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( MainFrame::OnThrshTextSet ), NULL, this );
 	m_checkBox1->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( MainFrame::OnShowThresholdChecked ), NULL, this );
+	m_checkBox11->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( MainFrame::OnSimulateChecked ), NULL, this );
 	GetStarSizeButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnGetStarSizeClicked ), NULL, this );
 	StrSzTxCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( MainFrame::OnStrSzTextSet ), NULL, this );
 	DefaultButton->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MainFrame::OnDefaultClicked ), NULL, this );

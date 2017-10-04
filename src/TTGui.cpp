@@ -11,7 +11,13 @@ dControl_p(new DisplayControl(StreamPlayerPanel, TTPositionPanel,
 
 void TTGui::OnSelectCalibrate(wxCommandEvent& event)
 {
-	// TODO: Implement OnSelectCalibrate
+	if (sControl_p->IsCapturing())
+		sControl_p->StopCapture();
+	if (sControl_p->IsCorrecting())
+		sControl_p->StopCorrection();
+	Enable(false);
+	sControl_p->CalibrateTT();
+	Enable(true);
 }
 
 void TTGui::OnCaptureDeviceChoice(wxCommandEvent& event)
@@ -55,7 +61,6 @@ void TTGui::OnClickCorrection(wxCommandEvent& event)
 	if (!sControl_p->IsCorrecting()){
 		if(sControl_p->IsCapturing())
 			sControl_p->StartCorrection();
-		//TODO show can't correct because no capture
 	}
 	else
 		sControl_p->StopCorrection();
@@ -120,14 +125,16 @@ void TTGui::OnThrshTextSet(wxCommandEvent& event)
 	long newThresh;
 	(event.GetString()).ToLong(&newThresh);
 	sControl_p->SetThreshold((int)newThresh);
-	//std::cout << event.GetString() << endl;
 }
 
 void TTGui::OnShowThresholdChecked(wxCommandEvent& event)
 {
-	//std::cout << "Toggle show threshold" << endl;
 	sControl_p->ToggleShowThresh();
-	// TODO: Implement OnShowThresholdChecked
+}
+
+void TTGui::OnSimulateChecked(wxCommandEvent& event)
+{
+	sControl_p->ToggleSimulate();
 }
 
 void TTGui::OnGetStarSizeClicked(wxCommandEvent& event)
@@ -138,9 +145,7 @@ void TTGui::OnGetStarSizeClicked(wxCommandEvent& event)
 	stream << fixed << setprecision(1) << newStarRadius;
 
 	wxString newStarRadiusString(stream.str());
-	//newStarRadiusString << newStarRadius;
 	StrSzTxCtrl->ChangeValue(newStarRadiusString);
-	// TODO: Implement OnGetStarSizeClicked
 }
 
 void TTGui::OnStrSzTextSet(wxCommandEvent& event)
@@ -148,12 +153,22 @@ void TTGui::OnStrSzTextSet(wxCommandEvent& event)
 	double newStarRadius;
 	(event.GetString()).ToDouble(&newStarRadius);
 	sControl_p->SetStarSize(newStarRadius);
-	//std::cout << event.GetString() << endl;
 }
 
 void TTGui::OnDefaultClicked(wxCommandEvent& event)
 {
-	// TODO: Implement OnDefaultClicked
+	CamChoice->SetSelection(0);
+	TTChoice->SetSelection(0);
+
+	StrSzTxCtrl->ChangeValue(defaultStarRadius);
+	double newStarRadius;
+	defaultStarRadius.ToDouble(&newStarRadius);
+	sControl_p->SetStarSize(newStarRadius);
+
+	ThrsTxCtrl->ChangeValue(defaultThreshold);
+	long newThresh;
+	defaultThreshold.ToLong(&newThresh);
+	sControl_p->SetThreshold((int)newThresh);
 }
 
 void TTGui::OnClickCenterTT(wxCommandEvent& event)

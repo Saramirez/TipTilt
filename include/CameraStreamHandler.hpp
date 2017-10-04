@@ -34,10 +34,9 @@ class CameraStreamHandler{
 	    const double R = 4;
 
         bool targetSet;
-        bool simulate;
 
         void GetShapeInfo(Point&, double&, double*, double&);
-        void GetShapeInfo(Point&, double&);
+        void GetSimpleShapeInfo(Point&, double&);
         void CalculateErrors(int&, int&, double&, double*, double&);
 
     public:
@@ -46,13 +45,17 @@ class CameraStreamHandler{
 		int thresh = 150;
 		double starRadius = 10.3;
 		
+		void SetPixToStepsFactors(double, double);
+		void SetRoi(Rect);
 		void SetDevice(const char *);
+		Point GetTarget();
 		int OpenCamera();
 		int CloseCamera();
 		bool IsCameraOpen();
+		Point GetCentroid(Mat&);
         Mat GetStarParams();
-        Mat GrabOneFrame();
-        Mat CaptureAndProcess(bool showThresh = false);
+        Mat GrabOneFrame(bool full = false);
+        Mat CaptureAndProcess(bool showThresh = false, bool simulate = false);
 };
 
 #endif

@@ -53,6 +53,8 @@ class MainFrame : public wxFrame
 		wxTextCtrl* ThrsTxCtrl;
 		wxStaticText* m_staticText11;
 		wxCheckBox* m_checkBox1;
+		wxStaticText* m_staticText111;
+		wxCheckBox* m_checkBox11;
 		wxStaticText* m_staticText12;
 		wxButton* GetStarSizeButton;
 		wxTextCtrl* StrSzTxCtrl;
@@ -74,6 +76,7 @@ class MainFrame : public wxFrame
 		virtual void OnFramePaint( wxPaintEvent& event ) { event.Skip(); }
 		virtual void OnThrshTextSet( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnShowThresholdChecked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnSimulateChecked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnGetStarSizeClicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnStrSzTextSet( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnDefaultClicked( wxCommandEvent& event ) { event.Skip(); }

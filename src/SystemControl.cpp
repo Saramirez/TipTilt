@@ -8,6 +8,7 @@ SystemControl::SystemControl() :
 	capturing = false;
 	correcting = false;
 	showThresh = false;
+	simulate = false;
 }
 
 void SystemControl::SetCamDevice(int id) {
@@ -55,6 +56,12 @@ void SystemControl::SetTTDevice(int id) {
 void SystemControl::ToggleShowThresh() {
 	mtxProtectingValues.lock();
 	showThresh = !showThresh;
+	mtxProtectingValues.unlock();
+}
+
+void SystemControl::ToggleSimulate() {
+	mtxProtectingValues.lock();
+	simulate = !simulate;
 	mtxProtectingValues.unlock();
 }
 
@@ -117,7 +124,7 @@ int SystemControl::StartCapture() {
 void SystemControl::RunCapture() {
 	while (capturingInternal) {
 		mtxProtectingValues.lock();
-		frame = CSH.CaptureAndProcess(showThresh);
+		frame = CSH.CaptureAndProcess(showThresh, simulate);
 		mtxProtectingValues.unlock();
 		mtxProtectingDisplayControl.lock();
 		dControl_p->DisplayFrame(frame);
@@ -186,3 +193,107 @@ void SystemControl::CenterTT() {
 	TT.eSteps = 0;
 }
 
+int SystemControl::CalibrateTT() {
+	if (capturing) {
+		StopCapture();
+	}
+	if (correcting) {
+		StopCorrection();
+	}
+
+	mtxProtectingValues.lock();
+	if (!CSH.IsCameraOpen()) {
+		if (CSH.OpenCamera() != 0) {
+			cout << "Could not open camera" << endl;
+			return -1;
+		}
+	}
+	mtxProtectingValues.unlock();
+	if (!TT.isOpened()) {
+		if (TT.openComm() != 0) {
+			cout << "Could not open TT device" << endl;
+			return -1;
+		}
+	}
+
+	// Grab one frame at the extremes of TT movement range
+	Mat K, N, S, E, W;
+	Point cK, cN, cS, cE, cW;
+	TT.goTo('K');
+
+	mtxProtectingValues.lock();
+	K = CSH.GrabOneFrame(true);
+	mtxProtectingValues.unlock();
+
+	TT.goTo('N');
+	mtxProtectingValues.lock();
+	N = CSH.GrabOneFrame(true);
+	mtxProtectingValues.unlock();
+
+	int NSSteps = TT.goTo('S');
+	mtxProtectingValues.lock();
+	S = CSH.GrabOneFrame(true);
+	mtxProtectingValues.unlock();
+
+	TT.goTo('K');
+
+	TT.goTo('E');
+	mtxProtectingValues.lock();
+	E = CSH.GrabOneFrame(true);
+	mtxProtectingValues.unlock();
+
+	int EWSteps = TT.goTo('W');
+	mtxProtectingValues.lock();
+	W = CSH.GrabOneFrame(true);
+	mtxProtectingValues.unlock();
+
+	TT.goTo('K');
+
+	//Get the centroids of each frame and measure the distance (in steps and pixels) between them
+	mtxProtectingValues.lock();
+	cK = CSH.GetCentroid(K);
+	cN = CSH.GetCentroid(N);
+	cS = CSH.GetCentroid(S);
+	cE = CSH.GetCentroid(E);
+	cW = CSH.GetCentroid(W);
+	mtxProtectingValues.unlock();
+
+	double NSDist = sqrt(pow(cN.x - cS.x, 2) + pow(cN.y - cS.y, 2));
+	double EWDist = sqrt(pow(cE.x - cW.x, 2) + pow(cE.y - cW.y, 2));
+
+	double xPixToSteps = ((double)NSSteps) / NSDist;
+	double yPixToSteps = ((double)EWSteps) / EWDist;
+
+	double tan1 = ((double)(cW.y - cE.y)) / ((double)(cE.x - cW.x));
+	double tan2 = ((double)(cN.x - cS.x)) / ((double)(cN.y - cS.y));
+
+	double alpha = atan(tan1);
+	double beta = atan(tan2);
+
+	cout << "Angles (alpha, beta): " << alpha << "," << beta << endl;
+
+
+	mtxProtectingValues.lock();
+	int threshold = CSH.thresh;
+	Point target = CSH.GetTarget();
+	Rect roi((cK.x - target.x), (cK.y - target.y), 100, 100);
+	CSH.SetPixToStepsFactors(xPixToSteps, yPixToSteps);
+	CSH.SetRoi(roi);
+	mtxProtectingValues.unlock();
+	
+	Mat complete = (K > threshold) + (N > threshold) + (S > threshold) + (E > threshold) + (W > threshold);
+	
+	cvtColor(complete, complete, CV_GRAY2BGR);
+	circle(complete, cK, 5, Scalar(0, 0, 0));
+	circle(complete, cN, 5, Scalar(0, 128, 0));
+	circle(complete, cS, 5, Scalar(0, 0, 128));
+	circle(complete, cE, 5, Scalar(128, 0, 0));
+	circle(complete, cW, 5, Scalar(128, 128, 128));
+	complete = complete(roi);
+
+	mtxProtectingDisplayControl.lock();
+	dControl_p->DisplayFrame(complete);
+	mtxProtectingDisplayControl.unlock();
+
+	return 0;
+}
