@@ -1,10 +1,10 @@
 #include "../include/TTGui.hpp"
 
-TTGui::TTGui( wxWindow* parent )
-:
-MainFrame( parent ),
-dControl_p(new DisplayControl(StreamPlayerPanel, TTPositionPanel,
-		&mtxProtectingBmpAndCamPanel, &mtxProtectingTTPositionsAndPanel))
+TTGui::TTGui( wxWindow* parent ) :
+	MainFrame( parent ),
+	dControl_p(new DisplayControl(StreamPlayerPanel, TTPositionPanel,
+			&mtxProtectingBmpAndCamPanel, &mtxProtectingTTPositionsAndPanel)),
+	defaultStarRadius("13.0"), defaultThreshold("150")
 {
 }
 

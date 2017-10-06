@@ -222,29 +222,47 @@ int SystemControl::CalibrateTT() {
 	TT.goTo('K');
 
 	mtxProtectingValues.lock();
-	K = CSH.GrabOneFrame(true);
+	K = CSH.GrabOneFrame(false, false);
 	mtxProtectingValues.unlock();
+
+	/*///
+	mtxProtectingValues.lock();
+	cK = CSH.GetCentroid(K);
+	mtxProtectingValues.unlock();
+
+	cvtColor(K, K, CV_GRAY2RGB);
+	circle(K, cK, 5, Scalar(0, 0, 0));
+	
+	mtxProtectingDisplayControl.lock();
+	dControl_p->DisplayFrame(K);
+	mtxProtectingDisplayControl.unlock();
+
+	cout << "Centroids: " << cK.x << "," << cK.y << endl;
+
+	return 0;
+
+	*////
 
 	TT.goTo('N');
 	mtxProtectingValues.lock();
-	N = CSH.GrabOneFrame(true);
+	N = CSH.GrabOneFrame(false, false);
 	mtxProtectingValues.unlock();
 
 	int NSSteps = TT.goTo('S');
 	mtxProtectingValues.lock();
-	S = CSH.GrabOneFrame(true);
+	S = CSH.GrabOneFrame(false, false);
 	mtxProtectingValues.unlock();
 
 	TT.goTo('K');
 
 	TT.goTo('E');
 	mtxProtectingValues.lock();
-	E = CSH.GrabOneFrame(true);
+	E = CSH.GrabOneFrame(false, false);
 	mtxProtectingValues.unlock();
 
 	int EWSteps = TT.goTo('W');
 	mtxProtectingValues.lock();
-	W = CSH.GrabOneFrame(true);
+	W = CSH.GrabOneFrame(false, false);
 	mtxProtectingValues.unlock();
 
 	TT.goTo('K');
@@ -258,11 +276,17 @@ int SystemControl::CalibrateTT() {
 	cW = CSH.GetCentroid(W);
 	mtxProtectingValues.unlock();
 
+	cout << "Centroids: " << cK.x << "," << cK.y << ";" << cN.x << "," << cN.y << ";"
+		<< cS.x << "," << cS.y << ";" << cE.x << "," << cE.y << ";"
+		<< cW.x << "," << cW.y << endl;
+
 	double NSDist = sqrt(pow(cN.x - cS.x, 2) + pow(cN.y - cS.y, 2));
 	double EWDist = sqrt(pow(cE.x - cW.x, 2) + pow(cE.y - cW.y, 2));
 
 	double xPixToSteps = ((double)NSSteps) / NSDist;
 	double yPixToSteps = ((double)EWSteps) / EWDist;
+
+	cout << "Factors (x, y): " << xPixToSteps << "," << yPixToSteps << endl;
 
 	double tan1 = ((double)(cW.y - cE.y)) / ((double)(cE.x - cW.x));
 	double tan2 = ((double)(cN.x - cS.x)) / ((double)(cN.y - cS.y));
@@ -275,21 +299,25 @@ int SystemControl::CalibrateTT() {
 
 	mtxProtectingValues.lock();
 	int threshold = CSH.thresh;
+	cout << "Threshold: " << threshold << endl;
 	Point target = CSH.GetTarget();
-	Rect roi((cK.x - target.x), (cK.y - target.y), 100, 100);
+	cout << "Target: " << target << endl;
+	//Rect roi((cK.x - target.x), (cK.y - target.y), 100, 100);
 	CSH.SetPixToStepsFactors(xPixToSteps, yPixToSteps);
-	CSH.SetRoi(roi);
+	//CSH.SetRoi(roi);
 	mtxProtectingValues.unlock();
-	
+
+	//Rect roi(880, 490, 100, 100);
 	Mat complete = (K > threshold) + (N > threshold) + (S > threshold) + (E > threshold) + (W > threshold);
-	
-	cvtColor(complete, complete, CV_GRAY2BGR);
+	//Mat complete = K + N + S + W + E;
+
+	cvtColor(complete, complete, CV_GRAY2RGB);
 	circle(complete, cK, 5, Scalar(0, 0, 0));
 	circle(complete, cN, 5, Scalar(0, 128, 0));
 	circle(complete, cS, 5, Scalar(0, 0, 128));
 	circle(complete, cE, 5, Scalar(128, 0, 0));
 	circle(complete, cW, 5, Scalar(128, 128, 128));
-	complete = complete(roi);
+	//complete = complete(roi);
 
 	mtxProtectingDisplayControl.lock();
 	dControl_p->DisplayFrame(complete);

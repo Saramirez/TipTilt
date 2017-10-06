@@ -55,7 +55,7 @@ int CameraStreamHandler::CloseCamera() {
 }
 
 
-Point GetCentroid(Mat& src) {
+Point CameraStreamHandler::GetCentroid(Mat& src) {
 	Mat aux;
 	threshold(src, aux, thresh, 255, THRESH_TOZERO);
 	Moments m2 = moments(aux);
@@ -180,8 +180,10 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate){
 
     frame = frame(roi);
 
-    //draw the pinhole into the frame
-    circle(frame, target, pinholeRadius, Scalar(0,0,0), -1);
+	if (simulate) {
+		//draw the pinhole into the frame
+		circle(frame, target, pinholeRadius, Scalar(0, 0, 0), -1);
+	}
 
     GetShapeInfo(centroid, dist, dir, width);
 
@@ -209,11 +211,12 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate){
     return frame;
 }
 
-Mat CameraStreamHandler::GrabOneFrame(bool full){
+Mat CameraStreamHandler::GrabOneFrame(bool full, bool rgb){
     cam >> frame;
 	if(!full)
 		frame = frame(roi);
-	cvtColor(frame, frame, CV_GRAY2RGB);
+	if(rgb)
+		cvtColor(frame, frame, CV_GRAY2RGB);
     return frame;
 }
 

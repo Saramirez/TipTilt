@@ -54,7 +54,7 @@ class CameraStreamHandler{
 		bool IsCameraOpen();
 		Point GetCentroid(Mat&);
         Mat GetStarParams();
-        Mat GrabOneFrame(bool full = false);
+        Mat GrabOneFrame(bool full = false, bool rgb = true);
         Mat CaptureAndProcess(bool showThresh = false, bool simulate = false);
 };
 

@@ -21,8 +21,8 @@ class TTGui : public MainFrame
 	private:
 		mutex mtxProtectingBmpAndCamPanel;
 		mutex mtxProtectingTTPositionsAndPanel;
-		wxString defaultStarRadius("13.0");
-		wxString defaultThreshold("150");
+		wxString defaultStarRadius;
+		wxString defaultThreshold;
 	protected:
 		// Handlers for MainFrame events.
 		void OnSelectCalibrate(wxCommandEvent& event);
