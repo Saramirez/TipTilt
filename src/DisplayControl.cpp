@@ -3,15 +3,9 @@
 #include <iostream>
 
 
-DisplayControl::DisplayControl(wxPanel * _camPanel_p,	wxPanel * _TTPositionPanel_p,
-							 mutex * _mtxbmp, mutex * _mtxpos){
-	
-	camPanel_p = _camPanel_p;
-	TTPositionPanel_p = _TTPositionPanel_p;
+DisplayControl::DisplayControl(){
 	TTPosX = 0;
 	TTPosY = 0;
-	mtxProtectingBmpAndCamPanel = _mtxbmp;
-	mtxProtectingTTPositionsAndPanel = _mtxpos;
 }
 
 void DisplayControl::DisplayFrame(Mat frame) {
@@ -27,8 +21,7 @@ void DisplayControl::DisplayFrame(Mat frame) {
 	camPanel_p->Refresh();
 	mtxProtectingBmpAndCamPanel->unlock();
 
-	camPanel_p->Update();
-	
+	camPanel_p->Update();	
 }
 
 void DisplayControl::UpdateTTPos(int _TTPosX, int _TTPosY) {

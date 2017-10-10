@@ -92,9 +92,9 @@ double SystemControl::GetStarSize() {
 	frame = CSH.GetStarParams();
 	double starRadius = CSH.starRadius;
 	mtxProtectingValues.unlock();
-	mtxProtectingDisplayControl.lock();
+	mtxProtectingDisplayControl->lock();
 	dControl_p->DisplayFrame(frame);
-	mtxProtectingDisplayControl.unlock();
+	mtxProtectingDisplayControl->unlock();
 	return starRadius;
 }
 
@@ -126,9 +126,9 @@ void SystemControl::RunCapture() {
 		mtxProtectingValues.lock();
 		frame = CSH.CaptureAndProcess(showThresh, simulate);
 		mtxProtectingValues.unlock();
-		mtxProtectingDisplayControl.lock();
+		mtxProtectingDisplayControl->lock();
 		dControl_p->DisplayFrame(frame);
-		mtxProtectingDisplayControl.unlock();
+		mtxProtectingDisplayControl->unlock();
 		this_thread::sleep_for(chrono::milliseconds(5));
 	}
 }
@@ -158,9 +158,9 @@ void SystemControl::RunCorrection() {
 		TT.updatePosition();
 		TTposX = TT.sSteps;
 		TTposY = TT.eSteps;
-		mtxProtectingDisplayControl.lock();
+		mtxProtectingDisplayControl->lock();
 		dControl_p->UpdateTTPos(TTposX, TTposY);
-		mtxProtectingDisplayControl.unlock();
+		mtxProtectingDisplayControl->unlock();
 		this_thread::sleep_for(chrono::microseconds(100));
 	}
 }
@@ -233,9 +233,9 @@ int SystemControl::CalibrateTT() {
 	cvtColor(K, K, CV_GRAY2RGB);
 	circle(K, cK, 5, Scalar(0, 0, 0));
 	
-	mtxProtectingDisplayControl.lock();
+	mtxProtectingDisplayControl->lock();
 	dControl_p->DisplayFrame(K);
-	mtxProtectingDisplayControl.unlock();
+	mtxProtectingDisplayControl->unlock();
 
 	cout << "Centroids: " << cK.x << "," << cK.y << endl;
 
@@ -319,9 +319,9 @@ int SystemControl::CalibrateTT() {
 	circle(complete, cW, 5, Scalar(128, 128, 128));
 	//complete = complete(roi);
 
-	mtxProtectingDisplayControl.lock();
+	mtxProtectingDisplayControl->lock();
 	dControl_p->DisplayFrame(complete);
-	mtxProtectingDisplayControl.unlock();
+	mtxProtectingDisplayControl->unlock();
 
 	return 0;
 }

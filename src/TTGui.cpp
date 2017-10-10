@@ -2,12 +2,17 @@
 
 TTGui::TTGui( wxWindow* parent ) :
 	MainFrame( parent ),
-	dControl_p(new DisplayControl(StreamPlayerPanel, TTPositionPanel,
-			&mtxProtectingBmpAndCamPanel, &mtxProtectingTTPositionsAndPanel)),
 	defaultStarRadius("13.0"), defaultThreshold("150")
 {
 }
 
+wxPanel * TTGui::GetCamPanel() {
+	return StreamPlayerPanel;
+}
+
+wxPanel * TTGui::GetTTPosPanel() {
+	return TTPositionPanel;
+}
 
 void TTGui::OnSelectCalibrate(wxCommandEvent& event)
 {
@@ -68,45 +73,46 @@ void TTGui::OnClickCorrection(wxCommandEvent& event)
 
 void TTGui::OnFramePaint(wxPaintEvent& event)
 {
-	mtxProtectingBmpAndCamPanel.lock();
+	//mtxProtectingDisplayControl->lock();
+	wxBitmap bmp = dControl_p->bmp;
+	//mtxProtectingDisplayControl->unlock();
+
+	if (!bmp.IsOk()) {
+		return;
+	}
+
+	mtxProtectingBmpAndCamPanel->lock();
 	wxPaintDC dc(StreamPlayerPanel);
 
 	if (!dc.IsOk()) {
-		mtxProtectingBmpAndCamPanel.unlock();
+		mtxProtectingBmpAndCamPanel->unlock();
 		return;
 	}
-
-
-	wxBitmap bmp = dControl_p->bmp;
-
-	if (!bmp.IsOk()) {
-		mtxProtectingBmpAndCamPanel.unlock();
-		return;
-	}
-	/*
-	int x, y, w, h;
-	dc.GetClippingBox(&x, &y, &w, &h);
-	dc.DrawBitmap(bmp, x, y);
-	*/
+	
 	dc.DrawBitmap(bmp, 0, 0);
-	mtxProtectingBmpAndCamPanel.unlock();
+	mtxProtectingBmpAndCamPanel->unlock();
 
 	return;
 }
 
 void TTGui::OnTTPosPaint(wxPaintEvent& event)
 {
-	mtxProtectingTTPositionsAndPanel.lock();
+	int x, y;
+
+	//mtxProtectingDisplayControl->lock();
+	x = dControl_p->TTPosX;
+	y = dControl_p->TTPosY;
+	//mtxProtectingDisplayControl->unlock();
+
+	mtxProtectingTTPositionsAndPanel->lock();
 	wxPaintDC dc(TTPositionPanel);
 
 	if (!dc.IsOk()) {
-		mtxProtectingTTPositionsAndPanel.unlock();
+		mtxProtectingTTPositionsAndPanel->unlock();
 		return;
 	}
 
-	int w, h, x, y;
-	x = dControl_p->TTPosX;
-	y = dControl_p->TTPosY;
+	int w, h;
 	dc.GetSize(&w, &h);
 	dc.SetPen(wxPen(*wxRED_PEN));
 	dc.DrawRectangle(w / 2 - 35, h / 2 - 35, 70, 70);
@@ -115,7 +121,7 @@ void TTGui::OnTTPosPaint(wxPaintEvent& event)
 	dc.SetBrush(*wxGREEN_BRUSH);
 	dc.DrawCircle(wxPoint(w / 2 + x, h / 2 + y), 5);
 
-	mtxProtectingTTPositionsAndPanel.unlock();
+	mtxProtectingTTPositionsAndPanel->unlock();
 
 	return;
 }

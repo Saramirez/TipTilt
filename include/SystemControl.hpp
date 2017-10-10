@@ -35,14 +35,14 @@ class SystemControl {
 		bool showThresh;
 		bool simulate;
 		mutex mtxProtectingValues;
-		mutex mtxProtectingDisplayControl;
 		thread capturingThread;
 		thread correctingThread;
 		Mat frame;
 		void RunCapture();
 		void RunCorrection();
 	public:
-		shared_ptr<DisplayControl> dControl_p;
+		mutex * mtxProtectingDisplayControl;
+		DisplayControl * dControl_p;
 		SystemControl();
 		void SetCamDevice(int);
 		void SetTTDevice(int);

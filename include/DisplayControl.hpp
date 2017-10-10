@@ -14,18 +14,18 @@ using namespace std;
 
 class DisplayControl{
     private:
-		mutex * mtxProtectingBmpAndCamPanel;
-		mutex * mtxProtectingTTPositionsAndPanel;
-		wxPanel * camPanel_p;
-		wxPanel * TTPositionPanel_p;
 		wxImage img;
     public:
-		DisplayControl(wxPanel *, wxPanel *, mutex *, mutex *);
+		DisplayControl();
 		void DisplayFrame(Mat);
 		void UpdateTTPos(int, int);
 		wxBitmap bmp;
 		int TTPosX;
 		int TTPosY;
+		mutex * mtxProtectingBmpAndCamPanel;
+		mutex * mtxProtectingTTPositionsAndPanel;
+		wxPanel * camPanel_p;
+		wxPanel * TTPositionPanel_p;
 };
 
 

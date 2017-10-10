@@ -19,8 +19,6 @@ using namespace std;
 class TTGui : public MainFrame
 {
 	private:
-		mutex mtxProtectingBmpAndCamPanel;
-		mutex mtxProtectingTTPositionsAndPanel;
 		wxString defaultStarRadius;
 		wxString defaultThreshold;
 	protected:
@@ -42,7 +40,13 @@ class TTGui : public MainFrame
 		void OnTTPosPaint(wxPaintEvent& event);
 		void OnClickExit(wxCommandEvent& event);
 	public:
-		shared_ptr<DisplayControl> dControl_p;
+		wxPanel * GetCamPanel();
+		wxPanel * GetTTPosPanel();
+
+		mutex * mtxProtectingBmpAndCamPanel;
+		mutex * mtxProtectingTTPositionsAndPanel;
+		mutex * mtxProtectingDisplayControl;
+		DisplayControl * dControl_p;
 		SystemControl * sControl_p;
 		/** Constructor */
 		TTGui( wxWindow* parent );

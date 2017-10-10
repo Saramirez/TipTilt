@@ -163,6 +163,8 @@ iostream
 /home/odroid/TipTilt Control/include/TTGui.hpp
 ../include/SystemControl.hpp
 /home/odroid/TipTilt Control/include/SystemControl.hpp
+../include/DisplayControl.hpp
+/home/odroid/TipTilt Control/include/DisplayControl.hpp
 
 /usr/local/include/opencv/cxcore.h
 opencv2/core/core_c.h
