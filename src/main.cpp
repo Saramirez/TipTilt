@@ -1,21 +1,48 @@
 #include "../include/SystemControl.hpp"
 #include "../include/DisplayControl.hpp"
-
+#include "../include/cxxopts.hpp"
+#include <iostream>
 
 SystemControl sControl;
-//"/dev/ttyUSB0", "v4l2src device=/dev/video0 ! video/x-raw,format=GRAY8 ! appsink");
-//"/dev/ttyUSB0", "v4l2src device=/dev/video0 ! video/x-raw,format=GRAY8 ! appsink"
 
 int main(int argc, char** argv)
 {
 	sControl.SetCamDevice(0);
 	sControl.SetTTDevice(0);
 
+	cxxopts::Options options(argv[0], " - TipTilt correction system");
+
+	options.add_options()
+		("c, calibrate", "Calibrate the tip tilt device")
+		("g, guide", "Take a full frame video for guiding, prior to correcting")
+		;
+	
+	options.parse(argc, argv);
+
+	if (options.count("g")) {
+		cout << "Guiding first option selected" << endl;
+		sControl.Guide();
+	}
+
+	if (options.count("c")) {
+		cout << "Calibration option selected" << endl;
+		sControl.CalibrateTT();
+	}
+
+
+	this_thread::sleep_for(chrono::milliseconds(1000));
+
 	sControl.StartCapture();
 
 	while (sControl.GetKeyFromKeyboard() != -1) {
 	}
 
+	cout << "Esc pressed, exiting" << endl;
+
 	sControl.StopCapture();
+
+	if (sControl.IsCorrecting())
+		sControl.StopCorrection();
+
 	return(0);
 }

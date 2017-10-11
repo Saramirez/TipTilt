@@ -44,9 +44,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.5/Modules/CMakeTestCXXCompiler.cmake"
   "/usr/share/cmake-3.5/Modules/CMakeTestCompilerCommon.cmake"
   "/usr/share/cmake-3.5/Modules/CMakeUnixFindMake.cmake"
-  "/usr/share/cmake-3.5/Modules/CheckFunctionExists.c"
-  "/usr/share/cmake-3.5/Modules/CheckFunctionExists.cmake"
-  "/usr/share/cmake-3.5/Modules/CheckLibraryExists.cmake"
   "/usr/share/cmake-3.5/Modules/Compiler/ADSP-DetermineCompiler.cmake"
   "/usr/share/cmake-3.5/Modules/Compiler/ARMCC-DetermineCompiler.cmake"
   "/usr/share/cmake-3.5/Modules/Compiler/AppleClang-DetermineCompiler.cmake"
@@ -92,8 +89,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.5/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake"
   "/usr/share/cmake-3.5/Modules/FindPackageHandleStandardArgs.cmake"
   "/usr/share/cmake-3.5/Modules/FindPackageMessage.cmake"
-  "/usr/share/cmake-3.5/Modules/FindX11.cmake"
-  "/usr/share/cmake-3.5/Modules/FindwxWidgets.cmake"
   "/usr/share/cmake-3.5/Modules/Internal/FeatureTesting.cmake"
   "/usr/share/cmake-3.5/Modules/MultiArchCross.cmake"
   "/usr/share/cmake-3.5/Modules/Platform/Linux-CXX.cmake"
@@ -102,7 +97,6 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.5/Modules/Platform/Linux-GNU.cmake"
   "/usr/share/cmake-3.5/Modules/Platform/Linux.cmake"
   "/usr/share/cmake-3.5/Modules/Platform/UnixPaths.cmake"
-  "/usr/share/cmake-3.5/Modules/UsewxWidgets.cmake"
   )
 
 # The corresponding makefile is:
@@ -123,5 +117,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/TipTiltGUI.dir/DependInfo.cmake"
+  "CMakeFiles/TipTilt.dir/DependInfo.cmake"
   )

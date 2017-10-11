@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named TipTiltGUI
+# Target rules for targets named TipTilt
 
 # Build rule for target.
-TipTiltGUI: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 TipTiltGUI
-.PHONY : TipTiltGUI
+TipTilt: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 TipTilt
+.PHONY : TipTilt
 
 # fast build rule for target.
-TipTiltGUI/fast:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/build
-.PHONY : TipTiltGUI/fast
+TipTilt/fast:
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/build
+.PHONY : TipTilt/fast
 
 src/CameraStreamHandler.o: src/CameraStreamHandler.cpp.o
 
@@ -129,7 +129,7 @@ src/CameraStreamHandler.o: src/CameraStreamHandler.cpp.o
 
 # target to build an object file
 src/CameraStreamHandler.cpp.o:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.o
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/CameraStreamHandler.cpp.o
 .PHONY : src/CameraStreamHandler.cpp.o
 
 src/CameraStreamHandler.i: src/CameraStreamHandler.cpp.i
@@ -138,7 +138,7 @@ src/CameraStreamHandler.i: src/CameraStreamHandler.cpp.i
 
 # target to preprocess a source file
 src/CameraStreamHandler.cpp.i:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.i
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/CameraStreamHandler.cpp.i
 .PHONY : src/CameraStreamHandler.cpp.i
 
 src/CameraStreamHandler.s: src/CameraStreamHandler.cpp.s
@@ -147,7 +147,7 @@ src/CameraStreamHandler.s: src/CameraStreamHandler.cpp.s
 
 # target to generate assembly for a file
 src/CameraStreamHandler.cpp.s:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/CameraStreamHandler.cpp.s
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/CameraStreamHandler.cpp.s
 .PHONY : src/CameraStreamHandler.cpp.s
 
 src/DisplayControl.o: src/DisplayControl.cpp.o
@@ -156,7 +156,7 @@ src/DisplayControl.o: src/DisplayControl.cpp.o
 
 # target to build an object file
 src/DisplayControl.cpp.o:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.o
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/DisplayControl.cpp.o
 .PHONY : src/DisplayControl.cpp.o
 
 src/DisplayControl.i: src/DisplayControl.cpp.i
@@ -165,7 +165,7 @@ src/DisplayControl.i: src/DisplayControl.cpp.i
 
 # target to preprocess a source file
 src/DisplayControl.cpp.i:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.i
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/DisplayControl.cpp.i
 .PHONY : src/DisplayControl.cpp.i
 
 src/DisplayControl.s: src/DisplayControl.cpp.s
@@ -174,35 +174,8 @@ src/DisplayControl.s: src/DisplayControl.cpp.s
 
 # target to generate assembly for a file
 src/DisplayControl.cpp.s:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/DisplayControl.cpp.s
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/DisplayControl.cpp.s
 .PHONY : src/DisplayControl.cpp.s
-
-src/MainFrame.o: src/MainFrame.cpp.o
-
-.PHONY : src/MainFrame.o
-
-# target to build an object file
-src/MainFrame.cpp.o:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.o
-.PHONY : src/MainFrame.cpp.o
-
-src/MainFrame.i: src/MainFrame.cpp.i
-
-.PHONY : src/MainFrame.i
-
-# target to preprocess a source file
-src/MainFrame.cpp.i:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.i
-.PHONY : src/MainFrame.cpp.i
-
-src/MainFrame.s: src/MainFrame.cpp.s
-
-.PHONY : src/MainFrame.s
-
-# target to generate assembly for a file
-src/MainFrame.cpp.s:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/MainFrame.cpp.s
-.PHONY : src/MainFrame.cpp.s
 
 src/SystemControl.o: src/SystemControl.cpp.o
 
@@ -210,7 +183,7 @@ src/SystemControl.o: src/SystemControl.cpp.o
 
 # target to build an object file
 src/SystemControl.cpp.o:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/SystemControl.cpp.o
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/SystemControl.cpp.o
 .PHONY : src/SystemControl.cpp.o
 
 src/SystemControl.i: src/SystemControl.cpp.i
@@ -219,7 +192,7 @@ src/SystemControl.i: src/SystemControl.cpp.i
 
 # target to preprocess a source file
 src/SystemControl.cpp.i:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/SystemControl.cpp.i
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/SystemControl.cpp.i
 .PHONY : src/SystemControl.cpp.i
 
 src/SystemControl.s: src/SystemControl.cpp.s
@@ -228,35 +201,8 @@ src/SystemControl.s: src/SystemControl.cpp.s
 
 # target to generate assembly for a file
 src/SystemControl.cpp.s:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/SystemControl.cpp.s
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/SystemControl.cpp.s
 .PHONY : src/SystemControl.cpp.s
-
-src/TTGui.o: src/TTGui.cpp.o
-
-.PHONY : src/TTGui.o
-
-# target to build an object file
-src/TTGui.cpp.o:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.o
-.PHONY : src/TTGui.cpp.o
-
-src/TTGui.i: src/TTGui.cpp.i
-
-.PHONY : src/TTGui.i
-
-# target to preprocess a source file
-src/TTGui.cpp.i:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.i
-.PHONY : src/TTGui.cpp.i
-
-src/TTGui.s: src/TTGui.cpp.s
-
-.PHONY : src/TTGui.s
-
-# target to generate assembly for a file
-src/TTGui.cpp.s:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/TTGui.cpp.s
-.PHONY : src/TTGui.cpp.s
 
 src/TipTilt.o: src/TipTilt.cpp.o
 
@@ -264,7 +210,7 @@ src/TipTilt.o: src/TipTilt.cpp.o
 
 # target to build an object file
 src/TipTilt.cpp.o:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.o
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/TipTilt.cpp.o
 .PHONY : src/TipTilt.cpp.o
 
 src/TipTilt.i: src/TipTilt.cpp.i
@@ -273,7 +219,7 @@ src/TipTilt.i: src/TipTilt.cpp.i
 
 # target to preprocess a source file
 src/TipTilt.cpp.i:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.i
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/TipTilt.cpp.i
 .PHONY : src/TipTilt.cpp.i
 
 src/TipTilt.s: src/TipTilt.cpp.s
@@ -282,7 +228,7 @@ src/TipTilt.s: src/TipTilt.cpp.s
 
 # target to generate assembly for a file
 src/TipTilt.cpp.s:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/TipTilt.cpp.s
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/TipTilt.cpp.s
 .PHONY : src/TipTilt.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -291,7 +237,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/main.cpp.o
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -300,7 +246,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/main.cpp.i
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -309,7 +255,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/TipTiltGUI.dir/build.make CMakeFiles/TipTiltGUI.dir/src/main.cpp.s
+	$(MAKE) -f CMakeFiles/TipTilt.dir/build.make CMakeFiles/TipTilt.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 # Help Target
@@ -320,22 +266,16 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... TipTiltGUI"
+	@echo "... TipTilt"
 	@echo "... src/CameraStreamHandler.o"
 	@echo "... src/CameraStreamHandler.i"
 	@echo "... src/CameraStreamHandler.s"
 	@echo "... src/DisplayControl.o"
 	@echo "... src/DisplayControl.i"
 	@echo "... src/DisplayControl.s"
-	@echo "... src/MainFrame.o"
-	@echo "... src/MainFrame.i"
-	@echo "... src/MainFrame.s"
 	@echo "... src/SystemControl.o"
 	@echo "... src/SystemControl.i"
 	@echo "... src/SystemControl.s"
-	@echo "... src/TTGui.o"
-	@echo "... src/TTGui.i"
-	@echo "... src/TTGui.s"
 	@echo "... src/TipTilt.o"
 	@echo "... src/TipTilt.i"
 	@echo "... src/TipTilt.s"

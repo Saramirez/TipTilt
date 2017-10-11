@@ -1,7 +1,5 @@
 #include "../include/DisplayControl.hpp"
-
 #include <iostream>
-
 
 DisplayControl::DisplayControl(){
 	TTPosX = 0;
@@ -9,6 +7,7 @@ DisplayControl::DisplayControl(){
 }
 
 void DisplayControl::CreateMainWindows() {
+	cout << "Creating windows" << endl;
 	namedWindow(pinholeWindow, CV_WINDOW_AUTOSIZE);
 	namedWindow(tiptiltPositionWindow, CV_WINDOW_AUTOSIZE);
 
@@ -29,23 +28,34 @@ void DisplayControl::DisplayFrame(Mat& frame, char type) {
 		case 'p':
 			imshow(pinholeWindow, frame);
 		break;
-		case 'g'
+		case 'g':
 			imshow(guidingWindow, frame);
 		break;
-		case 'c'
+		case 'c':
 			imshow(calibrationWindow, frame);
 		break;
-		case 't'
+		case 't':
 			imshow(tiptiltPositionWindow, frame);
-		break;
-		case 'h'
-			imshow(pinholeThreshedWindow, frame);
 		break;
 	}
 }
 
 
-void DisplayControl::UpdateTTPos(int _TTPosX, int _TTPosY) {
-	TTPosX = _TTPosX;
-	TTPosY = _TTPosY;
+void DisplayControl::UpdateTTPos(int TTPosX, int TTPosY) {
+	Mat ttpos(TTWindowSize, TTWindowSize, CV_8UC3, Scalar(240, 240, 240));
+	circle(ttpos, Point(TTWindowSize / 2 + TTPosX, TTWindowSize / 2 + TTPosY), 5, Scalar(0, 128, 0), -1);
+	rectangle(ttpos, Point(TTWindowSize / 2 - 35, TTWindowSize / 2 - 35),
+		Point(TTWindowSize / 2 + 35, TTWindowSize / 2 + 35),
+		Scalar(0, 0, 255));
+	line(ttpos, Point(TTWindowSize / 2, 0), Point(TTWindowSize / 2, TTWindowSize), Scalar(0, 0, 0));
+	line(ttpos, Point(0, TTWindowSize / 2), Point(TTWindowSize, TTWindowSize / 2), Scalar(0, 0, 0));
+	imshow(tiptiltPositionWindow, ttpos);
+}
+
+void DisplayControl::DestroyGuidingWindow() {
+	destroyWindow(guidingWindow);
+}
+
+void DisplayControl::DestroyCalibrationWindow() {
+	destroyWindow(calibrationWindow);
 }

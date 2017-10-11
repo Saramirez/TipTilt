@@ -8,7 +8,7 @@ SystemControl::SystemControl() :
 	capturing = false;
 	correcting = false;
 	showThresh = false;
-	simulate = false;
+	simulate = true;
 }
 
 int SystemControl::GetKeyFromKeyboard() {
@@ -21,15 +21,28 @@ int SystemControl::GetKeyFromKeyboard() {
 		return -1;
 		break;
 	case 10: // Intro
+		cout << "Intro pressed" << endl;
 		ToggleCorrection();
-		return 1; // Start Correction
 		break;
-	case 116: //t
+	case 43: // +
+		cout << "+ pressed" << endl;
+		ChangeThresh(1);
+		break;
+	case 45: // -
+		cout << "- pressed" << endl;
+		ChangeThresh(0);
+		break;
+	case 67: // C
+		cout << "C pressed" << endl;
+		CenterTT();
+		break;
+	case 83: // S
+		cout << "S pressed" << endl;
+		ToggleSimulate();
+		break;
+	case 116: // t
+		cout << "t pressed" << endl;
 		ToggleShowThresh();
-		break;
-	case 119: // w
-		break;
-	case 115: // s
 		break;
 	case 100: // d
 		break;
@@ -67,6 +80,7 @@ void SystemControl::SetCamDevice(int id) {
 		CSH.SetDevice("v4l2src device=/dev/video3 ! video/x-raw,format=GRAY8 ! appsink");
 		break;
 	}
+	//video/x-raw,format=GRAY8, width=640, height=480 ! appsink
 }
 
 void SystemControl::SetTTDevice(int id) {
@@ -112,27 +126,19 @@ void SystemControl::SetThreshold(int _thresh) {
 	mtxProtectingValues.unlock();
 }
 
-double SystemControl::GetStarSize() {
-	if (capturing) {
-		StopCapture();
-	}
-	if (correcting) {
-		StopCorrection();
-	}
-	if (!CSH.IsCameraOpen()) {
-		if (CSH.OpenCamera() != 0) {
-			cout << "Could not open camera" << endl;
-			return -1;
-		}
-	}
+void SystemControl::ChangeThresh(int increase) {
 	mtxProtectingValues.lock();
-	frame = CSH.GetStarParams();
-	double starRadius = CSH.starRadius;
+	if (!showThresh) {
+		mtxProtectingValues.unlock();
+		return;
+	}
+	int thrs = CSH.thresh;
 	mtxProtectingValues.unlock();
-	mtxProtectingDisplayControl.lock();
-	dControl.DisplayFrame(frame, 'g');
-	mtxProtectingDisplayControl.unlock();
-	return starRadius;
+
+	if (increase)
+		SetThreshold(thrs + 5);
+	else
+		SetThreshold(thrs - 5);
 }
 
 void SystemControl::SetStarSize(double _starRadius) {
@@ -140,21 +146,16 @@ void SystemControl::SetStarSize(double _starRadius) {
 		cout << "Star radius value must be 0 - 50" << endl;
 		return;
 	}
-	mtxProtectingValues.lock();
 	CSH.starRadius = _starRadius;
-	mtxProtectingValues.unlock();
 }
 
 int SystemControl::StartCapture() {
-	if (!CSH.IsCameraOpen()) {
-		if (CSH.OpenCamera() != 0) {
-			cout << "Could not open camera" << endl;
-			return -1;
-		}
-	}
-	mtxProtectingDisplayControl.lock();
+	cout << "Starting capture" << endl;
+
+	CheckAndOpenCam();
+
 	dControl.CreateMainWindows();
-	mtxProtectingDisplayControl.unlock();
+	dControl.UpdateTTPos(0, 0);
 
 	capturingInternal = true;
 	capturingThread = thread(&SystemControl::RunCapture, this);
@@ -182,12 +183,10 @@ int SystemControl::StopCapture() {
 }
 
 int SystemControl::StartCorrection(){
-	if (!TT.isOpened()) {
-		if (TT.openComm() != 0) {
-			cout << "Could not open TT device" << endl;
-			return -1;
-		}
-	}
+	cout << "Starting correction ..." << endl;
+
+	CheckAndOpenTT();
+
 	correctingInternal = true;
 	correctingThread = thread(&SystemControl::RunCorrection, this);
 	correcting = true;
@@ -223,38 +222,32 @@ bool SystemControl::IsCorrecting() {
 }
 
 void SystemControl::CenterTT() {
-	if (!TT.isOpened()) {
-		if (TT.openComm() != 0) {
-			cout << "Could not open TT device" << endl;
-			return;
-		}
-	}
+	if (correcting)
+		StopCorrection();
+
+	CheckAndOpenTT();
+
 	TT.goTo('K');
 	TT.sSteps = 0;
 	TT.eSteps = 0;
+	mtxProtectingDisplayControl.lock();
+	dControl.UpdateTTPos(0, 0);
+	mtxProtectingDisplayControl.unlock();	
 }
 
 int SystemControl::CalibrateTT() {
-	if (capturing) {
-		StopCapture();
-	}
-	if (correcting) {
-		StopCorrection();
-	}
+	dControl.CreateCalibrationWindow();
 
-	mtxProtectingValues.lock();
-	if (!CSH.IsCameraOpen()) {
-		if (CSH.OpenCamera() != 0) {
-			cout << "Could not open camera" << endl;
-			return -1;
-		}
-	}
-	mtxProtectingValues.unlock();
-	if (!TT.isOpened()) {
-		if (TT.openComm() != 0) {
-			cout << "Could not open TT device" << endl;
-			return -1;
-		}
+	CheckAndOpenCam();	
+	CheckAndOpenTT();
+
+	cout << "Starting calibration of TT.\n" <<
+			"Illuminate pinhole from fiber and make sure it is correctly visible.\n" <<
+			"Press enter to continue." << endl;
+
+	while (waitKey(10) != 10) {
+		frame = CSH.GrabOneFrame(false, false);
+		dControl.DisplayFrame(frame, 'c');
 	}
 
 	// Grab one frame at the extremes of TT movement range
@@ -262,60 +255,30 @@ int SystemControl::CalibrateTT() {
 	Point cK, cN, cS, cE, cW;
 	TT.goTo('K');
 
-	mtxProtectingValues.lock();
 	K = CSH.GrabOneFrame(false, false);
-	mtxProtectingValues.unlock();
-
-	/*///
-	mtxProtectingValues.lock();
-	cK = CSH.GetCentroid(K);
-	mtxProtectingValues.unlock();
-
-	cvtColor(K, K, CV_GRAY2RGB);
-	circle(K, cK, 5, Scalar(0, 0, 0));
-	
-	mtxProtectingDisplayControl.lock();
-	dControl_p->DisplayFrame(K);
-	mtxProtectingDisplayControl.unlock();
-
-	cout << "Centroids: " << cK.x << "," << cK.y << endl;
-
-	return 0;
-
-	*////
 
 	TT.goTo('N');
-	mtxProtectingValues.lock();
 	N = CSH.GrabOneFrame(false, false);
-	mtxProtectingValues.unlock();
 
 	int NSSteps = TT.goTo('S');
-	mtxProtectingValues.lock();
 	S = CSH.GrabOneFrame(false, false);
-	mtxProtectingValues.unlock();
 
 	TT.goTo('K');
 
 	TT.goTo('E');
-	mtxProtectingValues.lock();
 	E = CSH.GrabOneFrame(false, false);
-	mtxProtectingValues.unlock();
 
 	int EWSteps = TT.goTo('W');
-	mtxProtectingValues.lock();
 	W = CSH.GrabOneFrame(false, false);
-	mtxProtectingValues.unlock();
 
 	TT.goTo('K');
 
 	//Get the centroids of each frame and measure the distance (in steps and pixels) between them
-	mtxProtectingValues.lock();
 	cK = CSH.GetCentroid(K);
 	cN = CSH.GetCentroid(N);
 	cS = CSH.GetCentroid(S);
 	cE = CSH.GetCentroid(E);
 	cW = CSH.GetCentroid(W);
-	mtxProtectingValues.unlock();
 
 	cout << "Centroids: " << cK.x << "," << cK.y << ";" << cN.x << "," << cN.y << ";"
 		<< cS.x << "," << cS.y << ";" << cE.x << "," << cE.y << ";"
@@ -337,20 +300,13 @@ int SystemControl::CalibrateTT() {
 
 	cout << "Angles (alpha, beta): " << alpha << "," << beta << endl;
 
-
-	mtxProtectingValues.lock();
 	int threshold = CSH.thresh;
 	cout << "Threshold: " << threshold << endl;
 	Point target = CSH.GetTarget();
 	cout << "Target: " << target << endl;
-	//Rect roi((cK.x - target.x), (cK.y - target.y), 100, 100);
 	CSH.SetPixToStepsFactors(xPixToSteps, yPixToSteps);
-	//CSH.SetRoi(roi);
-	mtxProtectingValues.unlock();
 
-	//Rect roi(880, 490, 100, 100);
 	Mat complete = (K > threshold) + (N > threshold) + (S > threshold) + (E > threshold) + (W > threshold);
-	//Mat complete = K + N + S + W + E;
 
 	cvtColor(complete, complete, CV_GRAY2RGB);
 	circle(complete, cK, 5, Scalar(0, 0, 0));
@@ -358,11 +314,58 @@ int SystemControl::CalibrateTT() {
 	circle(complete, cS, 5, Scalar(0, 0, 128));
 	circle(complete, cE, 5, Scalar(128, 0, 0));
 	circle(complete, cW, 5, Scalar(128, 128, 128));
-	//complete = complete(roi);
 
-	mtxProtectingDisplayControl.lock();
 	dControl.DisplayFrame(complete, 'c');
-	mtxProtectingDisplayControl.unlock();
+	cout << "\n Calibration done. Press any key to continue." << endl;
+
+	waitKey(0);
+
+	dControl.DestroyCalibrationWindow();
 
 	return 0;
+}
+
+void SystemControl::Guide() {
+	dControl.CreateGuidingWindow();
+	CheckAndOpenCam();
+
+	cout << "Starting guiding.\n" <<
+		"Move telescope until star is on top of the pinhole.\n" <<
+		"Press s to measure star size or enter to continue to tip tilt correction." << endl;
+	int key = 0;
+	while (key != 10) {
+		key = waitKey(100);
+		if (key == 115) {
+			frame = CSH.GetStarParams();
+			dControl.DisplayFrame(frame, 'g');
+			cout << "Star measured. Press any key to continue." << endl;
+			waitKey(0);
+		}
+		else {
+			frame = CSH.GrabOneFrame(true, true);
+			dControl.DisplayFrame(frame, 'g');
+		}
+	}
+
+	dControl.DestroyGuidingWindow();
+}
+
+void SystemControl::CheckAndOpenCam() {
+	if (!CSH.IsCameraOpen()) {
+		if (CSH.OpenCamera() != 0) {
+			cout << "Could not open camera" << endl;
+			return;
+		}
+		cout << "Opened camera" << endl;
+	}
+}
+
+void SystemControl::CheckAndOpenTT() {
+	if (!TT.isOpened()) {
+		if (TT.openComm() != 0) {
+			cout << "Could not open TT device" << endl;
+			return;
+		}
+		cout << "Opened TT device" << endl;
+	}
 }

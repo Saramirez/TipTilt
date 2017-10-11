@@ -36,7 +36,16 @@ class SystemControl {
 		Mat frame;
 		void RunCapture();
 		void RunCorrection();
-		void ToggleCorrection()
+		void ToggleCorrection();
+		void ChangeThresh(int);
+		void CheckAndOpenCam();
+		void CheckAndOpenTT();
+		void ToggleShowThresh();
+		void ToggleSimulate();
+		void SetThreshold(int);
+		void SetStarSize(double);
+		double GetStarSize();
+		void CenterTT();
 	public:
 		SystemControl();
 		int GetKeyFromKeyboard();
@@ -49,12 +58,7 @@ class SystemControl {
 		int StopCapture();
 		bool IsCapturing();
 		bool IsCorrecting();
-		void ToggleShowThresh();
-		void ToggleSimulate();
-		void SetThreshold(int);
-		void SetStarSize(double);
-		double GetStarSize();
-		void CenterTT();
+		void Guide();
 };
 
 

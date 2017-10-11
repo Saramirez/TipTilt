@@ -4,16 +4,12 @@
 using ms = chrono::milliseconds;
 using get_time = chrono::steady_clock;
 
-CameraStreamHandler::CameraStreamHandler(int* _eX, int* _eY, mutex * _mtx){
+CameraStreamHandler::CameraStreamHandler(int* _eX, int* _eY, mutex * _mtx) :
+					 roi(875, 492, 100, 100), target(50,50), fullFramePinholePosition(600,600){
     eX = _eX;
     eY = _eY;
     mtx = _mtx;
-    Point _target(50, 50);
-    Rect _roi(880, 490, 100, 100);
-    target = _target;
-    roi = _roi; 
     oRoi = roi;
-    targetSet = true;
 }
 
 Point CameraStreamHandler::GetTarget() {
@@ -121,7 +117,6 @@ Mat CameraStreamHandler::GetStarParams() {
 	}
 
 	cam >> frame;
-	frame = frame(roi);
 
     double starArea;
 	GetSimpleShapeInfo(centroid, starArea);
@@ -142,8 +137,6 @@ void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, do
 		//cout << "No star" << endl;
 		return;
 	}
-	//cout << "dist = " << dist << "; dir = " << dir[0] << ", " << dir[1] << endl;
-	
 	double xx = xPixToSteps * dir[0];
 	double yy = yPixToSteps * dir[1];
 
@@ -187,17 +180,11 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate){
 
     GetShapeInfo(centroid, dist, dir, width);
 
-    //simulate exposure by only updating the errors to the TipTilt device with period = exposure
-    //t = get_time::now(); 
-    //dt = t - _t;
-    if(targetSet){// && (chrono::duration_cast<ms>(dt).count() >= exposure)){
-        CalculateErrors(xErr, yErr, dist, dir, width);
-        mtx->lock();
-        *eX = xErr;
-        *eY = yErr;
-        mtx->unlock();
-        //_t = t;
-    }
+	CalculateErrors(xErr, yErr, dist, dir, width);
+	mtx->lock();
+	*eX = xErr;
+	*eY = yErr;
+	mtx->unlock();
 
 	if (returnThresh) {
 		threshold(frame, frame, thresh, 255, THRESH_BINARY);
@@ -211,12 +198,16 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate){
     return frame;
 }
 
-Mat CameraStreamHandler::GrabOneFrame(bool full, bool rgb){
+Mat CameraStreamHandler::GrabOneFrame(bool full, bool pinholePos){
     cam >> frame;
 	if(!full)
 		frame = frame(roi);
-	if(rgb)
-		cvtColor(frame, frame, CV_GRAY2RGB);
+	else
+		if (pinholePos) {
+			cvtColor(frame, frame, CV_GRAY2RGB);
+			circle(frame, fullFramePinholePosition, pinholeRadius, Scalar(0, 128, 0));
+		}
+		
     return frame;
 }
 

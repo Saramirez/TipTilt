@@ -16,11 +16,14 @@ class DisplayControl{
 		const int oX = 400;
 		const int oY = 50;
 		const int windowSeparationSize = 100;
+		const int TTWindowSize = 100;
     public:
 		DisplayControl();
 		void CreateMainWindows();
 		void CreateCalibrationWindow();
+		void DestroyCalibrationWindow();
 		void CreateGuidingWindow();
+		void DestroyGuidingWindow();
 		void DisplayFrame(Mat&, char);
 		void UpdateTTPos(int, int);
 		int TTPosX;

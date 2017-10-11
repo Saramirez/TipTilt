@@ -24,16 +24,15 @@ class CameraStreamHandler{
         mutex * mtx;
         VideoCapture cam;
         Mat frame;
-        Point target;
+		Point target;
+		Point fullFramePinholePosition;
         Rect roi;
         Rect oRoi;
         double xPixToSteps = 2.4;
         double yPixToSteps = 2.33;
         const double pinholeRadius = 8.0;
         const double w = 2 * M_PI * 0.05;
-	    const double R = 4;
-
-        bool targetSet;
+	    const double R = 3;
 
         void GetShapeInfo(Point&, double&, double*, double&);
         void GetSimpleShapeInfo(Point&, double&);
@@ -54,7 +53,7 @@ class CameraStreamHandler{
 		bool IsCameraOpen();
 		Point GetCentroid(Mat&);
         Mat GetStarParams();
-        Mat GrabOneFrame(bool full = false, bool rgb = true);
+        Mat GrabOneFrame(bool full = false, bool pinholePos = false);
         Mat CaptureAndProcess(bool showThresh = false, bool simulate = false);
 };
 
