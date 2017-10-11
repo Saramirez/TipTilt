@@ -4,28 +4,27 @@
 #include "opencv2/opencv.hpp"
 #include <mutex>
 
-#include <wx/wxprec.h>
-#ifndef WX_PRECOMP
-#include <wx/wx.h>
-#endif
-
 using namespace cv;
 using namespace std;
 
 class DisplayControl{
     private:
-		wxImage img;
+		const string pinholeWindow = "Pinhole Image";
+		const string calibrationWindow = "TipTilt Calibration";
+		const string tiptiltPositionWindow = "TipTilt Position";
+		const string guidingWindow = "Full Mirror Image";
+		const int oX = 400;
+		const int oY = 50;
+		const int windowSeparationSize = 100;
     public:
 		DisplayControl();
-		void DisplayFrame(Mat);
+		void CreateMainWindows();
+		void CreateCalibrationWindow();
+		void CreateGuidingWindow();
+		void DisplayFrame(Mat&, char);
 		void UpdateTTPos(int, int);
-		wxBitmap bmp;
 		int TTPosX;
 		int TTPosY;
-		mutex * mtxProtectingBmpAndCamPanel;
-		mutex * mtxProtectingTTPositionsAndPanel;
-		wxPanel * camPanel_p;
-		wxPanel * TTPositionPanel_p;
 };
 
 

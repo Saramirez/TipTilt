@@ -11,6 +11,43 @@ SystemControl::SystemControl() :
 	simulate = false;
 }
 
+int SystemControl::GetKeyFromKeyboard() {
+	int key = waitKey(10);
+	//cout << "Key: " << key << endl;
+	switch (key) {
+	case 255:
+		return 0;
+	case 27: // esc
+		return -1;
+		break;
+	case 10: // Intro
+		ToggleCorrection();
+		return 1; // Start Correction
+		break;
+	case 116: //t
+		ToggleShowThresh();
+		break;
+	case 119: // w
+		break;
+	case 115: // s
+		break;
+	case 100: // d
+		break;
+	case 97: // a
+		break;
+	}
+	//cout << "Target: " << target.x << "," << target.y << endl;
+	return 0;
+}
+
+void SystemControl::ToggleCorrection() {
+	if (!correcting) {
+		StartCorrection();
+	}
+	else
+		StopCorrection();
+}
+
 void SystemControl::SetCamDevice(int id) {
 	if (id < 0 || id > 3) {
 		cout << "Can't set that device for TT" << endl;
@@ -92,9 +129,9 @@ double SystemControl::GetStarSize() {
 	frame = CSH.GetStarParams();
 	double starRadius = CSH.starRadius;
 	mtxProtectingValues.unlock();
-	mtxProtectingDisplayControl->lock();
-	dControl_p->DisplayFrame(frame);
-	mtxProtectingDisplayControl->unlock();
+	mtxProtectingDisplayControl.lock();
+	dControl.DisplayFrame(frame, 'g');
+	mtxProtectingDisplayControl.unlock();
 	return starRadius;
 }
 
@@ -115,6 +152,10 @@ int SystemControl::StartCapture() {
 			return -1;
 		}
 	}
+	mtxProtectingDisplayControl.lock();
+	dControl.CreateMainWindows();
+	mtxProtectingDisplayControl.unlock();
+
 	capturingInternal = true;
 	capturingThread = thread(&SystemControl::RunCapture, this);
 	capturing = true;
@@ -126,10 +167,10 @@ void SystemControl::RunCapture() {
 		mtxProtectingValues.lock();
 		frame = CSH.CaptureAndProcess(showThresh, simulate);
 		mtxProtectingValues.unlock();
-		mtxProtectingDisplayControl->lock();
-		dControl_p->DisplayFrame(frame);
-		mtxProtectingDisplayControl->unlock();
-		this_thread::sleep_for(chrono::milliseconds(5));
+		mtxProtectingDisplayControl.lock();
+		dControl.DisplayFrame(frame, 'p');
+		mtxProtectingDisplayControl.unlock();
+		this_thread::sleep_for(chrono::milliseconds(1));
 	}
 }
 
@@ -158,9 +199,9 @@ void SystemControl::RunCorrection() {
 		TT.updatePosition();
 		TTposX = TT.sSteps;
 		TTposY = TT.eSteps;
-		mtxProtectingDisplayControl->lock();
-		dControl_p->UpdateTTPos(TTposX, TTposY);
-		mtxProtectingDisplayControl->unlock();
+		mtxProtectingDisplayControl.lock();
+		dControl.UpdateTTPos(TTposX, TTposY);
+		mtxProtectingDisplayControl.unlock();
 		this_thread::sleep_for(chrono::microseconds(100));
 	}
 }
@@ -233,9 +274,9 @@ int SystemControl::CalibrateTT() {
 	cvtColor(K, K, CV_GRAY2RGB);
 	circle(K, cK, 5, Scalar(0, 0, 0));
 	
-	mtxProtectingDisplayControl->lock();
+	mtxProtectingDisplayControl.lock();
 	dControl_p->DisplayFrame(K);
-	mtxProtectingDisplayControl->unlock();
+	mtxProtectingDisplayControl.unlock();
 
 	cout << "Centroids: " << cK.x << "," << cK.y << endl;
 
@@ -319,9 +360,9 @@ int SystemControl::CalibrateTT() {
 	circle(complete, cW, 5, Scalar(128, 128, 128));
 	//complete = complete(roi);
 
-	mtxProtectingDisplayControl->lock();
-	dControl_p->DisplayFrame(complete);
-	mtxProtectingDisplayControl->unlock();
+	mtxProtectingDisplayControl.lock();
+	dControl.DisplayFrame(complete, 'c');
+	mtxProtectingDisplayControl.unlock();
 
 	return 0;
 }

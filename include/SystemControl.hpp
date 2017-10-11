@@ -10,20 +10,16 @@
 #include <thread>
 #include <mutex>
 
-#include <wx/wxprec.h>
-#ifndef WX_PRECOMP
-#include <wx/wx.h>
-#endif
-
-const int sControlId = 9;
 using namespace std;
 using namespace cv;
 
 class SystemControl {
 	private:
+		DisplayControl dControl;
 		CameraStreamHandler CSH;
 		TipTilt TT;
 		mutex mtxProtectingErrors;
+		mutex mtxProtectingDisplayControl;
 		int eX;
 		int eY;
 		int TTposX;
@@ -40,10 +36,10 @@ class SystemControl {
 		Mat frame;
 		void RunCapture();
 		void RunCorrection();
+		void ToggleCorrection()
 	public:
-		mutex * mtxProtectingDisplayControl;
-		DisplayControl * dControl_p;
 		SystemControl();
+		int GetKeyFromKeyboard();
 		void SetCamDevice(int);
 		void SetTTDevice(int);
 		int CalibrateTT();

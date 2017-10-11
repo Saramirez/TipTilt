@@ -8,28 +8,44 @@ DisplayControl::DisplayControl(){
 	TTPosY = 0;
 }
 
-void DisplayControl::DisplayFrame(Mat frame) {
-	img = wxImage(frame.cols,
-		frame.rows,
-		frame.data,
-		TRUE);
+void DisplayControl::CreateMainWindows() {
+	namedWindow(pinholeWindow, CV_WINDOW_AUTOSIZE);
+	namedWindow(tiptiltPositionWindow, CV_WINDOW_AUTOSIZE);
 
-	mtxProtectingBmpAndCamPanel->lock();
-	bmp = wxBitmap(img);
-
-	//panel_p->Refresh(FALSE);
-	camPanel_p->Refresh();
-	mtxProtectingBmpAndCamPanel->unlock();
-
-	camPanel_p->Update();	
+	moveWindow(pinholeWindow, oX, oY);
+	moveWindow(tiptiltPositionWindow, oX + windowSeparationSize, oY);
+}
+void DisplayControl::CreateCalibrationWindow() {
+	namedWindow(calibrationWindow, CV_WINDOW_AUTOSIZE);
+	moveWindow(calibrationWindow, oX, oY);
+}
+void DisplayControl::CreateGuidingWindow() {
+	namedWindow(guidingWindow, CV_WINDOW_AUTOSIZE);
+	moveWindow(guidingWindow, oX, oY);
 }
 
+void DisplayControl::DisplayFrame(Mat& frame, char type) {
+	switch (type){
+		case 'p':
+			imshow(pinholeWindow, frame);
+		break;
+		case 'g'
+			imshow(guidingWindow, frame);
+		break;
+		case 'c'
+			imshow(calibrationWindow, frame);
+		break;
+		case 't'
+			imshow(tiptiltPositionWindow, frame);
+		break;
+		case 'h'
+			imshow(pinholeThreshedWindow, frame);
+		break;
+	}
+}
+
+
 void DisplayControl::UpdateTTPos(int _TTPosX, int _TTPosY) {
-	mtxProtectingTTPositionsAndPanel->lock();
 	TTPosX = _TTPosX;
 	TTPosY = _TTPosY;
-	TTPositionPanel_p->Refresh();
-	mtxProtectingTTPositionsAndPanel->unlock();
-
-	TTPositionPanel_p->Update();
 }
