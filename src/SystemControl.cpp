@@ -68,10 +68,10 @@ void SystemControl::SetCamDevice(int id) {
 	}
 	switch (id)	{
 	case 0:
-		CSH.SetDevice("v4l2src device=/dev/video0 ! video/x-raw,format=GRAY8 ! appsink");
+		CSH.SetDevice("v4l2src device=/dev/video0 ! video/x-raw,format=GRAY8, width=640, height=480 ! appsink");
 		break;
 	case 1:
-		CSH.SetDevice("v4l2src device=/dev/video1 ! video/x-raw,format=GRAY8 ! appsink");
+		CSH.SetDevice("v4l2src device=/dev/video1 ! video/x-raw,format=GRAY8, width=640, height=480 ! appsink");
 		break;
 	case 2:
 		CSH.SetDevice("v4l2src device=/dev/video2 ! video/x-raw,format=GRAY8 ! appsink");
@@ -246,7 +246,7 @@ int SystemControl::CalibrateTT() {
 			"Press enter to continue." << endl;
 
 	while (waitKey(10) != 10) {
-		frame = CSH.GrabOneFrame(false, false);
+		frame = CSH.GrabOneFrame(true, false);
 		dControl.DisplayFrame(frame, 'c');
 	}
 
@@ -255,21 +255,21 @@ int SystemControl::CalibrateTT() {
 	Point cK, cN, cS, cE, cW;
 	TT.goTo('K');
 
-	K = CSH.GrabOneFrame(false, false);
+	K = CSH.GrabOneFrame(true, false);
 
 	TT.goTo('N');
-	N = CSH.GrabOneFrame(false, false);
+	N = CSH.GrabOneFrame(true, false);
 
 	int NSSteps = TT.goTo('S');
-	S = CSH.GrabOneFrame(false, false);
+	S = CSH.GrabOneFrame(true, false);
 
 	TT.goTo('K');
 
 	TT.goTo('E');
-	E = CSH.GrabOneFrame(false, false);
+	E = CSH.GrabOneFrame(true, false);
 
 	int EWSteps = TT.goTo('W');
-	W = CSH.GrabOneFrame(false, false);
+	W = CSH.GrabOneFrame(true, false);
 
 	TT.goTo('K');
 
@@ -297,6 +297,10 @@ int SystemControl::CalibrateTT() {
 
 	double alpha = atan(tan1);
 	double beta = atan(tan2);
+
+	double corrAngle = (alpha + beta) / 2.0;
+	double cosCorrAngle = cos(corrAngle);
+	double sinCorrAngle = sin(corrAngle);
 
 	cout << "Angles (alpha, beta): " << alpha << "," << beta << endl;
 
@@ -368,4 +372,28 @@ void SystemControl::CheckAndOpenTT() {
 		}
 		cout << "Opened TT device" << endl;
 	}
+}
+
+void SystemControl::SimpleCalib(){
+	CheckAndOpenTT();
+
+	TT.goTo('K');
+
+	this_thread::sleep_for(chrono::milliseconds(100));
+
+	TT.goTo('N');
+
+	this_thread::sleep_for(chrono::milliseconds(2000));
+	TT.goTo('S');
+	this_thread::sleep_for(chrono::milliseconds(2000));
+	
+	TT.goTo('K');
+	this_thread::sleep_for(chrono::milliseconds(100));
+	
+	TT.goTo('E');
+	this_thread::sleep_for(chrono::milliseconds(2000));
+	
+	TT.goTo('W');
+	this_thread::sleep_for(chrono::milliseconds(2000));
+	
 }

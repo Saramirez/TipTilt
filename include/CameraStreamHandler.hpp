@@ -16,6 +16,7 @@ class CameraStreamHandler{
         int * eY;
         int xErr = 0;
         int yErr = 0;
+		int _xErr, _yErr;
 
         Point centroid;
         double dist;
@@ -28,9 +29,14 @@ class CameraStreamHandler{
 		Point fullFramePinholePosition;
         Rect roi;
         Rect oRoi;
+
         double xPixToSteps = 2.4;
         double yPixToSteps = 2.33;
-        const double pinholeRadius = 8.0;
+		double cosCorrAngle = 1;
+		double sinCorrAngle = 0;
+
+        const double pinholeRadius = 5.5;
+
         const double w = 2 * M_PI * 0.05;
 	    const double R = 3;
 
@@ -45,6 +51,7 @@ class CameraStreamHandler{
 		double starRadius = 10.3;
 		
 		void SetPixToStepsFactors(double, double);
+		void SetAngles(double, double);
 		void SetRoi(Rect);
 		void SetDevice(const char *);
 		Point GetTarget();

@@ -59,6 +59,7 @@ class SystemControl {
 		bool IsCapturing();
 		bool IsCorrecting();
 		void Guide();
+		void SimpleCalib();
 };
 
 

@@ -6,6 +6,7 @@ using get_time = chrono::steady_clock;
 
 CameraStreamHandler::CameraStreamHandler(int* _eX, int* _eY, mutex * _mtx) :
 					 roi(875, 492, 100, 100), target(50,50), fullFramePinholePosition(600,600){
+	// Posicion del pinhole en frame completo es (607, 507)
     eX = _eX;
     eY = _eY;
     mtx = _mtx;
@@ -19,6 +20,11 @@ Point CameraStreamHandler::GetTarget() {
 void CameraStreamHandler::SetPixToStepsFactors(double xp2s, double yp2s) {
 	xPixToSteps = xp2s;
 	yPixToSteps = yp2s;
+}
+
+void CameraStreamHandler::SetAngles(double cos, double sin) {
+	cosCorrAngle = cos;
+	sinCorrAngle = sin;
 }
 
 void CameraStreamHandler::SetRoi(Rect _roi) {
@@ -137,8 +143,10 @@ void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, do
 		//cout << "No star" << endl;
 		return;
 	}
-	double xx = xPixToSteps * dir[0];
-	double yy = yPixToSteps * dir[1];
+	double xx = cosCorrAngle * dir[0] + sinCorrAngle * dir[1];
+	double yy = -1 * sinCorrAngle * dir[0] + cosCorrAngle * dir[1];
+	//double xx = xPixToSteps * dir[0];
+	//double yy = yPixToSteps * dir[1];
 
 	if(dist <= (pinholeRadius + starRadius)){
 		//cout << "pinhole+star radius = " << (pinholeRadius + starRadius) << endl;
@@ -153,8 +161,8 @@ void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, do
 		xx *= dist;
 		yy *= dist;
 	}
-	xErr = (int)xx;
-	yErr = (int)yy;
+	xErr = (int)(xx * xPixToSteps);
+	yErr = (int)(yy * yPixToSteps);
 	//cout << "width = " << width << " area = " << area << "; area/starArea = " << area / starArea << endl;
     //cout << "xErr = " << xErr << "; yErr = " << yErr << endl;
 }
@@ -180,10 +188,16 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate){
 
     GetShapeInfo(centroid, dist, dir, width);
 
+	_xErr = xErr;
+	_yErr = yErr;
+
 	CalculateErrors(xErr, yErr, dist, dir, width);
+
 	mtx->lock();
 	*eX = xErr;
 	*eY = yErr;
+	//*eX = 0.5 * xErr + 0.5 * _xErr;
+	//*eY = 0.5 * yErr + 0.5 * _yErr;
 	mtx->unlock();
 
 	if (returnThresh) {
