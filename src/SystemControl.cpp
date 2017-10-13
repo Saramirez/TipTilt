@@ -245,10 +245,13 @@ int SystemControl::CalibrateTT() {
 			"Make sure a star is correctly visible.\n" <<
 			"Press enter to continue." << endl;
 
-	while (waitKey(10) != 10) {
+	while (waitKey(30) != 10) {
 		frame = CSH.GrabOneFrame(true, false);
 		dControl.DisplayFrame(frame, 'c');
 	}
+
+	CSH.CloseCamera();
+	CheckAndOpenCam();
 
 	// Grab one frame at the extremes of TT movement range
 	Mat K, N, S, E, W;
@@ -257,14 +260,14 @@ int SystemControl::CalibrateTT() {
 
 	K = CSH.GrabOneFrame(true, false);
 	dControl.DisplayFrame(K, 'c');
-	waitKey(100);
+	this_thread::sleep_for(chrono::milliseconds(1000));
 
 	cK = CSH.GetCentroid(K);
 
 	TT.goTo('N');
 	N = CSH.GrabOneFrame(true, false);
 	dControl.DisplayFrame(N, 'c');
-	waitKey(100);
+	this_thread::sleep_for(chrono::milliseconds(1000));
 
 
 	cN = CSH.GetCentroid(N);
@@ -272,23 +275,24 @@ int SystemControl::CalibrateTT() {
 	int NSSteps = TT.goTo('S');
 	S = CSH.GrabOneFrame(true, false);
 	dControl.DisplayFrame(S, 'c');
-	waitKey(100);
+	this_thread::sleep_for(chrono::milliseconds(1000));
 
 	cS = CSH.GetCentroid(S);
 
 	TT.goTo('K');
+	this_thread::sleep_for(chrono::milliseconds(100));
 
 	TT.goTo('E');
 	E = CSH.GrabOneFrame(true, false);
 	dControl.DisplayFrame(E, 'c');
-	waitKey(100);
+	this_thread::sleep_for(chrono::milliseconds(1000));
 	
 	cE = CSH.GetCentroid(E);
 
 	int EWSteps = TT.goTo('W');
 	W = CSH.GrabOneFrame(true, false);
 	dControl.DisplayFrame(W, 'c');
-	waitKey(100);
+	this_thread::sleep_for(chrono::milliseconds(1000));
 
 	cW = CSH.GetCentroid(W);
 
