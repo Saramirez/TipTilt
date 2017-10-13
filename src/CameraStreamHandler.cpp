@@ -5,7 +5,7 @@ using ms = chrono::milliseconds;
 using get_time = chrono::steady_clock;
 
 CameraStreamHandler::CameraStreamHandler(int* _eX, int* _eY, mutex * _mtx) :
-					 roi(875, 492, 100, 100), target(50,50), fullFramePinholePosition(600,600){
+					 roi(fullFramePinholePosition.x - 50, fullFramePinholePosition.y - 50, 100, 100), target(50,50){
 	// Posicion del pinhole en frame completo es (607, 507)
     eX = _eX;
     eY = _eY;
@@ -219,7 +219,15 @@ Mat CameraStreamHandler::GrabOneFrame(bool full, bool pinholePos){
 	else
 		if (pinholePos) {
 			cvtColor(frame, frame, CV_GRAY2RGB);
-			circle(frame, fullFramePinholePosition, pinholeRadius, Scalar(0, 128, 0));
+			//circle(frame, fullFramePinholePosition, pinholeRadius, Scalar(0, 128, 0), -1);
+			line(frame, Point(fullFramePinholePosition.x, fullFramePinholePosition.y - pinholeRadius - 6),
+						Point(fullFramePinholePosition.x, fullFramePinholePosition.y - pinholeRadius), Scalar(0, 128, 0), 2);
+			line(frame, Point(fullFramePinholePosition.x, fullFramePinholePosition.y + pinholeRadius),
+						Point(fullFramePinholePosition.x, fullFramePinholePosition.y + pinholeRadius + 6), Scalar(0, 128, 0), 2);		
+			line(frame, Point(fullFramePinholePosition.x - pinholeRadius - 6, fullFramePinholePosition.y),
+						Point(fullFramePinholePosition.x - pinholeRadius, fullFramePinholePosition.y), Scalar(0, 128, 0), 2);		
+			line(frame, Point(fullFramePinholePosition.x + pinholeRadius, fullFramePinholePosition.y),
+						Point(fullFramePinholePosition.x + pinholeRadius + 6, fullFramePinholePosition.y), Scalar(0, 128, 0), 2);
 		}
 		
     return frame;

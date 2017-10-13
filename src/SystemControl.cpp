@@ -8,7 +8,7 @@ SystemControl::SystemControl() :
 	capturing = false;
 	correcting = false;
 	showThresh = false;
-	simulate = true;
+	simulate = false;
 }
 
 int SystemControl::GetKeyFromKeyboard() {
@@ -68,7 +68,7 @@ void SystemControl::SetCamDevice(int id) {
 	}
 	switch (id)	{
 	case 0:
-		CSH.SetDevice("v4l2src device=/dev/video0 ! video/x-raw,format=GRAY8, width=640, height=480 ! appsink");
+		CSH.SetDevice("v4l2src device=/dev/video0 ! video/x-raw,format=GRAY8 ! appsink");
 		break;
 	case 1:
 		CSH.SetDevice("v4l2src device=/dev/video1 ! video/x-raw,format=GRAY8, width=640, height=480 ! appsink");
@@ -242,7 +242,7 @@ int SystemControl::CalibrateTT() {
 	CheckAndOpenTT();
 
 	cout << "Starting calibration of TT.\n" <<
-			"Illuminate pinhole from fiber and make sure it is correctly visible.\n" <<
+			"Make sure a star is correctly visible.\n" <<
 			"Press enter to continue." << endl;
 
 	while (waitKey(10) != 10) {
@@ -256,29 +256,51 @@ int SystemControl::CalibrateTT() {
 	TT.goTo('K');
 
 	K = CSH.GrabOneFrame(true, false);
+	dControl.DisplayFrame(K, 'c');
+	waitKey(100);
+
+	cK = CSH.GetCentroid(K);
 
 	TT.goTo('N');
 	N = CSH.GrabOneFrame(true, false);
+	dControl.DisplayFrame(N, 'c');
+	waitKey(100);
+
+
+	cN = CSH.GetCentroid(N);
 
 	int NSSteps = TT.goTo('S');
 	S = CSH.GrabOneFrame(true, false);
+	dControl.DisplayFrame(S, 'c');
+	waitKey(100);
+
+	cS = CSH.GetCentroid(S);
 
 	TT.goTo('K');
 
 	TT.goTo('E');
 	E = CSH.GrabOneFrame(true, false);
+	dControl.DisplayFrame(E, 'c');
+	waitKey(100);
+	
+	cE = CSH.GetCentroid(E);
 
 	int EWSteps = TT.goTo('W');
 	W = CSH.GrabOneFrame(true, false);
+	dControl.DisplayFrame(W, 'c');
+	waitKey(100);
+
+	cW = CSH.GetCentroid(W);
 
 	TT.goTo('K');
 
 	//Get the centroids of each frame and measure the distance (in steps and pixels) between them
-	cK = CSH.GetCentroid(K);
+	/*cK = CSH.GetCentroid(K);
 	cN = CSH.GetCentroid(N);
 	cS = CSH.GetCentroid(S);
 	cE = CSH.GetCentroid(E);
 	cW = CSH.GetCentroid(W);
+	*/
 
 	cout << "Centroids: " << cK.x << "," << cK.y << ";" << cN.x << "," << cN.y << ";"
 		<< cS.x << "," << cS.y << ";" << cE.x << "," << cE.y << ";"
@@ -287,8 +309,8 @@ int SystemControl::CalibrateTT() {
 	double NSDist = sqrt(pow(cN.x - cS.x, 2) + pow(cN.y - cS.y, 2));
 	double EWDist = sqrt(pow(cE.x - cW.x, 2) + pow(cE.y - cW.y, 2));
 
-	double xPixToSteps = ((double)NSSteps) / NSDist;
-	double yPixToSteps = ((double)EWSteps) / EWDist;
+	double xPixToSteps = ((double)EWSteps) / EWDist;
+	double yPixToSteps = ((double)NSSteps) / NSDist;
 
 	cout << "Factors (x, y): " << xPixToSteps << "," << yPixToSteps << endl;
 
@@ -344,6 +366,11 @@ void SystemControl::Guide() {
 			dControl.DisplayFrame(frame, 'g');
 			cout << "Star measured. Press any key to continue." << endl;
 			waitKey(0);
+		}
+		else if(key == 27){ //esc
+			cout << "Esc key pressed" << endl;
+			dControl.DestroyGuidingWindow();
+			return;
 		}
 		else {
 			frame = CSH.GrabOneFrame(true, true);

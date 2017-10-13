@@ -40,10 +40,19 @@ void DisplayControl::DisplayFrame(Mat& frame, char type) {
 	}
 }
 
+void DisplayControl::SetCorrAngles(double cos, double sin) {
+	cosCorrAngle = cos;
+	sinCorrAngle = sin;
+}
+
 
 void DisplayControl::UpdateTTPos(int TTPosX, int TTPosY) {
 	Mat ttpos(TTWindowSize, TTWindowSize, CV_8UC3, Scalar(240, 240, 240));
-	circle(ttpos, Point(TTWindowSize / 2 + TTPosX, TTWindowSize / 2 + TTPosY), 5, Scalar(0, 128, 0), -1);
+
+	double x = TTPosX * cosCorrAngle - TTPosY * sinCorrAngle;
+	double y = -1 * TTPosX * sinCorrAngle + TTPosY * cosCorrAngle;
+
+	circle(ttpos, Point(TTWindowSize / 2 + x, TTWindowSize / 2 + y), 5, Scalar(0, 128, 0), -1);
 	rectangle(ttpos, Point(TTWindowSize / 2 - 35, TTWindowSize / 2 - 35),
 		Point(TTWindowSize / 2 + 35, TTWindowSize / 2 + 35),
 		Scalar(0, 0, 255));

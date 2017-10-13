@@ -17,6 +17,8 @@ class DisplayControl{
 		const int oY = 50;
 		const int windowSeparationSize = 100;
 		const int TTWindowSize = 100;
+		double cosCorrAngle = 1;
+		double sinCorrAngle = 0;
     public:
 		DisplayControl();
 		void CreateMainWindows();
@@ -26,6 +28,7 @@ class DisplayControl{
 		void DestroyGuidingWindow();
 		void DisplayFrame(Mat&, char);
 		void UpdateTTPos(int, int);
+		void SetCorrAngles(double, double);
 		int TTPosX;
 		int TTPosY;
 };

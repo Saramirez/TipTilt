@@ -9,6 +9,8 @@
 using namespace cv;
 using namespace std;
 
+const Point fullFramePinholePosition(606,498);
+
 class CameraStreamHandler{
     private:
         const char* device;
@@ -26,16 +28,15 @@ class CameraStreamHandler{
         VideoCapture cam;
         Mat frame;
 		Point target;
-		Point fullFramePinholePosition;
         Rect roi;
         Rect oRoi;
 
-        double xPixToSteps = 2.4;
-        double yPixToSteps = 2.33;
+		double xPixToSteps = 7.5; //2.4;
+		double yPixToSteps = 7.5; //2.33;
 		double cosCorrAngle = 1;
 		double sinCorrAngle = 0;
 
-        const double pinholeRadius = 5.5;
+        const double pinholeRadius = 5;
 
         const double w = 2 * M_PI * 0.05;
 	    const double R = 3;
