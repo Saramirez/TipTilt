@@ -171,7 +171,7 @@ void SystemControl::RunCapture() {
 		mtxProtectingDisplayControl.lock();
 		dControl.DisplayFrame(frame, 'p');
 		mtxProtectingDisplayControl.unlock();
-		this_thread::sleep_for(chrono::milliseconds(1));
+		this_thread::sleep_for(chrono::microseconds(100));
 	}
 }
 
@@ -245,13 +245,10 @@ int SystemControl::CalibrateTT() {
 			"Make sure a star is correctly visible.\n" <<
 			"Press enter to continue." << endl;
 
-	while (waitKey(30) != 10) {
+	while (waitKey(10) != 10) {
 		frame = CSH.GrabOneFrame(true, false);
 		dControl.DisplayFrame(frame, 'c');
 	}
-
-	CSH.CloseCamera();
-	CheckAndOpenCam();
 
 	// Grab one frame at the extremes of TT movement range
 	Mat K, N, S, E, W;
@@ -260,14 +257,14 @@ int SystemControl::CalibrateTT() {
 
 	K = CSH.GrabOneFrame(true, false);
 	dControl.DisplayFrame(K, 'c');
-	this_thread::sleep_for(chrono::milliseconds(1000));
+	waitKey(100);
 
 	cK = CSH.GetCentroid(K);
 
 	TT.goTo('N');
 	N = CSH.GrabOneFrame(true, false);
 	dControl.DisplayFrame(N, 'c');
-	this_thread::sleep_for(chrono::milliseconds(1000));
+	waitKey(100);
 
 
 	cN = CSH.GetCentroid(N);
@@ -275,24 +272,23 @@ int SystemControl::CalibrateTT() {
 	int NSSteps = TT.goTo('S');
 	S = CSH.GrabOneFrame(true, false);
 	dControl.DisplayFrame(S, 'c');
-	this_thread::sleep_for(chrono::milliseconds(1000));
+	waitKey(100);
 
 	cS = CSH.GetCentroid(S);
 
 	TT.goTo('K');
-	this_thread::sleep_for(chrono::milliseconds(100));
 
 	TT.goTo('E');
 	E = CSH.GrabOneFrame(true, false);
 	dControl.DisplayFrame(E, 'c');
-	this_thread::sleep_for(chrono::milliseconds(1000));
+	waitKey(100);
 	
 	cE = CSH.GetCentroid(E);
 
 	int EWSteps = TT.goTo('W');
 	W = CSH.GrabOneFrame(true, false);
 	dControl.DisplayFrame(W, 'c');
-	this_thread::sleep_for(chrono::milliseconds(1000));
+	waitKey(100);
 
 	cW = CSH.GetCentroid(W);
 
@@ -364,7 +360,7 @@ void SystemControl::Guide() {
 		"Press s to measure star size or enter to continue to tip tilt correction." << endl;
 	int key = 0;
 	while (key != 10) {
-		key = waitKey(100);
+		key = waitKey(10);
 		if (key == 115) {
 			frame = CSH.GetStarParams();
 			dControl.DisplayFrame(frame, 'g');

@@ -12,8 +12,6 @@
 
 using namespace std;
 
-const int avgCount = 10;
-
 class TipTilt {
 	private:
 		int * eY;

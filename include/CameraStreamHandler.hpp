@@ -31,10 +31,10 @@ class CameraStreamHandler{
         Rect roi;
         Rect oRoi;
 
-		double xPixToSteps = 7.5; //2.4;
-		double yPixToSteps = 7.5; //2.33;
-		double cosCorrAngle = 1;
-		double sinCorrAngle = 0;
+		double xPixToSteps = 8.65; //2.4;
+		double yPixToSteps = 8.65; //2.33;
+		double cosCorrAngle = 0.993;
+		double sinCorrAngle = -0.122;
 
         const double pinholeRadius = 5;
 
@@ -48,8 +48,8 @@ class CameraStreamHandler{
     public:
         CameraStreamHandler(int *, int *, mutex * );
 
-		int thresh = 150;
-		double starRadius = 10.3;
+		int thresh = 100;
+		double starRadius = 5;
 		
 		void SetPixToStepsFactors(double, double);
 		void SetAngles(double, double);
