@@ -12,21 +12,22 @@ class DisplayControl{
 		const string pinholeWindow = "Pinhole Image";
 		const string calibrationWindow = "TipTilt Calibration";
 		const string tiptiltPositionWindow = "TipTilt Position";
-		const string guidingWindow = "Full Mirror Image";
+		const string plotWindow = "FWHM plot";
 		const int oX = 400;
 		const int oY = 50;
 		const int windowSeparationSize = 100;
 		const int TTWindowSize = 100;
 		double cosCorrAngle = 1;
 		double sinCorrAngle = 0;
+		Mat ttpos;
     public:
 		DisplayControl();
+		const string guidingWindow = "Full Mirror Image";
 		void CreateMainWindows();
-		void CreateCalibrationWindow();
-		void DestroyCalibrationWindow();
-		void CreateGuidingWindow();
-		void DestroyGuidingWindow();
+		void CreateWindow(char);
+		void DestroyWindow(char);
 		void DisplayFrame(Mat&, char);
+		void DisplayFWHMPlot(Mat&, Point);
 		void UpdateTTPos(int, int);
 		void SetCorrAngles(double, double);
 		int TTPosX;

@@ -1,5 +1,5 @@
 #include "../include/SystemControl.hpp"
- 
+
 SystemControl::SystemControl() :
 				CSH(&eX, &eY, &mtxProtectingErrors),
 				TT(&eX, &eY, &mtxProtectingErrors){
@@ -9,6 +9,8 @@ SystemControl::SystemControl() :
 	correcting = false;
 	showThresh = false;
 	simulate = false;
+	withFilter = false;
+	measuringFWHMaux = false;
 }
 
 int SystemControl::GetKeyFromKeyboard() {
@@ -24,13 +26,13 @@ int SystemControl::GetKeyFromKeyboard() {
 		cout << "Intro pressed" << endl;
 		ToggleCorrection();
 		break;
-	case 43: // +
-		cout << "+ pressed" << endl;
-		ChangeThresh(1);
-		break;
-	case 45: // -
-		cout << "- pressed" << endl;
+	case 49: // 1
+		cout << "1 pressed" << endl;
 		ChangeThresh(0);
+		break;
+	case 50: // 2
+		cout << "2 pressed" << endl;
+		ChangeThresh(1);
 		break;
 	case 67: // C
 		cout << "C pressed" << endl;
@@ -44,7 +46,9 @@ int SystemControl::GetKeyFromKeyboard() {
 		cout << "t pressed" << endl;
 		ToggleShowThresh();
 		break;
-	case 100: // d
+	case 102: // f
+		cout << "f pressed" << endl;
+		ToggleErrorFilter();
 		break;
 	case 97: // a
 		break;
@@ -116,6 +120,13 @@ void SystemControl::ToggleSimulate() {
 	mtxProtectingValues.unlock();
 }
 
+void SystemControl::ToggleErrorFilter() {
+	mtxProtectingValues.lock();
+	withFilter = !withFilter;
+	cout << "With filter: " << withFilter << endl;
+	mtxProtectingValues.unlock();
+}
+
 void SystemControl::SetThreshold(int _thresh) {
 	if (_thresh > 255 || _thresh < 0) {
 		cout << "Threshold value must be 0 - 255" << endl;
@@ -123,6 +134,7 @@ void SystemControl::SetThreshold(int _thresh) {
 	}
 	mtxProtectingValues.lock();
 	CSH.thresh = _thresh;
+	cout << "New threshold: " << CSH.thresh << endl;
 	mtxProtectingValues.unlock();
 }
 
@@ -166,7 +178,7 @@ int SystemControl::StartCapture() {
 void SystemControl::RunCapture() {
 	while (capturingInternal) {
 		mtxProtectingValues.lock();
-		frame = CSH.CaptureAndProcess(showThresh, simulate);
+		frame = CSH.CaptureAndProcess(showThresh, simulate, withFilter);
 		mtxProtectingValues.unlock();
 		mtxProtectingDisplayControl.lock();
 		dControl.DisplayFrame(frame, 'p');
@@ -236,7 +248,7 @@ void SystemControl::CenterTT() {
 }
 
 int SystemControl::CalibrateTT() {
-	dControl.CreateCalibrationWindow();
+	dControl.CreateWindow('c');
 
 	CheckAndOpenCam();	
 	CheckAndOpenTT();
@@ -346,39 +358,76 @@ int SystemControl::CalibrateTT() {
 
 	waitKey(0);
 
-	dControl.DestroyCalibrationWindow();
+	dControl.DestroyWindow('c');
 
 	return 0;
 }
 
+/*
+void SystemControl::GetFWHMPointFromMouse(int event, int x, int y, int, void*) {
+	if (event != EVENT_LBUTTONDOWN)
+		return;
+	FWHMpoint.x = x;
+	FWHMpoint.y = y;
+	measuringFWHM = true;
+	//setMouseCallback(winName, NULL, NULL);
+}
+*/
+
 void SystemControl::Guide() {
-	dControl.CreateGuidingWindow();
+	dControl.CreateWindow('g');
+	//setMouseCallback(dControl.guidingWindow, GetFWHMPointFromMouse, NULL);
+
 	CheckAndOpenCam();
 
 	cout << "Starting guiding.\n" <<
 		"Move telescope until star is on top of the pinhole.\n" <<
-		"Press s to measure star size or enter to continue to tip tilt correction." << endl;
+		"Press s to measure star size, f to measure the FWHM\n or enter to continue to tip tilt correction." << endl;
+	
 	int key = 0;
 	while (key != 10) {
-		key = waitKey(10);
-		if (key == 115) {
-			frame = CSH.GetStarParams();
-			dControl.DisplayFrame(frame, 'g');
-			cout << "Star measured. Press any key to continue." << endl;
-			waitKey(0);
-		}
-		else if(key == 27){ //esc
-			cout << "Esc key pressed" << endl;
-			dControl.DestroyGuidingWindow();
-			return;
-		}
-		else {
-			frame = CSH.GrabOneFrame(true, true);
-			dControl.DisplayFrame(frame, 'g');
+		key = waitKey(1);
+		switch (key) {
+			case 115: //g
+				frame = CSH.GetStarParams();
+				dControl.DisplayFrame(frame, 'g');
+				cout << "Star measured. Press any key to continue." << endl;
+				waitKey(0);
+			break;
+			case 102: //f
+				cout << "f pressed. Started measuring the FWHM" << endl;
+				measuringFWHM = !measuringFWHM;
+			break;
+			case 27: //esc
+				cout << "Esc key pressed" << endl;
+				if (measuringFWHM) {
+					dControl.DestroyWindow('f');
+					measuringFWHM = false;
+					measuringFWHMaux = false;
+				}
+				else {
+					dControl.DestroyWindow('g');
+					return;
+				}
+			break;
+			default:
+				frame = CSH.GrabOneFrame(true, true);
+				if (measuringFWHM) {
+					if (!measuringFWHMaux) {
+						measuringFWHMaux = true;
+						dControl.CreateWindow('f');
+					}
+					Mat aux = frame.clone();
+					cvtColor(aux, aux, CV_RGB2GRAY);
+					FWHMpoint = CSH.GetCentroid(aux);
+					dControl.DisplayFWHMPlot(aux, FWHMpoint);
+					line(frame, Point(0, FWHMpoint.y), Point(frame.cols - 1, FWHMpoint.y), Scalar(255, 255, 255));
+				}
+				dControl.DisplayFrame(frame, 'g');
+			break;
 		}
 	}
-
-	dControl.DestroyGuidingWindow();
+	dControl.DestroyWindow('g');
 }
 
 void SystemControl::CheckAndOpenCam() {
@@ -422,5 +471,4 @@ void SystemControl::SimpleCalib(){
 	
 	TT.goTo('W');
 	this_thread::sleep_for(chrono::milliseconds(2000));
-	
 }

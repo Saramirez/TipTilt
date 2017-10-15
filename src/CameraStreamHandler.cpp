@@ -56,7 +56,6 @@ int CameraStreamHandler::CloseCamera() {
 	return 0;
 }
 
-
 Point CameraStreamHandler::GetCentroid(Mat& src) {
 	Mat aux;
 	threshold(src, aux, thresh, 255, THRESH_TOZERO);
@@ -83,20 +82,20 @@ void CameraStreamHandler::GetShapeInfo(Point& centroid, double& dist, double dir
         dist = -1;
         return;
     }
-
+	// dir es vector unitario que apunta desde el centroide hacia el pinhole
     dir[0] = (target.x - centroid.x) / dist;
-    dir[1] = (centroid.y - target.y) / dist;
+    dir[1] = (target.y - centroid.y) / dist;
 
     if(dist > (starRadius + pinholeRadius))
         return;
     
     double intensity = 1;
     int flag = 0;	
-    width = -0.1;
+    width = -0.1;// probar con 0.25;
     while ((intensity != 0 || flag != 1) && width < 2*starRadius){
         width+=0.1;
         Point pixel(target.x - (pinholeRadius + width)*dir[0],
-                    target.y + (pinholeRadius + width)*dir[1]);
+                    target.y - (pinholeRadius + width)*dir[1]);
         intensity = bw.at<uchar>(pixel);
 
         if (intensity == 255)
@@ -129,6 +128,7 @@ Mat CameraStreamHandler::GetStarParams() {
 	starRadius = sqrt(starArea / M_PI);
 
 	cout << "Star area = " << starArea << "; Star radius = " << starRadius << endl;
+	cout << "Star centroid = " << centroid.x << ", " << centroid.y << endl;
 
 	cvtColor(frame, frame, CV_GRAY2BGR);
 	circle(frame, centroid, starRadius, Scalar(0, 128, 0));
@@ -143,16 +143,22 @@ void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, do
 		//cout << "No star" << endl;
 		return;
 	}
-	double xx = cosCorrAngle * dir[0] + sinCorrAngle * dir[1];
-	double yy = -1 * sinCorrAngle * dir[0] + cosCorrAngle * dir[1];
-	//double xx = xPixToSteps * dir[0];
-	//double yy = yPixToSteps * dir[1];
+	//double xx = xPixToSteps * (cosCorrAngle * dir[0] + sinCorrAngle * dir[1]);
+	//double yy = yPixToSteps * (-1 * sinCorrAngle * dir[0] + cosCorrAngle * dir[1]);
 
-	if(dist <= (pinholeRadius + starRadius)){
+	//Asumiendo que está bien alineado. De todas maneras, es casi imposible tener una buena calibración oservando una estrella
+	double xx = xPixToSteps * dir[0];
+	double yy = yPixToSteps * dir[1];
+
+	if(dist <= (pinholeRadius + starRadius)){ //Si la estrella está traslapada con el pinhole
 		//cout << "pinhole+star radius = " << (pinholeRadius + starRadius) << endl;
 		//cout << "With width = " << width << endl;
+		xx *= (target.x + pinholeRadius + width - starRadius);
+		yy *= (target.y + pinholeRadius + width - starRadius);
+		/*
 		xx *= width;
 		yy *= width;
+		*/
 		//xx *= (dist * area / starArea);
 		//yy *= (dist * area / starArea); 
 	}
@@ -161,13 +167,13 @@ void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, do
 		xx *= dist;
 		yy *= dist;
 	}
-	xErr = (int)(xx * xPixToSteps);
-	yErr = (int)(yy * yPixToSteps);
+	xErr = (int)xx;
+	yErr = (int)yy;
 	//cout << "width = " << width << " area = " << area << "; area/starArea = " << area / starArea << endl;
     //cout << "xErr = " << xErr << "; yErr = " << yErr << endl;
 }
 
-Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate){
+Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, bool filterErrors){
     cam >> frame;
 
     if(simulate){
@@ -193,11 +199,14 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate){
 
 	CalculateErrors(xErr, yErr, dist, dir, width);
 
+	if (filterErrors) {
+		xErr = 0.5 * xErr + 0.5 * _xErr;
+		yErr = 0.5 * yErr + 0.5 * _yErr;
+	}
+
 	mtx->lock();
 	*eX = xErr;
 	*eY = yErr;
-	//*eX = 0.5 * xErr + 0.5 * _xErr;
-	//*eY = 0.5 * yErr + 0.5 * _yErr;
 	mtx->unlock();
 
 	if (returnThresh) {

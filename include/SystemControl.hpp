@@ -29,6 +29,9 @@ class SystemControl {
 		bool capturing;
 		bool correcting;
 		bool showThresh;
+		bool measuringFWHM;
+		bool measuringFWHMaux;
+		Point FWHMpoint;
 		bool simulate;
 		mutex mtxProtectingValues;
 		thread capturingThread;
@@ -42,12 +45,19 @@ class SystemControl {
 		void CheckAndOpenTT();
 		void ToggleShowThresh();
 		void ToggleSimulate();
+		void ToggleErrorFilter();
 		void SetThreshold(int);
 		void SetStarSize(double);
 		double GetStarSize();
 		void CenterTT();
+		//static void GetFWHMPointFromMouse(int, int, int, int, void*);
 	public:
 		SystemControl();
+
+		//static bool measuringFWHM;
+		//static Point FWHMpoint;
+		bool withFilter;
+
 		int GetKeyFromKeyboard();
 		void SetCamDevice(int);
 		void SetTTDevice(int);

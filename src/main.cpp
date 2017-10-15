@@ -29,7 +29,6 @@ int main(int argc, char** argv)
 		sControl.CalibrateTT();
 	}
 
-
 	this_thread::sleep_for(chrono::milliseconds(1000));
 
 	sControl.StartCapture();

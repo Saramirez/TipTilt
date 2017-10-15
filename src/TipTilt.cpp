@@ -3,6 +3,7 @@
 using ms = chrono::milliseconds;
 using get_time = chrono::steady_clock;
 
+// probar disminuir restTime
 const int restTime = 8; //ms
 
 TipTilt::TipTilt(int* _eX, int* _eY, mutex * _mtx) { 
@@ -126,21 +127,21 @@ void TipTilt::updatePosition(){
 		//cout << "Out: " << out << endl;
 	}
 	if(*eY != 0){
-		if(*eY > 0 && sSteps < 45){
-			writeBuf = (char *)"GN00001";
+		if(*eY > 0 && sSteps > -45){
+			writeBuf = (char *)"GS00001";
 			write(fd, writeBuf, 7);
 			//write(fd, "L", 1);
 			(*eY)--;
-			sSteps++;
+			sSteps--;
 			//read(fd, &out, 1);
 			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
-		else if(*eY < 0 && sSteps > -45){
-			writeBuf = (char *)"GS00001";
+		else if(*eY < 0 && sSteps < 45){
+			writeBuf = (char *)"GN00001";
 			write(fd, writeBuf, 7);	
 			//write(fd, "L", 1);	
 			(*eY)++;
-			sSteps--;
+			sSteps++;
 			//read(fd, &out, 1);
 			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
@@ -214,8 +215,3 @@ void TipTilt::moveWithWASD(){
 		write(fd, writeBuf, 7);		
 	}
 }
-
-
-
-
-

@@ -9,7 +9,7 @@
 using namespace cv;
 using namespace std;
 
-const Point fullFramePinholePosition(606,498);
+const Point fullFramePinholePosition(604,500);
 
 class CameraStreamHandler{
     private:
@@ -31,10 +31,10 @@ class CameraStreamHandler{
         Rect roi;
         Rect oRoi;
 
-		double xPixToSteps = 8.65; //2.4;
-		double yPixToSteps = 8.65; //2.33;
-		double cosCorrAngle = 0.993;
-		double sinCorrAngle = -0.122;
+		double xPixToSteps = 6.936; //2.4 * 2.89 (factor en laboratorio * factor de camara); //2.4;
+		double yPixToSteps = 6.734; //2.33 * 2.89;
+		double cosCorrAngle = 1;
+		double sinCorrAngle = 0;
 
         const double pinholeRadius = 5;
 
@@ -48,8 +48,8 @@ class CameraStreamHandler{
     public:
         CameraStreamHandler(int *, int *, mutex * );
 
-		int thresh = 100;
-		double starRadius = 5;
+		int thresh = 50; //FWHM
+		double starRadius = 6.5;
 		
 		void SetPixToStepsFactors(double, double);
 		void SetAngles(double, double);
@@ -62,7 +62,7 @@ class CameraStreamHandler{
 		Point GetCentroid(Mat&);
         Mat GetStarParams();
         Mat GrabOneFrame(bool full = false, bool pinholePos = false);
-        Mat CaptureAndProcess(bool showThresh = false, bool simulate = false);
+        Mat CaptureAndProcess(bool showThresh = false, bool simulate = false, bool filterErrors = false);
 };
 
 #endif
