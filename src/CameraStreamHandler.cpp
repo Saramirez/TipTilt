@@ -5,12 +5,19 @@ using ms = chrono::milliseconds;
 using get_time = chrono::steady_clock;
 
 CameraStreamHandler::CameraStreamHandler(int* _eX, int* _eY, mutex * _mtx) :
-					 roi(fullFramePinholePosition.x - 50, fullFramePinholePosition.y - 50, 100, 100), target(50,50){
-	// Posicion del pinhole en frame completo es (607, 507)
+					 roi(fullFramePinholePosition.x - roiSize / 2, fullFramePinholePosition.y - roiSize / 2, roiSize, roiSize),
+					 target(roiSize / 2, roiSize / 2){
+	// Posicion del pinhole en frame completo es (616,584)
     eX = _eX;
     eY = _eY;
     mtx = _mtx;
     oRoi = roi;
+	for (int i = 0; i < errorCountsToAvg; i++) {
+		xErrors.push_back(0);
+		yErrors.push_back(0);
+	}
+	for(int i = 0; i < FWHMCountsToAvg; i++)
+		FWHMs.push_back(0);
 }
 
 Point CameraStreamHandler::GetTarget() {
@@ -56,6 +63,10 @@ int CameraStreamHandler::CloseCamera() {
 	return 0;
 }
 
+bool CameraStreamHandler::IsCameraOpen() {
+	return cam.isOpened();
+}
+
 Point CameraStreamHandler::GetCentroid(Mat& src) {
 	Mat aux;
 	threshold(src, aux, thresh, 255, THRESH_TOZERO);
@@ -64,13 +75,10 @@ Point CameraStreamHandler::GetCentroid(Mat& src) {
 	return res2;
 }
 
-void CameraStreamHandler::GetShapeInfo(Point& centroid, double& dist, double dir[2], double& width){
+void CameraStreamHandler::GetShapeInfo(Point& centroid, double& dist, double dir[2], double& width, int mode){
     Mat bw;
     threshold(frame, bw, thresh, 255, THRESH_BINARY);
     
-	//Moments m = moments(bw, true);
-	//Point res(m.m10/m.m00, m.m01/m.m00);
-
     Mat aux;
     threshold(frame, aux, thresh, 255, THRESH_TOZERO);
     Moments m2 = moments(aux);
@@ -91,8 +99,13 @@ void CameraStreamHandler::GetShapeInfo(Point& centroid, double& dist, double dir
     
     double intensity = 1;
     int flag = 0;	
-    width = -0.1;// probar con 0.25;
-    while ((intensity != 0 || flag != 1) && width < 2*starRadius){
+    width = -0.1;
+
+	double limit = 2 * pinholeRadius;
+	if (mode == 1)
+		limit = 2 * starRadius;
+
+    while ((intensity != 0 || flag != 1) && width < limit){
         width+=0.1;
         Point pixel(target.x - (pinholeRadius + width)*dir[0],
                     target.y - (pinholeRadius + width)*dir[1]);
@@ -131,12 +144,12 @@ Mat CameraStreamHandler::GetStarParams() {
 	cout << "Star centroid = " << centroid.x << ", " << centroid.y << endl;
 
 	cvtColor(frame, frame, CV_GRAY2BGR);
-	circle(frame, centroid, starRadius, Scalar(0, 128, 0));
+	circle(frame, centroid, starRadius, Scalar(0, 128, 0), 2);
 
 	return frame;
 }
 
-void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, double dir[2], double& width){
+void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, double dir[2], double& width, int mode){
 	if(dist == -1){
 		xErr = 0;
 		yErr = 0;
@@ -151,16 +164,14 @@ void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, do
 	double yy = yPixToSteps * dir[1];
 
 	if(dist <= (pinholeRadius + starRadius)){ //Si la estrella está traslapada con el pinhole
-		//cout << "pinhole+star radius = " << (pinholeRadius + starRadius) << endl;
-		//cout << "With width = " << width << endl;
-		xx *= (target.x + pinholeRadius + width - starRadius);
-		yy *= (target.y + pinholeRadius + width - starRadius);
-		/*
-		xx *= width;
-		yy *= width;
-		*/
-		//xx *= (dist * area / starArea);
-		//yy *= (dist * area / starArea); 
+		if (mode == 0) {
+			xx *= width;
+			yy *= width;
+		}
+		if (mode == 1) {
+			xx *= (target.x + pinholeRadius + width - starRadius);
+			yy *= (target.y + pinholeRadius + width - starRadius);
+		}
 	}
 	else{
 		//cout << "With distance * factor" << endl;
@@ -173,7 +184,7 @@ void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, do
     //cout << "xErr = " << xErr << "; yErr = " << yErr << endl;
 }
 
-Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, bool filterErrors){
+Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, int filterErrors, int errorMode){
     cam >> frame;
 
     if(simulate){
@@ -192,16 +203,25 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, boo
 		circle(frame, target, pinholeRadius, Scalar(0, 0, 0), -1);
 	}
 
-    GetShapeInfo(centroid, dist, dir, width);
+    GetShapeInfo(centroid, dist, dir, width, errorMode);
 
-	_xErr = xErr;
-	_yErr = yErr;
+	CalculateErrors(xErr, yErr, dist, dir, width, errorMode);
 
-	CalculateErrors(xErr, yErr, dist, dir, width);
+	if (filterErrors == 1) {
+		xErrors.push_back(xErr);
+		yErrors.push_back(yErr);
+		xErrors.erase(xErrors.begin());
+		yErrors.erase(yErrors.begin());
 
-	if (filterErrors) {
-		xErr = 0.5 * xErr + 0.5 * _xErr;
-		yErr = 0.5 * yErr + 0.5 * _yErr;
+		xErr = accumulate(xErrors.begin(), xErrors.end(), 0.0) / xErrors.size();
+		yErr = accumulate(yErrors.begin(), yErrors.end(), 0.0) / yErrors.size();
+	}
+
+	else if (filterErrors == 2) {
+		iXErr += xErr;
+		iYErr += yErr;
+		xErr = 0.9 * xErr + 0.1 *iXErr;
+		yErr = 0.9 * yErr + 0.1 *iYErr;
 	}
 
 	mtx->lock();
@@ -214,34 +234,117 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, boo
 	}
 
 	cvtColor(frame, frame, CV_GRAY2RGB);
+
     if(dist != -1)
         circle(frame, centroid, 2, Scalar(128,0,0));
-    circle(frame, Point(target.x,target.y), 3, Scalar(0,128,128));
 
+    circle(frame, Point(target.x,target.y), pinholeRadius, Scalar(0,128,0));
+
+	resize(frame, frame, Size(), TTzoom, TTzoom);
     return frame;
 }
 
-Mat CameraStreamHandler::GrabOneFrame(bool full, bool pinholePos){
-    cam >> frame;
-	if(!full)
+Mat CameraStreamHandler::GrabOneFrame(bool full) {
+	cam >> frame;
+	if (!full) {
 		frame = frame(roi);
-	else
-		if (pinholePos) {
-			cvtColor(frame, frame, CV_GRAY2RGB);
-			//circle(frame, fullFramePinholePosition, pinholeRadius, Scalar(0, 128, 0), -1);
-			line(frame, Point(fullFramePinholePosition.x, fullFramePinholePosition.y - pinholeRadius - 6),
-						Point(fullFramePinholePosition.x, fullFramePinholePosition.y - pinholeRadius), Scalar(0, 128, 0), 2);
-			line(frame, Point(fullFramePinholePosition.x, fullFramePinholePosition.y + pinholeRadius),
-						Point(fullFramePinholePosition.x, fullFramePinholePosition.y + pinholeRadius + 6), Scalar(0, 128, 0), 2);		
-			line(frame, Point(fullFramePinholePosition.x - pinholeRadius - 6, fullFramePinholePosition.y),
-						Point(fullFramePinholePosition.x - pinholeRadius, fullFramePinholePosition.y), Scalar(0, 128, 0), 2);		
-			line(frame, Point(fullFramePinholePosition.x + pinholeRadius, fullFramePinholePosition.y),
-						Point(fullFramePinholePosition.x + pinholeRadius + 6, fullFramePinholePosition.y), Scalar(0, 128, 0), 2);
-		}
-		
-    return frame;
+	}
+	return frame;
 }
 
-bool CameraStreamHandler::IsCameraOpen() {
-	return cam.isOpened();
+Mat CameraStreamHandler::GrabGuideFrame(int zoom){
+    cam >> frame;
+
+	cvtColor(frame, frame, CV_GRAY2RGB);
+	line(frame, Point(fullFramePinholePosition.x, fullFramePinholePosition.y - pinholeRadius - 6),
+				Point(fullFramePinholePosition.x, fullFramePinholePosition.y - pinholeRadius), Scalar(0, 128, 0), 2);
+	line(frame, Point(fullFramePinholePosition.x, fullFramePinholePosition.y + pinholeRadius),
+				Point(fullFramePinholePosition.x, fullFramePinholePosition.y + pinholeRadius + 6), Scalar(0, 128, 0), 2);		
+	line(frame, Point(fullFramePinholePosition.x - pinholeRadius - 6, fullFramePinholePosition.y),
+				Point(fullFramePinholePosition.x - pinholeRadius, fullFramePinholePosition.y), Scalar(0, 128, 0), 2);		
+	line(frame, Point(fullFramePinholePosition.x + pinholeRadius, fullFramePinholePosition.y),
+				Point(fullFramePinholePosition.x + pinholeRadius + 6, fullFramePinholePosition.y), Scalar(0, 128, 0), 2);
+	
+	if(zoom == 0)
+		return frame;
+
+	Mat zoomed;
+	int oX = max(fullFramePinholePosition.x - guideRoiSize / (zoom * 2), 0);
+	int oY = max(fullFramePinholePosition.y - guideRoiSize / (zoom * 2), 0);
+	Rect newRoi(oX, oY, guideRoiSize / zoom, guideRoiSize / zoom);
+	frame = frame(newRoi);
+	resize(frame, zoomed, Size(), zoom, zoom);
+
+	return zoomed;
+}
+
+Mat CameraStreamHandler::GrabGuideFrame(int zoom, Mat& plotFrame) {
+	cam >> frame;
+	MeasureFWMH(frame, plotFrame);
+
+	cvtColor(frame, frame, CV_GRAY2RGB);
+	line(frame, Point(fullFramePinholePosition.x, fullFramePinholePosition.y - pinholeRadius - 6),
+		Point(fullFramePinholePosition.x, fullFramePinholePosition.y - pinholeRadius), Scalar(0, 128, 0), 2);
+	line(frame, Point(fullFramePinholePosition.x, fullFramePinholePosition.y + pinholeRadius),
+		Point(fullFramePinholePosition.x, fullFramePinholePosition.y + pinholeRadius + 6), Scalar(0, 128, 0), 2);
+	line(frame, Point(fullFramePinholePosition.x - pinholeRadius - 6, fullFramePinholePosition.y),
+		Point(fullFramePinholePosition.x - pinholeRadius, fullFramePinholePosition.y), Scalar(0, 128, 0), 2);
+	line(frame, Point(fullFramePinholePosition.x + pinholeRadius, fullFramePinholePosition.y),
+		Point(fullFramePinholePosition.x + pinholeRadius + 6, fullFramePinholePosition.y), Scalar(0, 128, 0), 2);
+
+	if (zoom == 0)
+		return frame;
+
+	Mat zoomed;
+	int oX = max(fullFramePinholePosition.x - guideRoiSize / (zoom * 2), 0);
+	int oY = max(fullFramePinholePosition.y - guideRoiSize / (zoom * 2), 0);
+	Rect newRoi(oX, oY, guideRoiSize / zoom, guideRoiSize / zoom);
+	frame = frame(newRoi);
+	resize(frame, zoomed, Size(), zoom, zoom);
+
+	return zoomed;
+}
+
+
+void CameraStreamHandler::MeasureFWMH(Mat& frame, Mat& plot) {
+	Point FWHMpoint = GetCentroid(frame);
+
+	vector<Point> curvePoints;
+	int maxIntensity = 0;
+	for (int i = 0; i < 100; i++) {
+		Point pixel((FWHMpoint.x - plot.cols / 2 + i), FWHMpoint.y);
+		Scalar intensity = frame.at<uchar>(pixel);
+		if (intensity.val[0] > maxIntensity)
+			maxIntensity = intensity.val[0];
+		Point curvePoint(i, plot.rows - intensity.val[0]);
+		curvePoints.push_back(curvePoint);
+	}
+	for (int i = 0; i < curvePoints.size() - 1; i++) {
+		line(plot, curvePoints[i], curvePoints[i + 1], Scalar(0, 128, 0), 1, CV_AA);
+	}
+	int HM = maxIntensity / 2;
+
+	Mat bw = plot.clone();
+	cvtColor(bw, bw, CV_BGR2GRAY);
+
+	line(plot, Point(0, plot.rows - HM), Point(plot.cols - 1, plot.rows - HM), Scalar(255, 255, 255));
+	int FWHM = 0;
+	while (1) {
+		FWHM += 1;
+		Point pixel(plot.cols / 2 + FWHM, plot.rows - HM);
+		Scalar intensity = bw.at<uchar>(pixel);
+		if (intensity.val[0] != 0)
+			break;
+	}
+	FWHM += 1;
+	FWHM *= 2;
+	FWHMs.push_back(FWHM);
+	FWHMs.erase(FWHMs.begin());
+
+	FWHM = accumulate(FWHMs.begin(), FWHMs.end(), 0.0) / FWHMs.size();
+
+	cout << "FWHM = " << FWHM << "; HM = " << HM << endl;
+
+	thresh = max(HM, 30);
+	line(frame, Point(0, FWHMpoint.y), Point(frame.cols - 1, FWHMpoint.y), Scalar(255));
 }

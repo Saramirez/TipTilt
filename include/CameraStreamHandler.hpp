@@ -9,8 +9,12 @@
 using namespace cv;
 using namespace std;
 
-const Point fullFramePinholePosition(604,500);
-
+const Point fullFramePinholePosition(657,565);
+const int errorCountsToAvg = 5;
+const int FWHMCountsToAvg  = 10;
+const int roiSize = 80;
+const int guideRoiSize = 500;
+const int TTzoom = 4;
 class CameraStreamHandler{
     private:
         const char* device;
@@ -18,8 +22,12 @@ class CameraStreamHandler{
         int * eY;
         int xErr = 0;
         int yErr = 0;
-		int _xErr, _yErr;
-
+		int _xErr;
+		int _yErr;
+		vector<int>xErrors;
+		vector<int>yErrors;
+		vector<int>FWHMs;
+		int iXErr, iYErr;
         Point centroid;
         double dist;
         double dir[2];
@@ -31,25 +39,25 @@ class CameraStreamHandler{
         Rect roi;
         Rect oRoi;
 
-		double xPixToSteps = 6.936; //2.4 * 2.89 (factor en laboratorio * factor de camara); //2.4;
-		double yPixToSteps = 6.734; //2.33 * 2.89;
 		double cosCorrAngle = 1;
 		double sinCorrAngle = 0;
 
-        const double pinholeRadius = 5;
+        const double pinholeRadius = 4.76;
 
         const double w = 2 * M_PI * 0.05;
 	    const double R = 3;
 
-        void GetShapeInfo(Point&, double&, double*, double&);
+        void GetShapeInfo(Point&, double&, double*, double&, int mode);
         void GetSimpleShapeInfo(Point&, double&);
-        void CalculateErrors(int&, int&, double&, double*, double&);
+        void CalculateErrors(int&, int&, double&, double*, double&, int mode);
 
     public:
         CameraStreamHandler(int *, int *, mutex * );
 
-		int thresh = 50; //FWHM
-		double starRadius = 6.5;
+		int thresh = 100; //Should be FWHM
+		double starRadius = 5;
+		double xPixToSteps = 0.877; //2.4 / 2.735 (factor en laboratorio / magnificacion de camara);
+		double yPixToSteps = 0.852; //2.33 / 2.735;
 		
 		void SetPixToStepsFactors(double, double);
 		void SetAngles(double, double);
@@ -61,8 +69,12 @@ class CameraStreamHandler{
 		bool IsCameraOpen();
 		Point GetCentroid(Mat&);
         Mat GetStarParams();
-        Mat GrabOneFrame(bool full = false, bool pinholePos = false);
-        Mat CaptureAndProcess(bool showThresh = false, bool simulate = false, bool filterErrors = false);
+		Mat GrabOneFrame(bool full = false);
+		Mat GrabGuideFrame(int);
+        Mat GrabGuideFrame(int, Mat&);
+        Mat CaptureAndProcess(bool showThresh = false, bool simulate = false, int filterErrors = 0, int errorMode = 1);
+		void MeasureFWMH(Mat&, Mat&);
+
 };
 
 #endif

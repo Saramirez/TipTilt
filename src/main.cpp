@@ -10,6 +10,8 @@ int main(int argc, char** argv)
 	sControl.SetCamDevice(0);
 	sControl.SetTTDevice(0);
 
+//	system("guvcview -z &");
+
 	cxxopts::Options options(argv[0], " - TipTilt correction system");
 
 	options.add_options()

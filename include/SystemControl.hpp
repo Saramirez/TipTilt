@@ -31,6 +31,7 @@ class SystemControl {
 		bool showThresh;
 		bool measuringFWHM;
 		bool measuringFWHMaux;
+		int errorMode = 0;
 		Point FWHMpoint;
 		bool simulate;
 		mutex mtxProtectingValues;
@@ -41,11 +42,13 @@ class SystemControl {
 		void RunCorrection();
 		void ToggleCorrection();
 		void ChangeThresh(int);
+		void ChangeFactors(int);
+		void ChangeErrorMode();
 		void CheckAndOpenCam();
 		void CheckAndOpenTT();
 		void ToggleShowThresh();
 		void ToggleSimulate();
-		void ToggleErrorFilter();
+		void ChangeErrorFilter();
 		void SetThreshold(int);
 		void SetStarSize(double);
 		double GetStarSize();
@@ -56,7 +59,7 @@ class SystemControl {
 
 		//static bool measuringFWHM;
 		//static Point FWHMpoint;
-		bool withFilter;
+		int withFilter;
 
 		int GetKeyFromKeyboard();
 		void SetCamDevice(int);

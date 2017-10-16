@@ -1,5 +1,8 @@
 #include "../include/SystemControl.hpp"
 
+using ms = chrono::milliseconds;
+using get_time = chrono::steady_clock;
+
 SystemControl::SystemControl() :
 				CSH(&eX, &eY, &mtxProtectingErrors),
 				TT(&eX, &eY, &mtxProtectingErrors){
@@ -48,9 +51,11 @@ int SystemControl::GetKeyFromKeyboard() {
 		break;
 	case 102: // f
 		cout << "f pressed" << endl;
-		ToggleErrorFilter();
+		ChangeErrorFilter();
 		break;
-	case 97: // a
+	case 101: // e
+		cout << "e pressed" << endl;
+		ChangeErrorMode();
 		break;
 	}
 	//cout << "Target: " << target.x << "," << target.y << endl;
@@ -120,10 +125,21 @@ void SystemControl::ToggleSimulate() {
 	mtxProtectingValues.unlock();
 }
 
-void SystemControl::ToggleErrorFilter() {
+void SystemControl::ChangeErrorFilter() {
 	mtxProtectingValues.lock();
-	withFilter = !withFilter;
+	withFilter += 1;
+	if (withFilter == 3)
+		withFilter = 0;
 	cout << "With filter: " << withFilter << endl;
+	mtxProtectingValues.unlock();
+}
+
+void SystemControl::ChangeErrorMode() {
+	mtxProtectingValues.lock();
+	errorMode += 1;
+	if (errorMode == 2)
+		errorMode = 0;
+	cout << "With error mode: " << errorMode << endl;
 	mtxProtectingValues.unlock();
 }
 
@@ -145,12 +161,29 @@ void SystemControl::ChangeThresh(int increase) {
 		return;
 	}
 	int thrs = CSH.thresh;
+	if (increase) {
+		thrs = min(thrs + 5, 255);
+	}
+	else {
+		thrs = max(thrs - 5, 0);
+	}
+	CSH.thresh = thrs;
+	cout << "New threshold: " << CSH.thresh << endl;
 	mtxProtectingValues.unlock();
+}
 
-	if (increase)
-		SetThreshold(thrs + 5);
-	else
-		SetThreshold(thrs - 5);
+void SystemControl::ChangeFactors(int increase) {
+	mtxProtectingValues.lock();
+	if (increase) {
+		CSH.xPixToSteps += 0.1;
+		CSH.yPixToSteps += 0.1;
+	}
+	else {
+		CSH.xPixToSteps -= 0.2;
+		CSH.yPixToSteps -= 0.2;
+	}
+	cout << "New factors: " << CSH.xPixToSteps << ";" << CSH.yPixToSteps << endl;
+	mtxProtectingValues.unlock();
 }
 
 void SystemControl::SetStarSize(double _starRadius) {
@@ -163,7 +196,7 @@ void SystemControl::SetStarSize(double _starRadius) {
 
 int SystemControl::StartCapture() {
 	cout << "Starting capture" << endl;
-
+	cout << "Press 1-2 to change threshold, C to center TT, f to change error filtering, e to change the error calculation and Intro to start correction" << endl;
 	CheckAndOpenCam();
 
 	dControl.CreateMainWindows();
@@ -176,12 +209,33 @@ int SystemControl::StartCapture() {
 }
 
 void SystemControl::RunCapture() {
+	auto time1 = get_time::now();
+	auto time2 = get_time::now();
+	auto elapsedTime = time2 - time1;
+	auto eTimeMS = chrono::duration_cast<ms>(elapsedTime).count();// / 1000.0; //seconds
+	auto frameRate = 1000.0 / eTimeMS;
+	int avgFrameRate = frameRate;
+	vector<double> frameRates;
+	for (int i = 0; i < 20; i++)
+		frameRates.push_back(0.0);
 	while (capturingInternal) {
+		time2 = time1;
+		time1 = get_time::now();
+		elapsedTime = time1 - time2;
+		eTimeMS = chrono::duration_cast<ms>(elapsedTime).count();
+		frameRate = 1000.0 / eTimeMS;
+		frameRates.push_back(frameRate);
+		frameRates.erase(frameRates.begin());
+		avgFrameRate = accumulate(frameRates.begin(), frameRates.end(), 0.0) / frameRates.size();
+
+		//cout << "Average frame rate = " << avgFrameRate << endl;
+
 		mtxProtectingValues.lock();
-		frame = CSH.CaptureAndProcess(showThresh, simulate, withFilter);
+		frame = CSH.CaptureAndProcess(showThresh, simulate, withFilter, errorMode);
 		mtxProtectingValues.unlock();
 		mtxProtectingDisplayControl.lock();
 		dControl.DisplayFrame(frame, 'p');
+		dControl.SetFrameRate(avgFrameRate);
 		mtxProtectingDisplayControl.unlock();
 		this_thread::sleep_for(chrono::microseconds(100));
 	}
@@ -195,9 +249,10 @@ int SystemControl::StopCapture() {
 }
 
 int SystemControl::StartCorrection(){
-	cout << "Starting correction ..." << endl;
+	cout << "Starting correction. TipTilt will go to center first." << endl;
 
 	CheckAndOpenTT();
+	TT.goTo('K');
 
 	correctingInternal = true;
 	correctingThread = thread(&SystemControl::RunCorrection, this);
@@ -258,7 +313,7 @@ int SystemControl::CalibrateTT() {
 			"Press enter to continue." << endl;
 
 	while (waitKey(10) != 10) {
-		frame = CSH.GrabOneFrame(true, false);
+		frame = CSH.GrabOneFrame(true);
 		dControl.DisplayFrame(frame, 'c');
 	}
 
@@ -267,14 +322,14 @@ int SystemControl::CalibrateTT() {
 	Point cK, cN, cS, cE, cW;
 	TT.goTo('K');
 
-	K = CSH.GrabOneFrame(true, false);
+	K = CSH.GrabOneFrame(true);
 	dControl.DisplayFrame(K, 'c');
 	waitKey(100);
 
 	cK = CSH.GetCentroid(K);
 
 	TT.goTo('N');
-	N = CSH.GrabOneFrame(true, false);
+	N = CSH.GrabOneFrame(true);
 	dControl.DisplayFrame(N, 'c');
 	waitKey(100);
 
@@ -282,7 +337,7 @@ int SystemControl::CalibrateTT() {
 	cN = CSH.GetCentroid(N);
 
 	int NSSteps = TT.goTo('S');
-	S = CSH.GrabOneFrame(true, false);
+	S = CSH.GrabOneFrame(true);
 	dControl.DisplayFrame(S, 'c');
 	waitKey(100);
 
@@ -291,14 +346,14 @@ int SystemControl::CalibrateTT() {
 	TT.goTo('K');
 
 	TT.goTo('E');
-	E = CSH.GrabOneFrame(true, false);
+	E = CSH.GrabOneFrame(true);
 	dControl.DisplayFrame(E, 'c');
 	waitKey(100);
 	
 	cE = CSH.GetCentroid(E);
 
 	int EWSteps = TT.goTo('W');
-	W = CSH.GrabOneFrame(true, false);
+	W = CSH.GrabOneFrame(true);
 	dControl.DisplayFrame(W, 'c');
 	waitKey(100);
 
@@ -383,21 +438,11 @@ void SystemControl::Guide() {
 	cout << "Starting guiding.\n" <<
 		"Move telescope until star is on top of the pinhole.\n" <<
 		"Press s to measure star size, f to measure the FWHM\n or enter to continue to tip tilt correction." << endl;
-	
+	int zoom = 0;
 	int key = 0;
 	while (key != 10) {
 		key = waitKey(1);
 		switch (key) {
-			case 115: //g
-				frame = CSH.GetStarParams();
-				dControl.DisplayFrame(frame, 'g');
-				cout << "Star measured. Press any key to continue." << endl;
-				waitKey(0);
-			break;
-			case 102: //f
-				cout << "f pressed. Started measuring the FWHM" << endl;
-				measuringFWHM = !measuringFWHM;
-			break;
 			case 27: //esc
 				cout << "Esc key pressed" << endl;
 				if (measuringFWHM) {
@@ -410,19 +455,39 @@ void SystemControl::Guide() {
 					return;
 				}
 			break;
+			case 115: //g
+				frame = CSH.GetStarParams();
+				dControl.DisplayFrame(frame, 'g');
+				cout << "Star measured. Press any key to continue." << endl;
+				waitKey(0);
+			break;
+			case 102: //f
+				cout << "f pressed. Started measuring the FWHM" << endl;
+				measuringFWHM = !measuringFWHM;
+			break;
+			case 109: //m
+				cout << "m pressed. Zooming +" << endl;
+				zoom += 1;
+				cout << "Zoom = " << zoom << endl;
+			break;
+			case 110: //n
+				cout << "n pressed. Zooming -" << endl;
+				zoom = max(-1, zoom - 1);
+				cout << "Zoom = " << zoom << endl;
+			break;
 			default:
-				frame = CSH.GrabOneFrame(true, true);
 				if (measuringFWHM) {
 					if (!measuringFWHMaux) {
 						measuringFWHMaux = true;
 						dControl.CreateWindow('f');
 					}
-					Mat aux = frame.clone();
-					cvtColor(aux, aux, CV_RGB2GRAY);
-					FWHMpoint = CSH.GetCentroid(aux);
-					dControl.DisplayFWHMPlot(aux, FWHMpoint);
-					line(frame, Point(0, FWHMpoint.y), Point(frame.cols - 1, FWHMpoint.y), Scalar(255, 255, 255));
+					Mat plot(300, 100, CV_8UC3, Scalar(0, 0, 0));
+					frame = CSH.GrabGuideFrame(zoom, plot);
+					dControl.DisplayFrame(plot, 'f');
 				}
+				else
+					frame = CSH.GrabGuideFrame(zoom);
+
 				dControl.DisplayFrame(frame, 'g');
 			break;
 		}

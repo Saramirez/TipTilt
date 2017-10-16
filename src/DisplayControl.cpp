@@ -56,6 +56,8 @@ void DisplayControl::DestroyWindow(char type) {
 void DisplayControl::DisplayFrame(Mat& frame, char type) {
 	switch (type){
 		case 'p':
+			stringFrameRate = to_string(frameRate);
+			putText(frame, stringFrameRate, Point(10, frame.rows - 10), FONT_HERSHEY_SCRIPT_SIMPLEX, 1, Scalar(128, 128, 0));
 			imshow(pinholeWindow, frame);
 		break;
 		case 'g':
@@ -66,6 +68,9 @@ void DisplayControl::DisplayFrame(Mat& frame, char type) {
 		break;
 		case 't':
 			imshow(tiptiltPositionWindow, frame);
+		break;
+		case 'f':
+			imshow(plotWindow, frame);
 		break;
 	}
 }
@@ -118,7 +123,11 @@ void DisplayControl::DisplayFWHMPlot(Mat& frame, Point FWHMcenter) {
 	}
 	FWHM += 1;
 	FWHM *= 2;
-	cout << "FWHM = " << FWHM << endl;
+	cout << "FWHM = " << FWHM << "; HM = " << HM << endl;
 
 	imshow(plotWindow, plot);
+}
+
+void DisplayControl::SetFrameRate(int f) {
+	frameRate = f;
 }
