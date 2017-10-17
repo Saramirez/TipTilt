@@ -197,7 +197,10 @@ void SystemControl::SetStarSize(double _starRadius) {
 int SystemControl::StartCapture() {
 	cout << "Starting capture" << endl;
 	cout << "Press 1-2 to change threshold, C to center TT, f to change error filtering, e to change the error calculation and Intro to start correction" << endl;
-	CheckAndOpenCam();
+	CheckAndOpenCam(); 
+	CheckAndOpenTT();
+	TT.goTo('K');
+	TT.closeComm();
 
 	dControl.CreateMainWindows();
 	dControl.UpdateTTPos(0, 0);
@@ -252,10 +255,9 @@ int SystemControl::StopCapture() {
 }
 
 int SystemControl::StartCorrection(){
-	cout << "Starting correction. TipTilt will go to center first." << endl;
+	cout << "Starting correction" << endl;
 
 	CheckAndOpenTT();
-	TT.goTo('K');
 
 	correctingInternal = true;
 	correctingThread = thread(&SystemControl::RunCorrection, this);
@@ -278,6 +280,7 @@ void SystemControl::RunCorrection() {
 		mtxProtectingDisplayControl.unlock();
 		this_thread::sleep_for(chrono::microseconds(100));
 	}
+	TT.goTo('K');
 }
 
 void SystemControl::RunErrorUpdate() {
@@ -501,11 +504,16 @@ void SystemControl::Guide() {
 						dControl.CreateWindow('f');
 					}
 					Mat plot(300, 100, CV_8UC3, Scalar(0, 0, 0));
-					frame = CSH.GrabGuideFrame(zoom, plot);
+					frame = CSH.GrabGuideFrame(zoom, true, plot);
 					dControl.DisplayFrame(plot, 'f');
 				}
+				else if (!measuringFWHM) 
+					if (measuringFWHMaux) {
+						measuringFWHMaux = false;
+						dControl.DestroyWindow('f');
+					}
 				else
-					frame = CSH.GrabGuideFrame(zoom);
+					frame = CSH.GrabGuideFrame(zoom, true);
 
 				dControl.DisplayFrame(frame, 'g');
 			break;

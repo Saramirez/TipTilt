@@ -86,7 +86,8 @@ void DisplayControl::UpdateTTPos(int TTPosX, int TTPosY) {
 	double x = TTPosX * cosCorrAngle - TTPosY * sinCorrAngle;
 	double y = -1 * TTPosX * sinCorrAngle + TTPosY * cosCorrAngle;
 
-	circle(_ttpos, Point(TTWindowSize / 2 + x, TTWindowSize / 2 + y), 5, Scalar(0, 128, 0), -1);
+	circle(_ttpos, Point(TTWindowSize / 2 - y, TTWindowSize / 2 + x), 5, Scalar(0, 128, 0), -1); // orientación x-y invertida para que calce coincida con los controles del mount control
+
 
 	imshow(tiptiltPositionWindow, _ttpos);
 }

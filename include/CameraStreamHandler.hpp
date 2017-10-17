@@ -11,7 +11,7 @@ using namespace std;
 
 const Point fullFramePinholePosition(657,565);
 const int errorCountsToAvg = 5;
-const int FWHMCountsToAvg  = 10;
+const int FWHMCountsToAvg  = 20;
 const int roiSize = 80;
 const int guideRoiSize = 500;
 const int TTzoom = 4;
@@ -27,6 +27,7 @@ class CameraStreamHandler{
 		vector<int>xErrors;
 		vector<int>yErrors;
 		vector<int>FWHMs;
+		vector<int>HMs;
 		int iXErr, iYErr;
         Point centroid;
         double dist;
@@ -70,8 +71,8 @@ class CameraStreamHandler{
 		Point GetCentroid(Mat&);
         Mat GetStarParams();
 		Mat GrabOneFrame(bool full = false);
-		Mat GrabGuideFrame(int);
-        Mat GrabGuideFrame(int, Mat&);
+		Mat GrabGuideFrame(int, bool);
+        Mat GrabGuideFrame(int, bool, Mat&);
         Mat CaptureAndProcess(bool showThresh = false, bool simulate = false, int filterErrors = 0, int errorMode = 1);
 		Mat CaptureAndProcess(int&, int&, mutex&, bool showThresh = false, bool simulate = false, int filterErrors = 0, int errorMode = 1);
 		void MeasureFWMH(Mat&, Mat&);

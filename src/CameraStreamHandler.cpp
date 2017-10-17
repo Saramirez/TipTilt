@@ -16,8 +16,10 @@ CameraStreamHandler::CameraStreamHandler(int* _eX, int* _eY, mutex * _mtx) :
 		xErrors.push_back(0);
 		yErrors.push_back(0);
 	}
-	for(int i = 0; i < FWHMCountsToAvg; i++)
+	for (int i = 0; i < FWHMCountsToAvg; i++) {
 		FWHMs.push_back(0);
+		HMs.push_back(0);
+	}
 }
 
 Point CameraStreamHandler::GetTarget() {
@@ -198,10 +200,8 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, int
 
     frame = frame(roi);
 
-	if (simulate) {
-		//draw the pinhole into the frame
-		circle(frame, target, pinholeRadius, Scalar(0, 0, 0), -1);
-	}
+	//draw the pinhole into the frame
+	circle(frame, target, pinholeRadius, Scalar(0), -1);
 
     GetShapeInfo(centroid, dist, dir, width, errorMode);
 
@@ -238,7 +238,7 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, int
     if(dist != -1)
         circle(frame, centroid, 2, Scalar(128,0,0));
 
-    circle(frame, Point(target.x,target.y), pinholeRadius, Scalar(0,128,0));
+    circle(frame, Point(target.x,target.y), pinholeRadius, Scalar(0,128,0), 1, CV_AA);
 
 	resize(frame, frame, Size(), TTzoom, TTzoom);
     return frame;
@@ -257,10 +257,8 @@ Mat CameraStreamHandler::CaptureAndProcess(int& eX, int& eY, mutex& mtx, bool re
 
 	frame = frame(roi);
 
-	if (simulate) {
-		//draw the pinhole into the frame
-		circle(frame, target, pinholeRadius, Scalar(0, 0, 0), -1);
-	}
+	//draw the pinhole into the frame
+	circle(frame, target, pinholeRadius, Scalar(0), -1);
 
 	GetShapeInfo(centroid, dist, dir, width, errorMode);
 
@@ -311,8 +309,11 @@ Mat CameraStreamHandler::GrabOneFrame(bool full) {
 	return frame;
 }
 
-Mat CameraStreamHandler::GrabGuideFrame(int zoom){
+Mat CameraStreamHandler::GrabGuideFrame(int zoom, bool drawPinhole){
     cam >> frame;
+
+	if(drawPinhole)
+		circle(frame, fullFramePinholePosition, pinholeRadius, Scalar(0), -1);
 
 	cvtColor(frame, frame, CV_GRAY2RGB);
 	line(frame, Point(fullFramePinholePosition.x, fullFramePinholePosition.y - pinholeRadius - 6),
@@ -337,8 +338,12 @@ Mat CameraStreamHandler::GrabGuideFrame(int zoom){
 	return zoomed;
 }
 
-Mat CameraStreamHandler::GrabGuideFrame(int zoom, Mat& plotFrame) {
+Mat CameraStreamHandler::GrabGuideFrame(int zoom, bool drawPinhole, Mat& plotFrame) {
 	cam >> frame;
+
+	if (drawPinhole)
+		circle(frame, fullFramePinholePosition, pinholeRadius, Scalar(0), -1);
+
 	MeasureFWMH(frame, plotFrame);
 
 	cvtColor(frame, frame, CV_GRAY2RGB);
@@ -363,7 +368,6 @@ Mat CameraStreamHandler::GrabGuideFrame(int zoom, Mat& plotFrame) {
 
 	return zoomed;
 }
-
 
 void CameraStreamHandler::MeasureFWMH(Mat& frame, Mat& plot) {
 	Point FWHMpoint = GetCentroid(frame);
@@ -399,11 +403,20 @@ void CameraStreamHandler::MeasureFWMH(Mat& frame, Mat& plot) {
 	FWHM *= 2;
 	FWHMs.push_back(FWHM);
 	FWHMs.erase(FWHMs.begin());
+	HMs.push_back(HM);
+	HMs.erase(HMs.begin());
 
 	FWHM = accumulate(FWHMs.begin(), FWHMs.end(), 0.0) / FWHMs.size();
+	HM = accumulate(HMs.begin(), HMs.end(), 0.0) / HMs.size();
 
-	cout << "FWHM = " << FWHM << "; HM = " << HM << endl;
+	//cout << "FWHM = " << FWHM << "; HM = " << HM << endl;
 
+	starRadius = FWHM;
 	thresh = max(HM, 30);
 	line(frame, Point(0, FWHMpoint.y), Point(frame.cols - 1, FWHMpoint.y), Scalar(255));
+	string FWHMString = to_string(FWHM);
+	string HMString = to_string(HM);
+	putText(plot, FWHMString, Point(10, plot.rows - 10), FONT_HERSHEY_SCRIPT_SIMPLEX, 1, Scalar(128, 128, 0));
+	putText(plot, HMString, Point(60, plot.rows - 10), FONT_HERSHEY_SCRIPT_SIMPLEX, 1, Scalar(128, 128, 0));
+	resize(plot, plot, Size(), 2, 2);
 }
