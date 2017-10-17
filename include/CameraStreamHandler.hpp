@@ -73,6 +73,7 @@ class CameraStreamHandler{
 		Mat GrabGuideFrame(int);
         Mat GrabGuideFrame(int, Mat&);
         Mat CaptureAndProcess(bool showThresh = false, bool simulate = false, int filterErrors = 0, int errorMode = 1);
+		Mat CaptureAndProcess(int&, int&, mutex&, bool showThresh = false, bool simulate = false, int filterErrors = 0, int errorMode = 1);
 		void MeasureFWMH(Mat&, Mat&);
 
 };

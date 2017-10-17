@@ -16,7 +16,9 @@ class TipTilt {
 	private:
 		int * eY;
 		int * eX;
+		int eXX, eYY;
 		mutex * mtx;
+		mutex internalMtx;
 		char out;
 		atomic<bool> running;
 		int fd;
@@ -26,7 +28,6 @@ class TipTilt {
 		const char* device;
 		struct termios SerialConfig;
 		thread runningThread;
-		void run();
 	public:
 		int sSteps, eSteps;
 		bool isOpened();
@@ -34,11 +35,11 @@ class TipTilt {
 		void setDevice(const char *);
 		void closeComm();
 		void updatePosition();
+		void updatePositionV2();
 		int goTo(char);
 		void moveWithWASD();
-		int start();
-		int stop();
 		void move(char);
+		void setErrors(int, int);
 		TipTilt(int *, int *, mutex *); 	
 };
 

@@ -243,6 +243,65 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, int
 	resize(frame, frame, Size(), TTzoom, TTzoom);
     return frame;
 }
+Mat CameraStreamHandler::CaptureAndProcess(int& eX, int& eY, mutex& mtx, bool returnThresh, bool simulate, int filterErrors, int errorMode) {
+	cam >> frame;
+
+	if (simulate) {
+		auto t = get_time::now();
+		auto cTime = chrono::duration_cast<ms>(t.time_since_epoch()).count() / 1000.0;
+		double dx = 2.2 * R * sin(2 * w * cTime) *  cos(2 * w * cTime) + R * cos(4 * w * cTime) + 0.5 * R * cos(10 * w * cTime);
+		double dy = 2.2 * R * cos(2 * w * cTime) * sin(w / 1.5 * cTime) + R * sin(3 * w * cTime) + 0.4 * R * sin(15 * w * cTime);
+		roi.x = oRoi.x + dx;
+		roi.y = oRoi.y + dy;
+	}
+
+	frame = frame(roi);
+
+	if (simulate) {
+		//draw the pinhole into the frame
+		circle(frame, target, pinholeRadius, Scalar(0, 0, 0), -1);
+	}
+
+	GetShapeInfo(centroid, dist, dir, width, errorMode);
+
+	CalculateErrors(xErr, yErr, dist, dir, width, errorMode);
+
+	if (filterErrors == 1) {
+		xErrors.push_back(xErr);
+		yErrors.push_back(yErr);
+		xErrors.erase(xErrors.begin());
+		yErrors.erase(yErrors.begin());
+
+		xErr = accumulate(xErrors.begin(), xErrors.end(), 0.0) / xErrors.size();
+		yErr = accumulate(yErrors.begin(), yErrors.end(), 0.0) / yErrors.size();
+	}
+
+	else if (filterErrors == 2) {
+		iXErr += xErr;
+		iYErr += yErr;
+		xErr = 0.9 * xErr + 0.1 *iXErr;
+		yErr = 0.9 * yErr + 0.1 *iYErr;
+	}
+
+	mtx.lock();
+	eX = xErr;
+	eY = yErr;
+	mtx.unlock();
+
+	if (returnThresh) {
+		threshold(frame, frame, thresh, 255, THRESH_BINARY);
+	}
+
+	cvtColor(frame, frame, CV_GRAY2RGB);
+
+	if (dist != -1)
+		circle(frame, centroid, 2, Scalar(128, 0, 0));
+
+	circle(frame, Point(target.x, target.y), pinholeRadius, Scalar(0, 128, 0));
+
+	resize(frame, frame, Size(), TTzoom, TTzoom);
+	return frame;
+}
 
 Mat CameraStreamHandler::GrabOneFrame(bool full) {
 	cam >> frame;

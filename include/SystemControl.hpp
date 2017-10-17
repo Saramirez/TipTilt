@@ -12,7 +12,8 @@
 
 using namespace std;
 using namespace cv;
-
+const int ConstantFramerate = 10;
+const int ConstantTimeBetweenErrorUpdate = 1000 / ConstantFramerate;
 class SystemControl {
 	private:
 		DisplayControl dControl;
@@ -32,14 +33,17 @@ class SystemControl {
 		bool measuringFWHM;
 		bool measuringFWHMaux;
 		int errorMode = 0;
+		bool constantFramerateMode = false;
 		Point FWHMpoint;
 		bool simulate;
 		mutex mtxProtectingValues;
 		thread capturingThread;
 		thread correctingThread;
+		thread errorUpdateThread;
 		Mat frame;
 		void RunCapture();
 		void RunCorrection();
+		void RunErrorUpdate();
 		void ToggleCorrection();
 		void ChangeThresh(int);
 		void ChangeFactors(int);

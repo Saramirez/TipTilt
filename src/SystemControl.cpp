@@ -231,7 +231,10 @@ void SystemControl::RunCapture() {
 		//cout << "Average frame rate = " << avgFrameRate << endl;
 
 		mtxProtectingValues.lock();
-		frame = CSH.CaptureAndProcess(showThresh, simulate, withFilter, errorMode);
+		if (constantFramerateMode)
+			frame = CSH.CaptureAndProcess(eX, eY, mtxProtectingErrors, showThresh, simulate, withFilter, errorMode);
+		else
+			frame = CSH.CaptureAndProcess(showThresh, simulate, withFilter, errorMode);
 		mtxProtectingValues.unlock();
 		mtxProtectingDisplayControl.lock();
 		dControl.DisplayFrame(frame, 'p');
@@ -256,13 +259,18 @@ int SystemControl::StartCorrection(){
 
 	correctingInternal = true;
 	correctingThread = thread(&SystemControl::RunCorrection, this);
+	if(constantFramerateMode)
+		errorUpdateThread = thread(&SystemControl::RunErrorUpdate, this);
 	correcting = true;
 	return 0;
 }
 
 void SystemControl::RunCorrection() {
-	while (correctingInternal) {	
-		TT.updatePosition();
+	while (correctingInternal) {
+		if (constantFramerateMode)
+			TT.updatePositionV2();
+		else
+			TT.updatePosition();
 		TTposX = TT.sSteps;
 		TTposY = TT.eSteps;
 		mtxProtectingDisplayControl.lock();
@@ -272,9 +280,20 @@ void SystemControl::RunCorrection() {
 	}
 }
 
+void SystemControl::RunErrorUpdate() {
+	while (correctingInternal) {
+		mtxProtectingErrors.lock();
+		TT.setErrors(eX, eY);
+		mtxProtectingErrors.unlock();
+		this_thread::sleep_for(chrono::milliseconds(ConstantTimeBetweenErrorUpdate));
+	}
+}
+
 int SystemControl::StopCorrection() {
 	correctingInternal = false;
 	correctingThread.join();
+	if (constantFramerateMode)
+		errorUpdateThread.join();
 	correcting = false;
 	TT.closeComm();
 	return 0;

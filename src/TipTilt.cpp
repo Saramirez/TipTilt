@@ -9,6 +9,8 @@ const int restTime = 8; //ms
 TipTilt::TipTilt(int* _eX, int* _eY, mutex * _mtx) { 
 	eX = _eX;
 	eY = _eY;
+	eXX = 0;
+	eYY = 0;
 	mtx = _mtx;
 }
 
@@ -151,39 +153,65 @@ void TipTilt::updatePosition(){
 	//this_thread::sleep_for(chrono::microseconds(100));
 }
 
-int TipTilt::start(){
-	//Revisa si el dispositivo esta conectado y escuchando, luego parte el loop de control en una thread.
-	if(!opened){
-		cout << "Device is not opened. Can't start control loop." << endl;
-		return -1;
+void TipTilt::updatePositionV2() {
+	if (!opened) {
+		//cout << "Device is not opened. Can't update position." << endl;
+		return;
 	}
-	eSteps = 0;
-	sSteps = 0;
-	running = true;
-	runningThread = thread(&TipTilt::run, this);
-	return 0;
+	//cout << "eX: " << *eX << ". eY" << *eY << endl;
+	internalMtx.lock();
+	if (eXX != 0) {
+		if (eXX > 0 && eSteps < 45) {
+			writeBuf = (char *)"GT00001";
+			write(fd, writeBuf, 7);
+			//write(fd, "L", 1);
+			(eXX)--;
+			eSteps++;
+			//read(fd, &out, 1);
+			this_thread::sleep_for(chrono::milliseconds(restTime));
+		}
+		else if (eXX < 0 && eSteps > -45) {
+			writeBuf = (char *)"GW00001";
+			write(fd, writeBuf, 7);
+			//write(fd, "L", 1);
+			(eXX)++;
+			eSteps--;
+			//read(fd, &out, 1);
+			this_thread::sleep_for(chrono::milliseconds(restTime));
+		}
+		//cout << "Out: " << out << endl;
+	}
+	if (eYY != 0) {
+		if (eYY > 0 && sSteps > -45) {
+			writeBuf = (char *)"GS00001";
+			write(fd, writeBuf, 7);
+			//write(fd, "L", 1);
+			(eYY)--;
+			sSteps--;
+			//read(fd, &out, 1);
+			this_thread::sleep_for(chrono::milliseconds(restTime));
+		}
+		else if (eYY < 0 && sSteps < 45) {
+			writeBuf = (char *)"GN00001";
+			write(fd, writeBuf, 7);
+			//write(fd, "L", 1);	
+			(eYY)++;
+			sSteps++;
+			//read(fd, &out, 1);
+			this_thread::sleep_for(chrono::milliseconds(restTime));
+		}
+		//cout << "Out: " << out << endl;
+	}
+	internalMtx.unlock();
+	//this_thread::sleep_for(chrono::microseconds(100));
 }
 
-void TipTilt::run(){
-	//Metodo que se estara corriendo en una thread.
-	while(running){
-    	updatePosition();
-    }
-	this_thread::sleep_for(chrono::microseconds(100));
-    //cout << "UpdateTipTilt returned" << endl;
-    //cout << "Updated TipTilt " << counter << " times." << endl;
+void TipTilt::setErrors(int x, int y) {
+	internalMtx.lock();
+	eXX = x;
+	eYY = y;
+	internalMtx.unlock();
 }
-
-int TipTilt::stop(){
-	//Se hace terminar la thread al hacer running = false.
-	if(!opened){
-		cout << "Device is not opened. Can't stop control loop." << endl;
-		return -1;
-	}
-	running = false;
-	runningThread.join();
-	return 0;
-};
 
 void TipTilt::move(char dir){
 	if(dir == 'n')
