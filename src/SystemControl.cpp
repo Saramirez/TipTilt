@@ -280,7 +280,6 @@ void SystemControl::RunCorrection() {
 		mtxProtectingDisplayControl.unlock();
 		this_thread::sleep_for(chrono::microseconds(100));
 	}
-	TT.goTo('K');
 }
 
 void SystemControl::RunErrorUpdate() {
@@ -504,7 +503,7 @@ void SystemControl::Guide() {
 						dControl.CreateWindow('f');
 					}
 					Mat plot(300, 100, CV_8UC3, Scalar(0, 0, 0));
-					frame = CSH.GrabGuideFrame(zoom, true, plot);
+					frame = CSH.GrabGuideFrame(zoom, false, plot);
 					dControl.DisplayFrame(plot, 'f');
 				}
 				else if (!measuringFWHM) 
@@ -513,7 +512,7 @@ void SystemControl::Guide() {
 						dControl.DestroyWindow('f');
 					}
 				else
-					frame = CSH.GrabGuideFrame(zoom, true);
+					frame = CSH.GrabGuideFrame(zoom, false);
 
 				dControl.DisplayFrame(frame, 'g');
 			break;

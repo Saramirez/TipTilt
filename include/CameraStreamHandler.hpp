@@ -20,15 +20,13 @@ class CameraStreamHandler{
         const char* device;
         int * eX;
         int * eY;
-        int xErr = 0;
-        int yErr = 0;
-		int _xErr;
-		int _yErr;
-		vector<int>xErrors;
-		vector<int>yErrors;
+        double xErr = 0;
+		double yErr = 0;
+		vector<double>xErrors;
+		vector<double>yErrors;
 		vector<int>FWHMs;
 		vector<int>HMs;
-		int iXErr, iYErr;
+		double iXErr, iYErr;
         Point centroid;
         double dist;
         double dir[2];
@@ -50,7 +48,7 @@ class CameraStreamHandler{
 
         void GetShapeInfo(Point&, double&, double*, double&, int mode);
         void GetSimpleShapeInfo(Point&, double&);
-        void CalculateErrors(int&, int&, double&, double*, double&, int mode);
+        void CalculateErrors(double&, double&, double&, double*, double&, int mode);
 
     public:
         CameraStreamHandler(int *, int *, mutex * );

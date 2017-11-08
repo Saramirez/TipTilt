@@ -151,7 +151,7 @@ Mat CameraStreamHandler::GetStarParams() {
 	return frame;
 }
 
-void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, double dir[2], double& width, int mode){
+void CameraStreamHandler::CalculateErrors(double& xErr, double& yErr, double& dist, double dir[2], double& width, int mode){
 	if(dist == -1){
 		xErr = 0;
 		yErr = 0;
@@ -162,26 +162,24 @@ void CameraStreamHandler::CalculateErrors(int& xErr, int& yErr, double& dist, do
 	//double yy = yPixToSteps * (-1 * sinCorrAngle * dir[0] + cosCorrAngle * dir[1]);
 
 	//Asumiendo que está bien alineado. De todas maneras, es casi imposible tener una buena calibración oservando una estrella
-	double xx = xPixToSteps * dir[0];
-	double yy = yPixToSteps * dir[1];
+	xErr = xPixToSteps * dir[0];
+	yErr = yPixToSteps * dir[1];
 
 	if(dist <= (pinholeRadius + starRadius)){ //Si la estrella está traslapada con el pinhole
 		if (mode == 0) {
-			xx *= width;
-			yy *= width;
+			xErr *= width;
+			yErr *= width;
 		}
 		if (mode == 1) {
-			xx *= (target.x + pinholeRadius + width - starRadius);
-			yy *= (target.y + pinholeRadius + width - starRadius);
+			xErr *= (target.x + pinholeRadius + width - starRadius);
+			yErr *= (target.y + pinholeRadius + width - starRadius);
 		}
 	}
 	else{
 		//cout << "With distance * factor" << endl;
-		xx *= dist;
-		yy *= dist;
+		xErr *= dist;
+		yErr *= dist;
 	}
-	xErr = (int)xx;
-	yErr = (int)yy;
 	//cout << "width = " << width << " area = " << area << "; area/starArea = " << area / starArea << endl;
     //cout << "xErr = " << xErr << "; yErr = " << yErr << endl;
 }
@@ -225,8 +223,8 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, int
 	}
 
 	mtx->lock();
-	*eX = xErr;
-	*eY = yErr;
+	*eX = (int)xErr;
+	*eY = (int)yErr;
 	mtx->unlock();
 
 	if (returnThresh) {
@@ -282,8 +280,8 @@ Mat CameraStreamHandler::CaptureAndProcess(int& eX, int& eY, mutex& mtx, bool re
 	}
 
 	mtx.lock();
-	eX = xErr;
-	eY = yErr;
+	eX = (int)xErr;
+	eY = (int)yErr;
 	mtx.unlock();
 
 	if (returnThresh) {
