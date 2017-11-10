@@ -1,3 +1,0 @@
-/home/odroid/TipTilt Control/build/CMakeFiles/edit_cache.dir
-/home/odroid/TipTilt Control/build/CMakeFiles/rebuild_cache.dir
-/home/odroid/TipTilt Control/build/CMakeFiles/TipTilt.dir

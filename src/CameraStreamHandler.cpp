@@ -409,8 +409,8 @@ void CameraStreamHandler::MeasureFWMH(Mat& frame, Mat& plot) {
 
 	//cout << "FWHM = " << FWHM << "; HM = " << HM << endl;
 
-	starRadius = FWHM;
-	thresh = max(HM, 30);
+	//starRadius = FWHM;
+	//thresh = max(HM, 30);
 	line(frame, Point(0, FWHMpoint.y), Point(frame.cols - 1, FWHMpoint.y), Scalar(255));
 	string FWHMString = to_string(FWHM);
 	string HMString = to_string(HM);

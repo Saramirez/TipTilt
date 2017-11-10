@@ -9,7 +9,7 @@
 using namespace cv;
 using namespace std;
 
-const Point fullFramePinholePosition(657,565);
+const Point fullFramePinholePosition(631,602);
 const int errorCountsToAvg = 5;
 const int FWHMCountsToAvg  = 20;
 const int roiSize = 80;
@@ -53,7 +53,7 @@ class CameraStreamHandler{
     public:
         CameraStreamHandler(int *, int *, mutex * );
 
-		int thresh = 100; //Should be FWHM
+		int thresh = 30; //Should be FWHM
 		double starRadius = 5;
 		double xPixToSteps = 0.877; //2.4 / 2.735 (factor en laboratorio / magnificacion de camara);
 		double yPixToSteps = 0.852; //2.33 / 2.735;

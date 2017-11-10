@@ -7,6 +7,8 @@ SystemControl sControl;
 
 int main(int argc, char** argv)
 {
+// std::cout << cv::getBuildInformation() << std::endl;
+
 	sControl.SetCamDevice(0);
 	sControl.SetTTDevice(0);
 
