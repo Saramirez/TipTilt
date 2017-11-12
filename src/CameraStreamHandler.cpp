@@ -41,6 +41,11 @@ void CameraStreamHandler::SetDevice(const char * _device) {
 	device = _device;
 }
 
+void CameraStreamHandler::SetPinholePosition(Point pPos) {
+	fullFramePinholePosition = pPos;
+	cout << "Pinhole pos: " << fullFramePinholePosition.x << ", " << fullFramePinholePosition.y << endl;
+}
+
 int CameraStreamHandler::OpenCamera(){
     cam.open(device);
 

@@ -9,7 +9,7 @@
 using namespace cv;
 using namespace std;
 
-const Point fullFramePinholePosition(632, 601); //632 601
+//const Point fullFramePinholePosition(632, 601); //632 601
 const int errorCountsToAvg = 5;
 const int FWHMCountsToAvg  = 20;
 const int roiSize = 80;
@@ -35,6 +35,7 @@ class CameraStreamHandler{
         VideoCapture cam;
         Mat frame;
 		Point target;
+		Point fullFramePinholePosition;
         Rect roi;
         Rect oRoi;
 
@@ -62,6 +63,7 @@ class CameraStreamHandler{
 		void SetAngles(double, double);
 		void SetRoi(Rect);
 		void SetDevice(const char *);
+		void SetPinholePosition(Point);
 		int OpenCamera();
 		int CloseCamera();
 		bool IsCameraOpen();

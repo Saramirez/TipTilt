@@ -14,9 +14,8 @@ using namespace std;
 
 class TipTilt {
 	private:
-		int * eY;
-		int * eX;
-		int eXX, eYY;
+		int * eY_p;
+		int * eX_p;
 		mutex * mtx;
 		mutex internalMtx;
 		char out;
@@ -35,11 +34,9 @@ class TipTilt {
 		void setDevice(const char *);
 		void closeComm();
 		void updatePosition();
-		void updatePositionV2();
 		int goTo(char);
 		void moveWithWASD();
 		void move(char);
-		void setErrors(int, int);
 		TipTilt(int *, int *, mutex *); 	
 };
 

@@ -14,9 +14,7 @@ SystemControl::SystemControl() :
 	simulate = false;
 	withFilter = false;
 	measuringFWHMaux = false;
-
-	for (int i = 0; i < 20; i++)
-		frameRates.push_back(0.0);
+	GetPinholePosFromFile("../src/Values.txt");
 }
 
 int SystemControl::GetKeyFromKeyboard() {
@@ -162,14 +160,6 @@ void SystemControl::ChangeThresh(int increase) {
 	mtxProtectingValues.unlock();
 }
 
-void SystemControl::ComputeAvgFrameRate(chrono::time_point elapsedTime) {
-	auto eTimeMS = chrono::duration_cast<ms>(elapsedTime).count();
-	auto frameRate = 1000.0 / eTimeMS;
-	frameRates.push_back(frameRate);
-	frameRates.erase(frameRates.begin());
-	avgFrameRate = accumulate(frameRates.begin(), frameRates.end(), 0.0) / frameRates.size();
-}
-
 int SystemControl::StartCapture() {
 	cout << "Starting capture" << endl;
 	cout << "Press t to view thresholded image, 1-2 to change threshold, C to center TT, f to change error filtering and Intro to start correction. Esc to end." << endl;
@@ -191,11 +181,21 @@ void SystemControl::RunCapture() {
 	auto time1 = get_time::now();
 	auto time2 = get_time::now();
 	auto elapsedTime = time2 - time1;
+	auto eTimeMS = chrono::duration_cast<ms>(elapsedTime).count();// / 1000.0; //seconds
+	auto frameRate = 1000.0 / eTimeMS;
+	int avgFrameRate = frameRate;
+	vector<double> frameRates;
+	for (int i = 0; i < 20; i++)
+		frameRates.push_back(0.0);
 	while (capturingInternal) {
 		time2 = time1;
 		time1 = get_time::now();
 		elapsedTime = time1 - time2;
-		ComputeAvgFrameRate(elapsedTime);
+		eTimeMS = chrono::duration_cast<ms>(elapsedTime).count();
+		frameRate = 1000.0 / eTimeMS;
+		frameRates.push_back(frameRate);
+		frameRates.erase(frameRates.begin());
+		avgFrameRate = accumulate(frameRates.begin(), frameRates.end(), 0.0) / frameRates.size();
 
 		mtxProtectingValues.lock();
 		frame = CSH.CaptureAndProcess(showThresh, simulate, withFilter);
@@ -387,7 +387,7 @@ int SystemControl::CalibrateTT() {
 	return 0;
 }
 
-void SystemControl::Guide() {
+int SystemControl::Guide() {
 	dControl.CreateWindow('g');
 	//setMouseCallback(dControl.guidingWindow, GetFWHMPointFromMouse, NULL);
 
@@ -402,7 +402,7 @@ void SystemControl::Guide() {
 		key = waitKey(1);
 		switch (key) {
 			case 27: //esc
-				cout << "Esc key pressed" << endl;
+				cout << "Esc pressed, exiting" << endl;
 				if (measuringFWHM) {
 					dControl.DestroyWindow('f');
 					measuringFWHM = false;
@@ -410,7 +410,7 @@ void SystemControl::Guide() {
 				}
 				else {
 					dControl.DestroyWindow('g');
-					return;
+					return -1;
 				}
 			break;
 			case 102: //f
@@ -450,6 +450,7 @@ void SystemControl::Guide() {
 		}
 	}
 	dControl.DestroyWindow('g');
+	return 0;
 }
 
 void SystemControl::CheckAndOpenCam() {
@@ -470,4 +471,27 @@ void SystemControl::CheckAndOpenTT() {
 		}
 		cout << "Opened TT device" << endl;
 	}
+}
+
+void SystemControl::GetPinholePosFromFile(const char* file) {
+	ifstream values(file);
+
+	int px, py;
+	char letter;
+	string line;
+
+	if (values.is_open()) {
+		while (getline(values, line)) {
+			if (!line.empty())
+				if (line.at(0) == 'p')
+					values >> px >> py;
+		}
+	}
+	//cout << "Values: " << px << ", " << py << endl;
+
+	Point pinPos = Point(px, py);
+
+	CSH.SetPinholePosition(pinPos);
+
+	values.close();
 }

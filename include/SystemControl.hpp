@@ -23,8 +23,6 @@ class SystemControl {
 		int eY;
 		int TTposX;
 		int TTposY;
-		vector<double> frameRates;
-		int avgFrameRate;
 		atomic<bool> capturingInternal;
 		atomic<bool> correctingInternal;
 		bool capturing;
@@ -49,7 +47,8 @@ class SystemControl {
 		void ChangeErrorFilter();
 		void SetThreshold(int);
 		void CenterTT();
-		void ComputeAvgFrameRate(chrono::time_point);
+
+		void GetPinholePosFromFile(const char* file);
 	public:
 		SystemControl();
 
@@ -65,7 +64,7 @@ class SystemControl {
 		int StopCapture();
 		bool IsCapturing();
 		bool IsCorrecting();
-		void Guide();
+		int Guide();
 };
 
 

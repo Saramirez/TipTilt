@@ -25,7 +25,8 @@ int main(int argc, char** argv)
 
 	if (options.count("g")) {
 		cout << "Guiding first option selected" << endl;
-		sControl.Guide();
+		if(sControl.Guide() != 0)
+			return 0;
 	}
 
 	if (options.count("c")) {
@@ -47,5 +48,5 @@ int main(int argc, char** argv)
 	if (sControl.IsCorrecting())
 		sControl.StopCorrection();
 
-	return(0);
+	return 0;
 }

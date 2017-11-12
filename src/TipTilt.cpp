@@ -7,10 +7,8 @@ using get_time = chrono::steady_clock;
 const int restTime = 8; //ms
 
 TipTilt::TipTilt(int* _eX, int* _eY, mutex * _mtx) { 
-	eX = _eX;
-	eY = _eY;
-	eXX = 0;
-	eYY = 0;
+	eX_p = _eX;
+	eY_p = _eY;
 	mtx = _mtx;
 }
 
@@ -105,44 +103,44 @@ void TipTilt::updatePosition(){
 		//cout << "Device is not opened. Can't update position." << endl;
 		return;
 	}
-	//cout << "eX: " << *eX << ". eY" << *eY << endl;
+	//cout << "eX_p: " << *eX_p << ". eY_p" << *eY_p << endl;
 	mtx->lock();
-	if(*eX != 0){
-		if(*eX > 0 && eSteps < 45){
+	if(*eX_p != 0){
+		if(*eX_p > 0 && eSteps < 45){
 			writeBuf = (char *)"GT00001";
 			write(fd, writeBuf, 7);
 			//write(fd, "L", 1);
-			(*eX)--;
+			(*eX_p)--;
 			eSteps++;
 			//read(fd, &out, 1);
 			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
-		else if(*eX < 0 && eSteps > -45){
+		else if(*eX_p < 0 && eSteps > -45){
 			writeBuf = (char *)"GW00001";
 			write(fd, writeBuf, 7);
 			//write(fd, "L", 1);
-			(*eX)++;
+			(*eX_p)++;
 			eSteps--;
 			//read(fd, &out, 1);
 			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
 		//cout << "Out: " << out << endl;
 	}
-	if(*eY != 0){
-		if(*eY > 0 && sSteps > -45){
+	if(*eY_p != 0){
+		if(*eY_p > 0 && sSteps > -45){
 			writeBuf = (char *)"GS00001";
 			write(fd, writeBuf, 7);
 			//write(fd, "L", 1);
-			(*eY)--;
+			(*eY_p)--;
 			sSteps--;
 			//read(fd, &out, 1);
 			this_thread::sleep_for(chrono::milliseconds(restTime));
 		}
-		else if(*eY < 0 && sSteps < 45){
+		else if(*eY_p < 0 && sSteps < 45){
 			writeBuf = (char *)"GN00001";
 			write(fd, writeBuf, 7);	
 			//write(fd, "L", 1);	
-			(*eY)++;
+			(*eY_p)++;
 			sSteps++;
 			//read(fd, &out, 1);
 			this_thread::sleep_for(chrono::milliseconds(restTime));
@@ -151,66 +149,6 @@ void TipTilt::updatePosition(){
 	}
 	mtx->unlock();
 	//this_thread::sleep_for(chrono::microseconds(100));
-}
-
-void TipTilt::updatePositionV2() {
-	if (!opened) {
-		//cout << "Device is not opened. Can't update position." << endl;
-		return;
-	}
-	//cout << "eX: " << *eX << ". eY" << *eY << endl;
-	internalMtx.lock();
-	if (eXX != 0) {
-		if (eXX > 0 && eSteps < 45) {
-			writeBuf = (char *)"GT00001";
-			write(fd, writeBuf, 7);
-			//write(fd, "L", 1);
-			(eXX)--;
-			eSteps++;
-			//read(fd, &out, 1);
-			this_thread::sleep_for(chrono::milliseconds(restTime));
-		}
-		else if (eXX < 0 && eSteps > -45) {
-			writeBuf = (char *)"GW00001";
-			write(fd, writeBuf, 7);
-			//write(fd, "L", 1);
-			(eXX)++;
-			eSteps--;
-			//read(fd, &out, 1);
-			this_thread::sleep_for(chrono::milliseconds(restTime));
-		}
-		//cout << "Out: " << out << endl;
-	}
-	if (eYY != 0) {
-		if (eYY > 0 && sSteps > -45) {
-			writeBuf = (char *)"GS00001";
-			write(fd, writeBuf, 7);
-			//write(fd, "L", 1);
-			(eYY)--;
-			sSteps--;
-			//read(fd, &out, 1);
-			this_thread::sleep_for(chrono::milliseconds(restTime));
-		}
-		else if (eYY < 0 && sSteps < 45) {
-			writeBuf = (char *)"GN00001";
-			write(fd, writeBuf, 7);
-			//write(fd, "L", 1);	
-			(eYY)++;
-			sSteps++;
-			//read(fd, &out, 1);
-			this_thread::sleep_for(chrono::milliseconds(restTime));
-		}
-		//cout << "Out: " << out << endl;
-	}
-	internalMtx.unlock();
-	//this_thread::sleep_for(chrono::microseconds(100));
-}
-
-void TipTilt::setErrors(int x, int y) {
-	internalMtx.lock();
-	eXX = x;
-	eYY = y;
-	internalMtx.unlock();
 }
 
 void TipTilt::move(char dir){
