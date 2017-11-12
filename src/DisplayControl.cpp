@@ -54,6 +54,8 @@ void DisplayControl::DestroyWindow(char type) {
 }
 
 void DisplayControl::DisplayFrame(Mat& frame, char type) {
+	if (frame.empty())
+		return;
 	switch (type){
 		case 'p':
 			stringFrameRate = to_string(frameRate);
