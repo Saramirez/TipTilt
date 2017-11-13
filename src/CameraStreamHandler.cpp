@@ -5,9 +5,9 @@ using ms = chrono::milliseconds;
 using get_time = chrono::steady_clock;
 
 CameraStreamHandler::CameraStreamHandler(int* _eX, int* _eY, mutex * _mtx) :
+					 fullFramePinholePosition(632, 601),
 					 roi(fullFramePinholePosition.x - roiSize / 2, fullFramePinholePosition.y - roiSize / 2, roiSize, roiSize),
 					 target(roiSize / 2, roiSize / 2){
-	// Posicion del pinhole en frame completo es (616,584)
     eX_p = _eX;
     eY_p = _eY;
     mtx = _mtx;
@@ -43,6 +43,8 @@ void CameraStreamHandler::SetDevice(const char * _device) {
 
 void CameraStreamHandler::SetPinholePosition(Point pPos) {
 	fullFramePinholePosition = pPos;
+	Rect newRoi(fullFramePinholePosition.x - roiSize / 2, fullFramePinholePosition.y - roiSize / 2, roiSize, roiSize);
+	roi = newRoi;
 	cout << "Pinhole pos: " << fullFramePinholePosition.x << ", " << fullFramePinholePosition.y << endl;
 }
 
@@ -156,7 +158,7 @@ void CameraStreamHandler::CalculateErrors(double& xErr, double& yErr, double& di
     //cout << "xErr = " << xErr << "; yErr = " << yErr << endl;
 }
 
-Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, int filterErrors){
+Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, int filterErrors, bool updateErrors){
     cam >> frame;
 	if (frame.empty())
 		return frame;
@@ -175,31 +177,45 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, int
 	//draw the pinhole into the frame
 	circle(frame, target, pinholeRadius, Scalar(0), -1);
 
-    GetShapeInfo(centroid, dist, dir, width);
+	if (updateErrors) {
 
-	CalculateErrors(xErr, yErr, dist, dir, width);
+		GetShapeInfo(centroid, dist, dir, width);
 
-	if (filterErrors == 1) {
-		xErrors.push_back(xErr);
-		yErrors.push_back(yErr);
-		xErrors.erase(xErrors.begin());
-		yErrors.erase(yErrors.begin());
+		CalculateErrors(xErr, yErr, dist, dir, width);
 
-		xErr = accumulate(xErrors.begin(), xErrors.end(), 0.0) / xErrors.size();
-		yErr = accumulate(yErrors.begin(), yErrors.end(), 0.0) / yErrors.size();
+		if (filterErrors == 1) {
+			xErrors.push_back(xErr);
+			yErrors.push_back(yErr);
+			xErrors.erase(xErrors.begin());
+			yErrors.erase(yErrors.begin());
+
+			xErr = accumulate(xErrors.begin(), xErrors.end(), 0.0) / xErrors.size();
+			yErr = accumulate(yErrors.begin(), yErrors.end(), 0.0) / yErrors.size();
+		}
+
+		else if (filterErrors == 2) {
+			iXErr += xErr;
+			iYErr += yErr;
+			if (abs(iXErr) > 2000)
+				iXErr = 0;
+			if (abs(iYErr) > 2000)
+				iYErr = 0;
+			//cout << iXErr << ";" << iYErr << endl;
+			xErr = 0.1 * xErr + 0.001 *iXErr;
+			yErr = 0.1 * yErr + 0.001 *iYErr; 
+		}
+		else {
+			xErr = 0.1*xErr;
+			yErr = 0.1*yErr;
+		}
+
+		//cout << xErr << ";" << yErr << endl;
+
+		mtx->lock();
+		*eX_p = (int)xErr;
+		*eY_p = (int)yErr;
+		mtx->unlock();
 	}
-
-	else if (filterErrors == 2) {
-		iXErr += xErr;
-		iYErr += yErr;
-		xErr = 0.9 * xErr + 0.1 *iXErr;
-		yErr = 0.9 * yErr + 0.1 *iYErr;
-	}
-
-	mtx->lock();
-	*eX_p = (int)xErr;
-	*eY_p = (int)yErr;
-	mtx->unlock();
 
 	if (returnThresh) {
 		threshold(frame, frame, thresh, 255, THRESH_BINARY);
@@ -258,7 +274,6 @@ Mat CameraStreamHandler::GrabGuideFrame(int zoom, bool drawPinhole, Mat& plotFra
 
 	if (drawPinhole)
 		circle(frame, fullFramePinholePosition, pinholeRadius, Scalar(0), -1);
-
 	MeasureFWMH(frame, plotFrame);
 
 	cvtColor(frame, frame, CV_GRAY2RGB);
@@ -285,12 +300,14 @@ Mat CameraStreamHandler::GrabGuideFrame(int zoom, bool drawPinhole, Mat& plotFra
 }
 
 void CameraStreamHandler::MeasureFWMH(Mat& frame, Mat& plot) {
-	Point FWHMpoint = GetCentroid(frame);
+	Point FWHMpoint = GetCentroid(frame); 
 
 	vector<Point> curvePoints;
 	int maxIntensity = 0;
 	for (int i = 0; i < 100; i++) {
 		Point pixel((FWHMpoint.x - plot.cols / 2 + i), FWHMpoint.y);
+		if (pixel.x > frame.cols - 1 || pixel.y > frame.rows - 1 || pixel.x < 0 || pixel.y < 0) //Si quiero revisar un pixel fuera de la imagen
+			continue;
 		Scalar intensity = frame.at<uchar>(pixel);
 		if (intensity.val[0] > maxIntensity)
 			maxIntensity = intensity.val[0];

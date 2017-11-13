@@ -23,30 +23,20 @@ int main(int argc, char** argv)
 	
 	options.parse(argc, argv);
 
-	if (options.count("g")) {
-		cout << "Guiding first option selected" << endl;
-		if(sControl.Guide() != 0)
-			return 0;
-	}
 
 	if (options.count("c")) {
 		cout << "Calibration option selected" << endl;
 		sControl.CalibrateTT();
 	}
 
-	this_thread::sleep_for(chrono::milliseconds(1000));
-
-	sControl.StartCapture();
-
-	while (sControl.GetKeyFromKeyboard() != -1) {
+	if (options.count("g")) {
+		cout << "Guiding first option selected" << endl;
+		if (sControl.Guide() != 0)
+			return 0;
+		this_thread::sleep_for(chrono::milliseconds(100));
 	}
 
-	cout << "Esc pressed, exiting" << endl;
-
-	sControl.StopCapture();
-
-	if (sControl.IsCorrecting())
-		sControl.StopCorrection();
+	sControl.StartCapture();
 
 	return 0;
 }

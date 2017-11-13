@@ -11,22 +11,23 @@ using namespace std;
 
 //const Point fullFramePinholePosition(632, 601); //632 601
 const int errorCountsToAvg = 5;
-const int FWHMCountsToAvg  = 20;
-const int roiSize = 80;
+const int FWHMCountsToAvg  = 100;
+const int roiSize = 50;
 const int guideRoiSize = 500;
-const int TTzoom = 4;
+const int TTzoom = 8;
 class CameraStreamHandler{
     private:
         const char* device;
         int * eX_p;
         int * eY_p;
-        double xErr = 0;
-		double yErr = 0;
+        double xErr = 0.0;
+		double yErr = 0.0;
 		vector<double>xErrors;
 		vector<double>yErrors;
 		vector<int>FWHMs;
 		vector<int>HMs;
-		double iXErr, iYErr;
+		int iXErr = 0;
+		int iYErr = 0;
         Point centroid;
         double dist;
         double dir[2];
@@ -54,7 +55,7 @@ class CameraStreamHandler{
     public:
         CameraStreamHandler(int *, int *, mutex * );
 
-		int thresh = 30; //Should be FWHM
+		int thresh = 30; 
 		double starRadius = 5;
 		double xPixToSteps = 7.7; //2.4 * 2.735 (factor en laboratorio * magnificacion de camara) - valor medido en telescopio con calibracion
 		double yPixToSteps = 8.5; //2.33 * 2.735;
@@ -71,7 +72,7 @@ class CameraStreamHandler{
 		Mat GrabOneFrame(bool full = false);
 		Mat GrabGuideFrame(int, bool);
         Mat GrabGuideFrame(int, bool, Mat&);
-        Mat CaptureAndProcess(bool showThresh = false, bool simulate = false, int filterErrors = 0);
+        Mat CaptureAndProcess(bool showThresh = false, bool simulate = false, int filterErrors = 0, bool updateErrors = true);
 		void MeasureFWMH(Mat&, Mat&);
 
 };

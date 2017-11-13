@@ -28,10 +28,12 @@ class SystemControl {
 		bool capturing;
 		bool correcting;
 		bool showThresh;
+		bool simulate;
+		bool constatRate;
+		int timeBetweenUpdates = 100;
 		bool measuringFWHM;
 		bool measuringFWHMaux;
 		Point FWHMpoint;
-		bool simulate;
 		mutex mtxProtectingValues;
 		thread capturingThread;
 		thread correctingThread;
@@ -44,7 +46,9 @@ class SystemControl {
 		void CheckAndOpenTT();
 		void ToggleShowThresh();
 		void ToggleSimulate();
+		void ToggleConstantRate();
 		void ChangeErrorFilter();
+		void ChangeTimeBetweenUpdates(int);
 		void SetThreshold(int);
 		void CenterTT();
 

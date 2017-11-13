@@ -21,36 +21,47 @@ int SystemControl::GetKeyFromKeyboard() {
 	int key = waitKey(10);
 	//cout << "Key: " << key << endl;
 	switch (key) {
-	case 255:
-		return 0;
 	case 27: // esc
+		cout << "Esc pressed, exiting" << endl;
 		return -1;
 		break;
 	case 10: // Intro
 		cout << "Intro pressed" << endl;
 		ToggleCorrection();
 		break;
-	case 49: // 1
+	case '1': // 1
 		cout << "1 pressed" << endl;
 		ChangeThresh(0);
 		break;
-	case 50: // 2
+	case '2': // 2
 		cout << "2 pressed" << endl;
 		ChangeThresh(1);
 		break;
-	case 67: // C
+	case 'C': // C
 		cout << "C pressed" << endl;
 		CenterTT();
 		break;
-	case 83: // S
+	case 'S': // S
 		cout << "S pressed" << endl;
 		//ToggleSimulate();
 		break;
-	case 116: // t
+	case 't': // t
 		cout << "t pressed" << endl;
 		ToggleShowThresh();
 		break;
-	case 102: // f
+	case 'm': // m
+		cout << "m pressed" << endl;
+		ToggleConstantRate();
+		break;
+	case '3': // m
+		cout << "3 pressed" << endl;
+		ChangeTimeBetweenUpdates(0);
+		break;
+	case '4': // m
+		cout << "4 pressed" << endl;
+		ChangeTimeBetweenUpdates(1);
+		break;
+	case 'f': // f
 		cout << "f pressed" << endl;
 		ChangeErrorFilter();
 		break;
@@ -116,6 +127,17 @@ void SystemControl::ToggleShowThresh() {
 	mtxProtectingValues.unlock();
 }
 
+void SystemControl::ToggleConstantRate() {
+	mtxProtectingValues.lock();
+	constatRate = !constatRate;
+	mtxProtectingValues.unlock();
+
+	if (constatRate)
+		cout << "Constant rate mode enabled." << endl;
+	else
+		cout << "Constant rate mode disabled." << endl;
+}
+
 void SystemControl::ToggleSimulate() {
 	mtxProtectingValues.lock();
 	simulate = !simulate;
@@ -160,9 +182,25 @@ void SystemControl::ChangeThresh(int increase) {
 	mtxProtectingValues.unlock();
 }
 
+void SystemControl::ChangeTimeBetweenUpdates(int increase) {
+	mtxProtectingValues.lock();
+	if (!constatRate) {
+		mtxProtectingValues.unlock();
+		return;
+	}
+	if (increase)
+		timeBetweenUpdates += 10;
+	else
+		timeBetweenUpdates -= 10;
+
+	cout << "New time between updates: " << timeBetweenUpdates << endl;
+	mtxProtectingValues.unlock();
+}
+
 int SystemControl::StartCapture() {
 	cout << "Starting capture" << endl;
-	cout << "Press t to view thresholded image, 1-2 to change threshold, C to center TT, f to change error filtering and Intro to start correction. Esc to end." << endl;
+	cout << "\nPress t to view thresholded image, 1-2 to change threshold, C to center TT," <<
+			"f to change error filtering, m to change into constant update rate mode, 3-4 to change the time between updates and Intro to start correction. Esc to end.\n" << endl;
 	CheckAndOpenCam(); 
 	CheckAndOpenTT();
 	TT.goTo('K');
@@ -174,6 +212,13 @@ int SystemControl::StartCapture() {
 	capturingInternal = true;
 	capturingThread = thread(&SystemControl::RunCapture, this);
 	capturing = true;
+
+	while (GetKeyFromKeyboard() != -1) {
+	}
+	StopCapture();
+
+	if (IsCorrecting())
+		StopCorrection();
 	return 0;
 }
 
@@ -182,27 +227,44 @@ void SystemControl::RunCapture() {
 	auto time2 = get_time::now();
 	auto elapsedTime = time2 - time1;
 	auto eTimeMS = chrono::duration_cast<ms>(elapsedTime).count();// / 1000.0; //seconds
+	/*
 	auto frameRate = 1000.0 / eTimeMS;
 	int avgFrameRate = frameRate;
 	vector<double> frameRates;
 	for (int i = 0; i < 20; i++)
 		frameRates.push_back(0.0);
-	while (capturingInternal) {
-		time2 = time1;
-		time1 = get_time::now();
-		elapsedTime = time1 - time2;
-		eTimeMS = chrono::duration_cast<ms>(elapsedTime).count();
+	*/
+
+	bool updateErrors = true;
+
+	while (capturingInternal) {		
+		if (constatRate) { //Si quiero actualizar los errores a una frecuencia constante
+			if (updateErrors)
+				updateErrors = false;
+			time2 = get_time::now();
+			elapsedTime = time2 - time1;
+			eTimeMS = chrono::duration_cast<ms>(elapsedTime).count();
+			if (eTimeMS >= timeBetweenUpdates) {
+				time1 = time2;
+				updateErrors = true;
+			}
+		}
+		else
+			if (!updateErrors)
+				updateErrors = true;
+		/*
 		frameRate = 1000.0 / eTimeMS;
 		frameRates.push_back(frameRate);
 		frameRates.erase(frameRates.begin());
 		avgFrameRate = accumulate(frameRates.begin(), frameRates.end(), 0.0) / frameRates.size();
+		*/
 
 		mtxProtectingValues.lock();
-		frame = CSH.CaptureAndProcess(showThresh, simulate, withFilter);
+		frame = CSH.CaptureAndProcess(showThresh, simulate, withFilter, updateErrors);
 		mtxProtectingValues.unlock();
 		mtxProtectingDisplayControl.lock();
 		dControl.DisplayFrame(frame, 'p');
-		dControl.SetFrameRate(avgFrameRate);
+		//dControl.SetFrameRate(avgFrameRate);
 		mtxProtectingDisplayControl.unlock();
 		this_thread::sleep_for(chrono::microseconds(100));
 	}
@@ -252,6 +314,26 @@ bool SystemControl::IsCapturing() {
 
 bool SystemControl::IsCorrecting() {
 	return correcting;
+}
+
+void SystemControl::CheckAndOpenCam() {
+	if (!CSH.IsCameraOpen()) {
+		if (CSH.OpenCamera() != 0) {
+			cout << "Could not open camera" << endl;
+			return;
+		}
+		cout << "Opened camera" << endl;
+	}
+}
+
+void SystemControl::CheckAndOpenTT() {
+	if (!TT.isOpened()) {
+		if (TT.openComm() != 0) {
+			cout << "Could not open TT device" << endl;
+			return;
+		}
+		cout << "Opened TT device" << endl;
+	}
 }
 
 void SystemControl::CenterTT() {
@@ -389,7 +471,6 @@ int SystemControl::CalibrateTT() {
 
 int SystemControl::Guide() {
 	dControl.CreateWindow('g');
-	//setMouseCallback(dControl.guidingWindow, GetFWHMPointFromMouse, NULL);
 
 	CheckAndOpenCam();
 
@@ -403,15 +484,8 @@ int SystemControl::Guide() {
 		switch (key) {
 			case 27: //esc
 				cout << "Esc pressed, exiting" << endl;
-				if (measuringFWHM) {
-					dControl.DestroyWindow('f');
-					measuringFWHM = false;
-					measuringFWHMaux = false;
-				}
-				else {
-					dControl.DestroyWindow('g');
-					return -1;
-				}
+				dControl.DestroyWindow('g');
+				return -1;
 			break;
 			case 102: //f
 				cout << "f pressed. Started measuring the FWHM" << endl;
@@ -424,7 +498,7 @@ int SystemControl::Guide() {
 			break;
 			case 120: //x
 				cout << "x pressed. Zooming -" << endl;
-				zoom = max(-1, zoom - 1);
+				zoom = max(0, zoom - 1);
 				cout << "Zoom = " << zoom << endl;
 			break;
 			default:
@@ -453,26 +527,6 @@ int SystemControl::Guide() {
 	return 0;
 }
 
-void SystemControl::CheckAndOpenCam() {
-	if (!CSH.IsCameraOpen()) {
-		if (CSH.OpenCamera() != 0) {
-			cout << "Could not open camera" << endl;
-			return;
-		}
-		cout << "Opened camera" << endl;
-	}
-}
-
-void SystemControl::CheckAndOpenTT() {
-	if (!TT.isOpened()) {
-		if (TT.openComm() != 0) {
-			cout << "Could not open TT device" << endl;
-			return;
-		}
-		cout << "Opened TT device" << endl;
-	}
-}
-
 void SystemControl::GetPinholePosFromFile(const char* file) {
 	ifstream values(file);
 
@@ -488,7 +542,11 @@ void SystemControl::GetPinholePosFromFile(const char* file) {
 		}
 	}
 	//cout << "Values: " << px << ", " << py << endl;
-
+	if (px > 1280 || px < 0 || py > 1024 || py < 0) {
+		cout << "Imposible pinhole position!" << endl;
+		values.close();
+		return;
+	}
 	Point pinPos = Point(px, py);
 
 	CSH.SetPinholePosition(pinPos);
