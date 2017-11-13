@@ -1,6 +1,6 @@
 #include "../include/SystemControl.hpp"
 #include "../include/DisplayControl.hpp"
-#include "../include/cxxopts.h"
+#include "../include/cxxopts.hpp"
 #include <iostream>
 
 SystemControl sControl;
