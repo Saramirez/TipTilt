@@ -12,10 +12,6 @@ CameraStreamHandler::CameraStreamHandler(int* _eX, int* _eY, mutex * _mtx) :
     eY_p = _eY;
     mtx = _mtx;
     oRoi = roi;
-	for (int i = 0; i < errorCountsToAvg; i++) {
-		xErrors.push_back(0);
-		yErrors.push_back(0);
-	}
 	for (int i = 0; i < FWHMCountsToAvg; i++) {
 		FWHMs.push_back(0);
 		HMs.push_back(0);
@@ -158,7 +154,7 @@ void CameraStreamHandler::CalculateErrors(double& xErr, double& yErr, double& di
     //cout << "xErr = " << xErr << "; yErr = " << yErr << endl;
 }
 
-Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, int filterErrors, bool updateErrors){
+Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, int filterErrors, bool updateErrors, int timeBetweenUpdates){
     cam >> frame;
 	if (frame.empty())
 		return frame;
@@ -183,17 +179,11 @@ Mat CameraStreamHandler::CaptureAndProcess(bool returnThresh, bool simulate, int
 
 		CalculateErrors(xErr, yErr, dist, dir, width);
 
-		if (filterErrors == 1) {
-			xErrors.push_back(xErr);
-			yErrors.push_back(yErr);
-			xErrors.erase(xErrors.begin());
-			yErrors.erase(yErrors.begin());
-
-			xErr = accumulate(xErrors.begin(), xErrors.end(), 0.0) / xErrors.size();
-			yErr = accumulate(yErrors.begin(), yErrors.end(), 0.0) / yErrors.size();
+		if(timeBetweenUpdates >= 200){
+			xErr *= min(10 * timeBetweenUpdates / 1000, 10);
+			yErr *= min(10 * timeBetweenUpdates / 1000, 10);
 		}
-
-		else if (filterErrors == 2) {
+		if (filterErrors == 1) {
 			iXErr += xErr;
 			iYErr += yErr;
 			if (abs(iXErr) > 2000)

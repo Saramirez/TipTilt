@@ -9,8 +9,6 @@
 using namespace cv;
 using namespace std;
 
-//const Point fullFramePinholePosition(632, 601); //632 601
-const int errorCountsToAvg = 5;
 const int FWHMCountsToAvg  = 100;
 const int roiSize = 50;
 const int guideRoiSize = 500;
@@ -22,8 +20,6 @@ class CameraStreamHandler{
         int * eY_p;
         double xErr = 0.0;
 		double yErr = 0.0;
-		vector<double>xErrors;
-		vector<double>yErrors;
 		vector<int>FWHMs;
 		vector<int>HMs;
 		int iXErr = 0;
@@ -72,7 +68,7 @@ class CameraStreamHandler{
 		Mat GrabOneFrame(bool full = false);
 		Mat GrabGuideFrame(int, bool);
         Mat GrabGuideFrame(int, bool, Mat&);
-        Mat CaptureAndProcess(bool showThresh = false, bool simulate = false, int filterErrors = 0, bool updateErrors = true);
+        Mat CaptureAndProcess(bool showThresh = false, bool simulate = false, int filterErrors = 0, bool updateErrors = true, int timeBetweenUpdates = -1);
 		void MeasureFWMH(Mat&, Mat&);
 
 };

@@ -29,7 +29,7 @@ class SystemControl {
 		bool correcting;
 		bool showThresh;
 		bool simulate;
-		bool constatRate;
+		bool constantRate;
 		int timeBetweenUpdates = 100;
 		bool measuringFWHM;
 		bool measuringFWHMaux;

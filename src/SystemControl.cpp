@@ -25,6 +25,10 @@ int SystemControl::GetKeyFromKeyboard() {
 		cout << "Esc pressed, exiting" << endl;
 		return -1;
 		break;
+	case '\r': // Intro
+		cout << "Intro pressed" << endl;
+		ToggleCorrection();
+		break;
 	case 10: // Intro
 		cout << "Intro pressed" << endl;
 		ToggleCorrection();
@@ -129,10 +133,10 @@ void SystemControl::ToggleShowThresh() {
 
 void SystemControl::ToggleConstantRate() {
 	mtxProtectingValues.lock();
-	constatRate = !constatRate;
+	constantRate = !constantRate;
 	mtxProtectingValues.unlock();
 
-	if (constatRate)
+	if (constantRate)
 		cout << "Constant rate mode enabled." << endl;
 	else
 		cout << "Constant rate mode disabled." << endl;
@@ -147,9 +151,12 @@ void SystemControl::ToggleSimulate() {
 void SystemControl::ChangeErrorFilter() {
 	mtxProtectingValues.lock();
 	withFilter += 1;
-	if (withFilter == 3)
+	if (withFilter == 2)
 		withFilter = 0;
-	cout << "With filter: " << withFilter << endl;
+	if(withFilter == 1)
+		cout << "With filter" << endl;
+	else
+		cout << "Without filter" << endl;
 	mtxProtectingValues.unlock();
 }
 
@@ -184,7 +191,7 @@ void SystemControl::ChangeThresh(int increase) {
 
 void SystemControl::ChangeTimeBetweenUpdates(int increase) {
 	mtxProtectingValues.lock();
-	if (!constatRate) {
+	if (!constantRate) {
 		mtxProtectingValues.unlock();
 		return;
 	}
@@ -238,7 +245,7 @@ void SystemControl::RunCapture() {
 	bool updateErrors = true;
 
 	while (capturingInternal) {		
-		if (constatRate) { //Si quiero actualizar los errores a una frecuencia constante
+		if (constantRate) { //Si quiero actualizar los errores a una frecuencia constante
 			if (updateErrors)
 				updateErrors = false;
 			time2 = get_time::now();
@@ -260,7 +267,10 @@ void SystemControl::RunCapture() {
 		*/
 
 		mtxProtectingValues.lock();
-		frame = CSH.CaptureAndProcess(showThresh, simulate, withFilter, updateErrors);
+		if(constantRate)
+			frame = CSH.CaptureAndProcess(showThresh, simulate, withFilter, updateErrors, timeBetweenUpdates);
+		else
+			frame = CSH.CaptureAndProcess(showThresh, simulate, withFilter, updateErrors, -1);
 		mtxProtectingValues.unlock();
 		mtxProtectingDisplayControl.lock();
 		dControl.DisplayFrame(frame, 'p');
@@ -479,7 +489,9 @@ int SystemControl::Guide() {
 		"Press f to measure the FWHM\n or enter to continue to tip tilt correction. z - x to zoom image in - out." << endl;
 	int zoom = 0;
 	int key = 0;
-	while (key != 10) {
+	while (key != '\r') {
+		if(key == 10)
+			break;
 		key = waitKey(1);
 		switch (key) {
 			case 27: //esc
